@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Ui
+Bundle-SymbolicName: com.xiting.a4e.ui;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: XITING
+Automatic-Module-Name: com.xiting.a4e.ui
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: org.eclipse.debug.core,
+ org.eclipse.core.runtime;bundle-version="3.24.100",
+ org.eclipse.debug.ui;bundle-version="3.16.0",
+ org.eclipse.jface;bundle-version="3.25.0",
+ org.eclipse.ui;bundle-version="3.201.0",
+ com.xiting.a4e.ui.backend;bundle-version="1.0.0"
+Import-Package: javax.annotation,
+ javax.inject;version="1.0.0"
