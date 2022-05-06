@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Backend
+Bundle-SymbolicName: com.xiting.a4e.ui.backend
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: IXITING
+Automatic-Module-Name: com.ixiting.a4e.backend
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: org.eclipse.ui;bundle-version="3.201.0",
+ org.eclipse.debug.ui;bundle-version="3.16.0"
+Export-Package: com.ixiting.a4e.backend
