@@ -7,5 +7,11 @@ Bundle-Vendor: IXITING
 Automatic-Module-Name: com.ixiting.a4e.backend
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: org.eclipse.ui;bundle-version="3.201.0",
- org.eclipse.debug.ui;bundle-version="3.16.0"
+ org.eclipse.debug.ui;bundle-version="3.16.0",
+ com.sap.adt.project.ui;bundle-version="3.24.0",
+ com.sap.adt.project;bundle-version="3.24.0",
+ com.xiting.a4e.model;bundle-version="1.0.0",
+ com.sap.conn.jco;bundle-version="3.1.5"
 Export-Package: com.ixiting.a4e.backend
+Import-Package: org.eclipse.core.runtime;version="3.7.0",
+ org.eclipse.core.runtime.jobs
