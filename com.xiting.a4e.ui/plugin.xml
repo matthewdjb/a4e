@@ -5,18 +5,35 @@
          point="org.eclipse.debug.core.launchConfigurationTypes">
       <launchConfigurationType
             delegate="com.xiting.a4e.ui.launch.AlchemistConfigurationDelegate"
-            id="com.xiting.a4e.ui.launchConfigurationDelegate"
+            id="com.xiting.a4e.ui.launchConfigurationType"
+            modes="run"
             name="Xiting Alchemist">
       </launchConfigurationType>
    </extension>
    <extension
          point="org.eclipse.debug.ui.launchShortcuts">
       <shortcut
-            class="com.xiting.a4e.ui.LaunchShortcut1"
+            class="com.xiting.a4e.ui.launch.LaunchShortcut"
+            icon="Icons/xiting_logo_icon.png"
             id="com.xiting.a4e.ui.launchShortcut"
-            label="label"
+            label="Xiting Alchemist"
             modes="run">
+         <contextualLaunch>
+            <enablement>
+               <reference
+                     definitionId="com.sap.adt.atc.ui.isCheckableByAtc">
+               </reference>
+            </enablement>
+         </contextualLaunch>
       </shortcut>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      <launchConfigurationTypeImage
+            configTypeID="com.xiting.a4e.ui.launchConfigurationType"
+            icon="Icons/xiting_logo_icon.png"
+            id="com.xiting.a4e.ui.launchconfigurationtypeimage">
+      </launchConfigurationTypeImage>
    </extension>
 
 </plugin>
