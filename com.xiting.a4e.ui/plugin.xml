@@ -18,5 +18,21 @@
          </contextualLaunch>
       </shortcut>
    </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <e4view
+            allowMultiple="false"
+            category="com.xiting.a4e.ui"
+            class="com.xiting.a4e.ui.views.BasicView"
+            icon="Icons/xiting_logo_icon.png"
+            id="com.xiting.a4e.ui.basic"
+            name="Basic View"
+            restorable="false">
+      </e4view>
+      <category
+            id="com.xiting.a4e.ui"
+            name="Xiting">
+      </category>
+   </extension>
 
 </plugin>

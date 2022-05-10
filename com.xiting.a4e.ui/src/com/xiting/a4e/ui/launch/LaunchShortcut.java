@@ -5,8 +5,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.MultiPageEditorPart;
 
-import com.ixiting.a4e.backend.AlchemistRunnerFactory;
-import com.ixiting.a4e.backend.IAlchemistRunner;
+import com.xiting.a43.backend.AlchemistRunnerFactory;
+import com.xiting.a43.backend.IAlchemistRunner;
 
 public class LaunchShortcut implements ILaunchShortcut {
 	@Override
