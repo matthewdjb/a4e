@@ -10,9 +10,9 @@ public class AlScopeStr {
 	public final static String CUSTOM_DEPTH = "CUSTOM_DEPTH";
 	public final static String PARTNER_PRODUCER = "PARTNER_PRODUCER";
 	
-   public boolean isStandard;
-   public boolean isPartner;
-   public boolean isCustom;
+   public boolean scanStandardCode;
+   public boolean scanPartnerCode;
+   public boolean scanCustomCode;
    public int universalDepth;
    public int standardDepth;
    public int partnerDepth;

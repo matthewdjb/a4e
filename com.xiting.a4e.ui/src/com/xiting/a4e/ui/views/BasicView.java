@@ -12,6 +12,8 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -24,9 +26,17 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+
+import com.sap.conn.jco.JCoException;
+import com.xiting.a4e.backend.INavigator;
+import com.xiting.a4e.backend.NavigatorFactory;
 import com.xiting.a4e.model.AlchemistController;
+import com.xiting.a4e.model.structures.AlCallstackStr;
 import com.xiting.a4e.model.structures.AlFindingStr;
 import com.xiting.a4e.model.structures.AlObjectStr;
 import com.xiting.a4e.model.structures.BapiBean;
@@ -42,35 +52,57 @@ public class BasicView {
 	public static final String ID = "com.xiting.a4e.ui.basic";
 	private TableViewer viewer;
 	private Action contextMenuAction;
+	private Action doubleClickAction;
 
-	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
-		@Override
-		public String getColumnText(Object obj, int index) {
-			return getText(obj);
-		}
+//	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
+//		@Override
+//		public String getColumnText(Object obj, int index) {
+//			return getText(obj);
+//		}
+//
+//		@Override
+//		public Image getColumnImage(Object obj, int index) {
+//			return getImage(obj);
+//		}
+//
+//		@Override
+//		public Image getImage(Object obj) {
+//			return workbench.getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
+//		}
+//	}
 
-		@Override
-		public Image getColumnImage(Object obj, int index) {
-			return getImage(obj);
-		}
-
-		@Override
-		public Image getImage(Object obj) {
-			return workbench.getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
-		}
-	}
-
-	private void showMessage(String message) {
-		MessageDialog.openInformation(viewer.getControl().getShell(), "Xiting Alchemist Results", message);
-	}
+//	private void showMessage(String message) {
+//		MessageDialog.openInformation(viewer.getControl().getShell(), "Xiting Alchemist Results", message);
+//	}
 
 	private void makeActions() {
-		contextMenuAction = new Action("Context menu item") {
+		contextMenuAction = new Action("Show callstack") {
 			public void run() {
 				if (viewer instanceof TableViewer) {
+					CallstackRunner runner = new CallstackRunner();
 					IStructuredSelection selection = ((TableViewer) viewer).getStructuredSelection();
 					Object obj = selection.getFirstElement();
-					showMessage("Context menu click detected on " + obj.toString());
+					if (obj instanceof AlFindingStr) {
+						runner.openCallStackView((AlFindingStr) obj);
+					}
+				}
+
+			}
+
+		};
+		doubleClickAction = new Action() {
+			@Override
+			public void run() {
+				IStructuredSelection selection = viewer.getStructuredSelection();
+				Object obj = selection.getFirstElement();
+				if (obj instanceof AlFindingStr) {
+					AlFindingStr alFinding = (AlFindingStr) obj;
+					try {
+						navigateToObject(alFinding);
+					} catch (JCoException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		};
@@ -96,7 +128,7 @@ public class BasicView {
 
 	@PostConstruct
 	public void createPartControl(Composite parent) {
-		ArrayList<AlFindingStr> findings = AlchemistController.factory().getBean().findings ;
+		ArrayList<AlFindingStr> findings = AlchemistController.factory().getBean().findings;
 		if (findings == null)
 			displayMessageInView(parent, "No Alchemist analysis has been run");
 		else if (findings.isEmpty())
@@ -116,6 +148,17 @@ public class BasicView {
 		setContents();
 		makeActions();
 		hookContextMenu();
+		hookDoubleClickAction();
+	}
+
+	private void hookDoubleClickAction() {
+		viewer.addDoubleClickListener(new IDoubleClickListener() {
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				doubleClickAction.run();
+			}
+		});
+
 	}
 
 	private void displayMessageInView(Composite parent, String message) {
@@ -151,10 +194,37 @@ public class BasicView {
 			public String getText(Object element) {
 				String colText = "";
 				if (element instanceof AlFindingStr) {
-					Map<String, String> finding = ((AlFindingStr) element).returnAsMapString();
-					colText = finding.get(columnId);
+					if (isImageLabel(columnId))
+						return null;
+					else {
+						Map<String, String> finding = ((AlFindingStr) element).returnAsMapString();
+						colText = finding.get(columnId);
+					}
+					
 				}
 				return colText;
+			}
+			@Override
+			public Image getImage(Object element) {
+				if (element instanceof AlFindingStr) {
+					if (isImageLabel(columnId))
+					{
+						AlFindingStr finding = (AlFindingStr) element;
+						switch (finding.msgty) {
+						case "W" :
+						   return workbench.getSharedImages().getImage(ISharedImages.IMG_OBJS_WARN_TSK);
+						case "E" :
+							   return workbench.getSharedImages().getImage(ISharedImages.IMG_OBJS_ERROR_TSK);
+							   default : 
+								   return workbench.getSharedImages().getImage(ISharedImages.IMG_OBJS_INFO_TSK);
+						}
+					}
+					else return null;
+			}return null;
+			}
+
+			private boolean isImageLabel(String columnId) {
+				return (columnId == AlFindingStr.MSGTY);
 			}
 		});
 	}
@@ -178,10 +248,9 @@ public class BasicView {
 		manager.add(contextMenuAction);
 	}
 
-	private void navigateToObject() {
-//		IAdtCoreFactory factory = IAdtCoreFactory.eINSTANCE;
-//		IAdtObjectReference objectReference = factory.createAdtObjectReference();
-		// TODO work out what the references are - get an existing instance and check
-		// field values in debug
+	private void navigateToObject(AlFindingStr selectedObject) throws JCoException {
+		INavigator navigator = NavigatorFactory.get();
+		navigator.jump_to(selectedObject.object, selectedObject.codeposLine);
 	}
+
 }

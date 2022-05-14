@@ -33,6 +33,31 @@
             id="com.xiting.a4e.ui"
             name="Xiting">
       </category>
+      <e4view
+            category="com.xiting.a4e.ui"
+            class="com.xiting.a4e.ui.views.CallstackView"
+            icon="Icons/xiting_logo_icon.png"
+            id="com.xiting.a4e.ui.callstack"
+            name="Call stack"
+            restorable="true">
+      </e4view>
+   </extension>
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            delegate="com.xiting.a4e.ui.launch.LaunchConfiguration"
+            id="com.xiting.a4e.ui.launchConfigurationType"
+            modes="run"
+            name="Xiting Alchemist">
+      </launchConfigurationType>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            class="com.xiting.a4e.ui.launch.AbstractLaunchConfigurationTabs"
+            id="com.xiting.a4e.ui.launchConfigurationTabGroups"
+            type="com.xiting.a4e.ui.launchConfigurationType">
+      </launchConfigurationTabGroup>
    </extension>
 
 </plugin>

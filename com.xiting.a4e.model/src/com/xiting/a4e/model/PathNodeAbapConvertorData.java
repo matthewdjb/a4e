@@ -1,6 +1,5 @@
 package com.xiting.a4e.model;
 
-
 import org.eclipse.jface.viewers.TreePath;
 
 public class PathNodeAbapConvertorData implements IAdt2AbapParser {
@@ -19,24 +18,13 @@ public class PathNodeAbapConvertorData implements IAdt2AbapParser {
 		} else {
 			return getNameFromObject(topObject);
 		}
-//		IAdtObjectReference mainObject = Adapters.adapt(topSegment, IAdtObjectReference.class);
-//		String name = mainObject.getName();
-//		IAdtObjectReference subObject = null;
-//		if (mainObject.getType() == "CLAS/OC" && path.getSegmentCount() > 1) {
-//			subObject = Adapters.adapt(path.getSegment(1), IAdtObjectReference.class);
-//		}
-//		if (subObject != null && subObject.getType() == "METHOD") {
-////			name = buildMethodObjectName(name, subObject.getName());
-//		}
-//		return name;
 	}
 
 	private String getNameFromObject(String object) {
 		String[] parts = object.split(" ");
 		String objectName = parts[1];
 		String type = parts[3];
-		return type == AbapAdtTypes.AdtType.FUGR_I
-				? Adt2AbapParserFactory.getGroupFromFunctionInclude(objectName)
+		return type == AbapAdtTypes.AdtType.FUGR_I ? Adt2AbapParserFactory.getGroupFromFunctionInclude(objectName)
 				: objectName;
 	}
 
@@ -68,16 +56,5 @@ public class PathNodeAbapConvertorData implements IAdt2AbapParser {
 		}
 		return getTypeFromObject(topObject).toString();
 	}
-//		IAdtObjectReference mainObject = Adapters.adapt(topSegment, IAdtObjectReference.class);
-//		String type = mainObject.getType();
-//		IAdtObjectReference subObject = null;
-//		if (type == "CLAS/OC" && path.getSegmentCount() > 1) {
-//			subObject = Adapters.adapt(path.getSegment(1), IAdtObjectReference.class);
-//		}
-//		if (subObject != null && subObject.getType() == "METHOD") {
-//			type = "METH";
-//		} else {
-////			type = getAbapType(type);
-//		}
-//		return type;
+
 }
