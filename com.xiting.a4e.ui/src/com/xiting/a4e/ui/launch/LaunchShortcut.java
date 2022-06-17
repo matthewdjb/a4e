@@ -1,7 +1,6 @@
 package com.xiting.a4e.ui.launch;
 
 import org.eclipse.debug.ui.ILaunchShortcut;
-
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.MultiPageEditorPart;

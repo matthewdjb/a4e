@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml> 
 <?eclipse version="3.4"?>
 <plugin>
    <extension
          point="org.eclipse.debug.ui.launchShortcuts">
       <shortcut
             class="com.xiting.a4e.ui.launch.LaunchShortcut"
-            icon="Icons/xiting_logo_icon.png"
+            icon="icons/xiting_logo_icon.png"
             id="com.xiting.a4e.ui.launchShortcut"
             label="Xiting Alchemist"
             modes="run">
@@ -24,9 +25,9 @@
             allowMultiple="false"
             category="com.xiting.a4e.ui"
             class="com.xiting.a4e.ui.views.BasicView"
-            icon="Icons/xiting_logo_icon.png"
+            icon="icons/xiting_logo_icon.png"
             id="com.xiting.a4e.ui.basic"
-            name="Basic View"
+            name="%e4view.basic"
             restorable="false">
       </e4view>
       <category
@@ -34,30 +35,52 @@
             name="Xiting">
       </category>
       <e4view
+            allowMultiple="false"
             category="com.xiting.a4e.ui"
-            class="com.xiting.a4e.ui.views.CallstackView"
-            icon="Icons/xiting_logo_icon.png"
-            id="com.xiting.a4e.ui.callstack"
-            name="Call stack"
-            restorable="true">
+            class="com.xiting.a4e.ui.views.CallStackView"
+            icon="icons/xiting_logo_icon.png"
+            id="com.xiting.a4e.ui.callStack"
+            name="%e4view.callstack"
+            restorable="false">
       </e4view>
    </extension>
    <extension
-         point="org.eclipse.debug.core.launchConfigurationTypes">
-      <launchConfigurationType
-            delegate="com.xiting.a4e.ui.launch.LaunchConfiguration"
-            id="com.xiting.a4e.ui.launchConfigurationType"
-            modes="run"
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="com.xiting.a4e.ui.preferences.Preferences"
+            id="com.xiting.a4e.ui.preferences"
             name="Xiting Alchemist">
-      </launchConfigurationType>
+      </page>
+      <page
+            category="com.xiting.a4e.ui.preferences"
+            class="com.xiting.a4e.ui.preferences.PreferencesScope"
+            id="com.xiting.a4e.ui.scopepreferences"
+            name="%page.scopePreferences">
+      </page>
+      <page
+            category="com.xiting.a4e.ui.preferences"
+            class="com.xiting.a4e.ui.preferences.PreferencesColumns"
+            id="com.xiting.a4e.ui.columnspreferences"
+            name="%page.columnsPreferences">
+      </page>
+      <page
+            category="com.xiting.a4e.ui.preferences"
+            class="com.xiting.a4e.ui.preferences.PreferencesPatterns"
+            id="com.xiting.a4e.ui.patternspreferences"
+            name="%page.patternsPreferences">
+      </page>
+      <page
+            category="com.xiting.a4e.ui.preferences"
+            class="com.xiting.a4e.ui.preferences.PreferencesViews"
+            id="com.xiting.a4e.ui.viewspreferences"
+            name="%page.viewsPreferences">
+      </page>
    </extension>
    <extension
-         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
-      <launchConfigurationTabGroup
-            class="com.xiting.a4e.ui.launch.AbstractLaunchConfigurationTabs"
-            id="com.xiting.a4e.ui.launchConfigurationTabGroups"
-            type="com.xiting.a4e.ui.launchConfigurationType">
-      </launchConfigurationTabGroup>
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.xiting.a4e.ui.preferences.PreferenceInitialiser">
+      </initializer>
    </extension>
 
 </plugin>

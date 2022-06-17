@@ -1,29 +1,30 @@
 package com.xiting.a4e.model.structures;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.xiting.a4e.model.A4eTexts;
+
 public class AlFindingStr {
-	public static final String PATTERN = "PATTERN";
-	public static final String FINDID = "FINDID";
-	public static final String FINDID_MAIN = "FINDID_MAIN";
-	public static final String CODEPOS_LINE = "CODEPOS_LINE";
-	public static final String CODEPOS_INCLUDE = "CODEPOS_INCLUDE";
-	public static final String OBJECT = "OBJECT";
-	public static final String ARBGB = "ARBGB";
-	public static final String MSGNR = "MSGNR";
-	public static final String MSGTY = "MSGTY";
-	public static final String MESSAGE = "MESSAGE";
-	public static final String PARAM1 = "PARAM1";
-	public static final String PARAM2 = "PARAM2";
-	public static final String PARAMLONG = "PARAMLONG";
+	public static final String PATTERN = "PATTERN"; //$NON-NLS-1$
+	public static final String FINDID = "FINDID"; //$NON-NLS-1$
+	public static final String FINDID_MAIN = "FINDID_MAIN"; //$NON-NLS-1$
+	public static final String CODEPOS_LINE = "CODEPOS_LINE"; //$NON-NLS-1$
+	public static final String CODEPOS_INCLUDE = "CODEPOS_INCLUDE"; //$NON-NLS-1$
+	public static final String OBJECT = "OBJECT"; //$NON-NLS-1$
+	public static final String ARBGB = "ARBGB"; //$NON-NLS-1$
+	public static final String MSGNR = "MSGNR"; //$NON-NLS-1$
+	public static final String MSGTY = "MSGTY"; //$NON-NLS-1$
+	public static final String MESSAGE = "MESSAGE"; //$NON-NLS-1$
+	public static final String PARAM1 = "PARAM1"; //$NON-NLS-1$
+	public static final String PARAM2 = "PARAM2"; //$NON-NLS-1$
+	public static final String PARAMLONG = "PARAMLONG"; //$NON-NLS-1$
 
 	public String pattern;
 	public String findid;
 	public boolean isFindidMain;
 	public int codeposLine;
-	public String codeposInclude;
+	private String codeposInclude;
 	public AlObjectStr object;
 	public String arbgb;
 	public String msgnr;
@@ -32,12 +33,12 @@ public class AlFindingStr {
 	public String param1;
 	public String param2;
 	public String paramlong;
-	
+
 	public Map<String, String> returnAsMapString() {
-		HashMap<String,String> finding = new HashMap<String,String>();
+		HashMap<String, String> finding = new HashMap<String, String>();
 		finding.put(PATTERN, pattern);
 		finding.put(FINDID, findid);
-		finding.put(FINDID_MAIN, isFindidMain ? "Yes":"");
+		finding.put(FINDID_MAIN, isFindidMain ? A4eTexts.getString("AlFindingStr_Yes") : ""); //$NON-NLS-1$ //$NON-NLS-2$
 		finding.put(CODEPOS_LINE, Integer.toString(codeposLine));
 		finding.put(CODEPOS_INCLUDE, codeposInclude);
 		finding.put(AlObjectStr.NAME, object.name);
@@ -52,23 +53,41 @@ public class AlFindingStr {
 		finding.put(PARAMLONG, paramlong);
 		return finding;
 	}
-	
-	public ArrayList<String> returnAsArrayListString() {
-		ArrayList<String> finding = new ArrayList<String>();
-		finding.add(pattern);
-		finding.add(findid);
-		finding.add(isFindidMain ? "Main":"");
-		finding.add(Integer.toString(codeposLine));
-		finding.add(object.name);
-		finding.add(object.type);
-		finding.add(object.include);
-		finding.add(arbgb);
-		finding.add(msgnr);
-		finding.add(msgty);
-		finding.add(message);
-		finding.add(param1);
-		finding.add(param2);
-		finding.add(paramlong);
-		return finding;
+
+	public static String getColumnDescription(String columnName) {
+		switch (columnName) {
+		case PATTERN:
+			return A4eTexts.getString("AlFindingStr_Pattern"); //$NON-NLS-1$
+		case FINDID:
+			return A4eTexts.getString("AlFindingStr_Findid"); //$NON-NLS-1$
+		case FINDID_MAIN:
+			return A4eTexts.getString("AlFindingStr_FindidMain"); //$NON-NLS-1$
+		case CODEPOS_LINE:
+			return A4eTexts.getString("AlFindingStr_CodeposLine"); //$NON-NLS-1$
+		case CODEPOS_INCLUDE:
+			return A4eTexts.getString("AlFindingStr_CodeposInclude"); //$NON-NLS-1$
+		case AlObjectStr.NAME:
+			return A4eTexts.getString("AlFindingStr_ObjectName"); //$NON-NLS-1$
+		case AlObjectStr.TYPE:
+			return A4eTexts.getString("AlFindingStr_ObjectType"); //$NON-NLS-1$
+		case AlObjectStr.INCLUDE:
+			return A4eTexts.getString("AlFindingStr_ObjectInclude"); //$NON-NLS-1$
+		case ARBGB:
+			return A4eTexts.getString("AlFindingStr_Arbgb"); //$NON-NLS-1$
+		case MSGNR:
+			return A4eTexts.getString("AlFindingStr_Msgnr"); //$NON-NLS-1$
+		case MSGTY:
+			return A4eTexts.getString("AlFindingStr_Msgty"); //$NON-NLS-1$
+		case MESSAGE:
+			return A4eTexts.getString("AlFindingStr_Message"); //$NON-NLS-1$
+		case PARAM1:
+			return A4eTexts.getString("AlFindingStr_Param1"); //$NON-NLS-1$
+		case PARAM2:
+			return A4eTexts.getString("AlFindingStr_Param2"); //$NON-NLS-1$
+		case PARAMLONG:
+			return A4eTexts.getString("AlFindingStr_Paramlong"); //$NON-NLS-1$
+		default:
+			return ""; //$NON-NLS-1$
+		}
 	}
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.xiting.a4e"
+      label="A4e"
+      version="1.0.5"
+      provider-name="XITING">
+
+   <description url="http://www.example.com/description">
+      Runs Alchemist inside ADT/Eclipse
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      (c) Xiting AG 2022
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      TO DO - License
+   </license>
+
+   <url>
+      <discovery label="Xiting AG" url="http://xiting.com"/>
+   </url>
+
+   <plugin
+         id="com.xiting.a4e.model"
+         download-size="0"
+         install-size="0"
+         version="1.0.5"
+         unpack="false"/>
+
+   <plugin
+         id="com.xiting.a4e.ui"
+         download-size="0"
+         install-size="0"
+         version="1.0.5"
+         unpack="false"/>
+
+</feature>

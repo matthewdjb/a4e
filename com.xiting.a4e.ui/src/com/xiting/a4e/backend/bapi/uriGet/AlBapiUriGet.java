@@ -8,10 +8,11 @@ import com.sap.conn.jco.JCoException;
 import com.sap.conn.jco.JCoFunction;
 import com.sap.conn.jco.JCoStructure;
 import com.xiting.a4e.model.AlchemistController;
-import com.xiting.a4e.model.structures.*;
+import com.xiting.a4e.model.structures.AlGetUriParameters;
+import com.xiting.a4e.model.structures.BapiRet2;
 
 public class AlBapiUriGet {
-	private static final String ALCHEMIST_BADI = "/XITING/AL_BAPI_URI_GET";
+	private static final String ALCHEMIST_BADI = "/XITING/AL_BAPI_URI_GET"; //$NON-NLS-1$
 
 	private AlGetUriParameters parameters;
 	private JCoDestination destination;
@@ -30,7 +31,7 @@ public class AlBapiUriGet {
 			readUriParameter();
 			readReturnParameter();
 		} catch (JCoException e) {
-			MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "System Failure", e.getMessage());
+			MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "", e.getMessage()); //$NON-NLS-1$
 		}
 	}
 

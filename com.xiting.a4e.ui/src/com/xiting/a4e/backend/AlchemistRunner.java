@@ -3,29 +3,28 @@ package com.xiting.a4e.backend;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.debug.core.ILaunch;
-import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.part.MultiPageEditorPart;
+
 import com.sap.adt.project.IAdtCoreProject;
 import com.sap.adt.project.IProjectProvider;
-import com.xiting.a4e.backend.bapi.inspRunAdhoc.BapiRunAdhocFactory;
-import com.xiting.a4e.backend.bapi.inspRunAdhoc.iBapiRunAdhocRunner;
-import com.xiting.a4e.model.AbapAdtTypes;
-import com.xiting.a4e.model.Adt2AbapParserFactory;
-import com.xiting.a4e.model.IAdt2AbapParser;
-import com.xiting.a4e.model.structures.*;
 import com.sap.adt.project.ui.util.ProjectUtil;
 import com.sap.conn.jco.JCoDestination;
 import com.sap.conn.jco.JCoDestinationManager;
 import com.sap.conn.jco.JCoException;
+import com.xiting.a4e.backend.bapi.inspRunAdhoc.BapiRunAdhocFactory;
+import com.xiting.a4e.backend.bapi.inspRunAdhoc.IBapiRunAdhocRunner;
+import com.xiting.a4e.model.structures.AlObjectStr;
+import com.xiting.a4e.model.utils.AbapAdtTypes;
+import com.xiting.a4e.model.utils.Adt2AbapParserFactory;
+import com.xiting.a4e.model.utils.IAdt2AbapParser;
+import com.xiting.a4e.ui.A4eUiTexts;
 
-public class AlchemistRunner implements IAlchemistRunner {
-
+class AlchemistRunner implements IAlchemistRunner {
 	@Override
 	public void run(MultiPageEditorPart editor) {
 		IProject project = null;
@@ -34,10 +33,10 @@ public class AlchemistRunner implements IAlchemistRunner {
 			project = projectProvider.getProject();
 		}
 		if (project == null) {
-			MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "No selection",
-					"No ABAP Project selected");
+			MessageDialog.openInformation(Display.getCurrent().getActiveShell(), A4eUiTexts.getString("AlchemistRunner_NoSelection"), //$NON-NLS-1$
+					A4eUiTexts.getString("AlchemistRunner_NoProjectSelected")); //$NON-NLS-1$
 		} else {
-			ArrayList<AlObjectStr> items = new ArrayList<AlObjectStr>();
+			ArrayList<AlObjectStr> items = new ArrayList<>();
 			IAdt2AbapParser parser = Adt2AbapParserFactory.getInstance(editor);
 			AlObjectStr item = new AlObjectStr();
 			item.name = parser.getName();
@@ -47,7 +46,6 @@ public class AlchemistRunner implements IAlchemistRunner {
 				try {
 					callBapi(getDestinationFromProject(project), items);
 				} catch (JCoException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
@@ -55,7 +53,7 @@ public class AlchemistRunner implements IAlchemistRunner {
 	}
 
 	private void callBapi(JCoDestination project, ArrayList<AlObjectStr> items) {
-		iBapiRunAdhocRunner runner = BapiRunAdhocFactory.getRunner();
+		IBapiRunAdhocRunner runner = BapiRunAdhocFactory.getRunner();
 		runner.run(project, items);
 	}
 
@@ -69,12 +67,11 @@ public class AlchemistRunner implements IAlchemistRunner {
 				try {
 					callBapi(getDestinationFromProject(project), items);
 				} catch (JCoException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			else
-				MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "Unsupported Type",
-						"No object support by Alchemist was selected");
+				MessageDialog.openInformation(Display.getCurrent().getActiveShell(), A4eUiTexts.getString("AlchemistRunner_UnsupportedType"), //$NON-NLS-1$
+						A4eUiTexts.getString("AlchemistRunner_NoObjectSupport")); //$NON-NLS-1$
 
 		}
 	}
@@ -86,7 +83,7 @@ public class AlchemistRunner implements IAlchemistRunner {
 	}
 
 	private ArrayList<AlObjectStr> getItemsFromSelection(ITreeSelection treeSelection) {
-		ArrayList<AlObjectStr> items = new ArrayList<AlObjectStr>();
+		ArrayList<AlObjectStr> items = new ArrayList<>();
 		TreePath[] paths = treeSelection.getPaths();
 		for (TreePath path : paths) {
 			IAdt2AbapParser parser = Adt2AbapParserFactory.getInstance(path);
@@ -96,16 +93,11 @@ public class AlchemistRunner implements IAlchemistRunner {
 			if (AbapAdtTypes.isSupported(item.type)) {
 				items.add(item);
 			} else {
-				MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "Unsupported Type",
-						item.type + " is not supported by Alchemist");
+				MessageDialog.openInformation(Display.getCurrent().getActiveShell(), A4eUiTexts.getString("AlchemistRunner_UnsupportedType"), //$NON-NLS-1$
+						item.type + A4eUiTexts.getString("AlchemistRunner_NotSupportedByAlchemist")); //$NON-NLS-1$
 			}
 		}
 		return items;
 	}
 
-	@Override
-	public void run(ILaunchConfiguration configuration, ILaunch launch) {
-		// TODO Auto-generated method stub
-		
-	}
 }

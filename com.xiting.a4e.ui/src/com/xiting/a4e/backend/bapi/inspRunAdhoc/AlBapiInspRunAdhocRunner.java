@@ -1,31 +1,40 @@
 package com.xiting.a4e.backend.bapi.inspRunAdhoc;
 
 import java.util.ArrayList;
+
 import com.sap.conn.jco.JCoDestination;
 import com.sap.conn.jco.JCoException;
 import com.sap.conn.jco.JCoFunction;
 import com.sap.conn.jco.JCoStructure;
 import com.sap.conn.jco.JCoTable;
+import com.xiting.a4e.model.AlchemistController;
+import com.xiting.a4e.model.CallStack;
+import com.xiting.a4e.model.structures.AlCallStackStr;
+import com.xiting.a4e.model.structures.AlCodepos;
+import com.xiting.a4e.model.structures.AlContextStr;
+import com.xiting.a4e.model.structures.AlFindingStr;
+import com.xiting.a4e.model.structures.AlObjectStr;
+import com.xiting.a4e.model.structures.AlPatternStr;
+import com.xiting.a4e.model.structures.AlScopeStr;
 import com.xiting.a4e.model.structures.BapiBean;
 import com.xiting.a4e.model.structures.BapiRet2;
-import com.xiting.a4e.model.structures.*;
 
-public class AlBapiInspRunAdhocRunner {
-	private static final String ALCHEMIST_BADI = "/XITING/AL_BAPI_INSP_RUN_ADHOC";
-	public final static char ABAP_TRUE = 'X';
-	public final static char ABAP_FALSE = ' ';
+class AlBapiInspRunAdhocRunner {
+	private static final String ALCHEMIST_BADI = "/XITING/AL_BAPI_INSP_RUN_ADHOC"; //$NON-NLS-1$
+	private final static char ABAP_TRUE = 'X';
+	private final static char ABAP_FALSE = ' ';
 
 	private BapiBean bean;
 	private JCoDestination destination;
 	private JCoFunction function;
 
-	public AlBapiInspRunAdhocRunner(BapiBean bean, JCoDestination destination) throws JCoException {
+	AlBapiInspRunAdhocRunner(BapiBean bean, JCoDestination destination) throws JCoException {
 		this.bean = bean;
 		this.function = destination.getRepository().getFunction(ALCHEMIST_BADI);
 		this.destination = destination;
 	}
 
-	public void run() {
+	void run() {
 		try {
 			setScopeParameter();
 			setObjectsParameter();
@@ -37,16 +46,12 @@ public class AlBapiInspRunAdhocRunner {
 			readRetcodeParameter();
 		} catch (JCoException e) {
 			e.printStackTrace();
-//			if (e.getGroup() == JCoException.JCO_ERROR_SYSTEM_FAILURE)
-//			MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "System Failure", e.getMessage());
-//			else
-//				e.printStackTrace();
 		}
 	}
 
 	private void readReturnParameter() {
 		JCoTable bapiret2Table = function.getExportParameterList().getTable(BapiBean.RETURN_PARAMETER);
-		bean.bapiReturn = new ArrayList<BapiRet2>();
+		bean.bapiReturn = new ArrayList<>();
 		if (!bapiret2Table.isEmpty()) {
 			do {
 				BapiRet2 bapiret2 = new BapiRet2();
@@ -74,47 +79,63 @@ public class AlBapiInspRunAdhocRunner {
 
 	private void readCallstackParameter() {
 		JCoTable callstackTable = function.getExportParameterList().getTable(BapiBean.CALLSTACK_PARAMETER);
-		bean.callstack = new ArrayList<AlCallstackStr>();
-		if (callstackTable.isEmpty()) {
+		if (bean.callStack == null)
+			bean.callStack = new CallStack();
+		if (!callstackTable.isEmpty()) {
 			do {
-				AlCallstackStr callstack = new AlCallstackStr();
-				// Context
-				JCoStructure contextStructure = callstackTable.getStructure(AlCallstackStr.CONTEXT);
-				callstack.context = new AlContextStr();
-				callstack.context.scope = contextStructure.getString(AlContextStr.SCOPE);
-				// Context/codepos
-				JCoStructure codeposStructure = contextStructure.getStructure(AlContextStr.CODEPOS);
-				callstack.context.codepos = new AlCodepos();
-				callstack.context.codepos.line = codeposStructure.getInt(AlCodepos.LINE);
-				callstack.context.codepos.include = codeposStructure.getString(AlCodepos.INCLUDE);
-				callstack.context.isNotInScope = (contextStructure.getChar(AlContextStr.NOT_IN_SCOPE) == ABAP_TRUE);
-				callstack.context.isIgnored = (contextStructure.getChar(AlContextStr.IGNORED) == ABAP_TRUE);
-				callstack.context.isGeneric = (contextStructure.getChar(AlContextStr.GENERIC) == ABAP_TRUE);
-				// Caller
-				JCoStructure objectStructure;
-				objectStructure = callstackTable.getStructure(AlCallstackStr.CALLER);
-				callstack.caller = new AlObjectStr();
-				callstack.caller.type = objectStructure.getString(AlObjectStr.TYPE);
-				callstack.caller.name = objectStructure.getString(AlObjectStr.NAME);
-				callstack.caller.include = objectStructure.getString(AlObjectStr.INCLUDE);
-				// Called
-				objectStructure = callstackTable.getStructure(AlCallstackStr.CALLED);
-				callstack.called = new AlObjectStr();
-				callstack.called.type = objectStructure.getString(AlObjectStr.TYPE);
-				callstack.called.name = objectStructure.getString(AlObjectStr.NAME);
-				callstack.called.include = objectStructure.getString(AlObjectStr.INCLUDE);
-				bean.callstack.add(callstack);
+				readCallStackRecord(callstackTable);
 			} while (callstackTable.nextRow());
+			bean.callStack.buildTree();
+			bean.callStack.addFindings(bean.findings);
 		}
+	}
+
+	private void readCallStackRecord(JCoTable callstackTable) {
+		AlCallStackStr callStackEntry = new AlCallStackStr();
+		// Context
+		JCoStructure contextStructure = callstackTable.getStructure(AlCallStackStr.CONTEXT);
+		callStackEntry.context = new AlContextStr();
+		callStackEntry.context.scope = contextStructure.getString(AlContextStr.SCOPE);
+		// Context/codepos
+		JCoStructure codeposStructure = contextStructure.getStructure(AlContextStr.CODEPOS);
+		callStackEntry.context.codepos = new AlCodepos();
+		callStackEntry.context.codepos.line = codeposStructure.getInt(AlCodepos.LINE);
+		callStackEntry.context.codepos.include = codeposStructure.getString(AlCodepos.INCLUDE);
+		callStackEntry.context.isNotInScope = (contextStructure
+				.getChar(AlContextStr.NOT_IN_SCOPE) == ABAP_TRUE);
+		callStackEntry.context.isIgnored = (contextStructure.getChar(AlContextStr.IGNORED) == ABAP_TRUE);
+		callStackEntry.context.isGeneric = (contextStructure.getChar(AlContextStr.GENERIC) == ABAP_TRUE);
+		// Caller
+		JCoStructure callerObjectStructure;
+		callerObjectStructure = callstackTable.getStructure(AlCallStackStr.CALLER);
+		callStackEntry.caller = new AlObjectStr();
+		callStackEntry.caller.type = callerObjectStructure.getString(AlObjectStr.TYPE);
+		callStackEntry.caller.name = callerObjectStructure.getString(AlObjectStr.NAME);
+		callStackEntry.caller.include = callerObjectStructure.getString(AlObjectStr.INCLUDE);
+		// Called
+		JCoStructure calledObjectStructure;
+		calledObjectStructure = callstackTable.getStructure(AlCallStackStr.CALLED);
+		callStackEntry.called = new AlObjectStr();
+		callStackEntry.called.type = calledObjectStructure.getString(AlObjectStr.TYPE);
+		callStackEntry.called.name = calledObjectStructure.getString(AlObjectStr.NAME);
+		callStackEntry.called.include = calledObjectStructure.getString(AlObjectStr.INCLUDE);
+		bean.callStack.add(callStackEntry);
 	}
 
 	private void readFindingsParameter() {
 		JCoTable findingsTable = function.getExportParameterList().getTable(BapiBean.FINDINGS_PARAMETER);
-		bean.findings = new ArrayList<AlFindingStr>();
+		bean.findings = new ArrayList<>();
+		ArrayList<AlPatternStr> patterns = AlchemistController.factory().getPatterns();
 		if (!findingsTable.isEmpty()) {
 			do {
 				AlFindingStr finding = new AlFindingStr();
-				finding.pattern = findingsTable.getString(AlFindingStr.PATTERN);
+				String className = findingsTable.getString(AlFindingStr.PATTERN);
+				AlPatternStr pattern = patterns.stream().filter(p -> className.equals(p.className)).findFirst()
+						.orElse(null);
+				if (pattern == null)
+					finding.pattern = className;
+				else
+					finding.pattern = pattern.descr;
 				finding.findid = findingsTable.getString(AlFindingStr.FINDID);
 				finding.isFindidMain = (findingsTable.getChar(AlFindingStr.FINDID_MAIN) == ABAP_TRUE);
 				finding.codeposLine = findingsTable.getInt(AlFindingStr.CODEPOS_LINE);
@@ -165,7 +186,8 @@ public class AlBapiInspRunAdhocRunner {
 		scopeStructure.setValue(AlScopeStr.STANDARD_DEPTH, bean.scope.standardDepth);
 		scopeStructure.setValue(AlScopeStr.PARTNER_DEPTH, bean.scope.partnerDepth);
 		scopeStructure.setValue(AlScopeStr.CUSTOM_DEPTH, bean.scope.customDepth);
-		scopeStructure.setValue(AlScopeStr.PARTNER_PRODUCER, bean.scope.isPartnerProducer ? ABAP_TRUE : ABAP_FALSE);
+		scopeStructure.setValue(AlScopeStr.PARTNER_PRODUCER,
+				bean.scope.producerNameSpacesOnly ? ABAP_TRUE : ABAP_FALSE);
 		function.getImportParameterList().setValue(BapiBean.SCOPE_PARAMETER, scopeStructure);
 	}
 

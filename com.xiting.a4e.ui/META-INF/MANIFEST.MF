@@ -2,10 +2,11 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Ui
 Bundle-SymbolicName: com.xiting.a4e.ui;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.5
 Bundle-Vendor: XITING
 Automatic-Module-Name: com.xiting.a4e.ui
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-Localization: plugin
 Require-Bundle: org.eclipse.debug.core,
  org.eclipse.core.runtime;bundle-version="3.24.100",
  org.eclipse.debug.ui;bundle-version="3.16.0",
@@ -20,3 +21,5 @@ Require-Bundle: org.eclipse.debug.core,
  com.sap.adt.tools.core.ui;bundle-version="3.24.1"
 Import-Package: javax.annotation,
  javax.inject;version="1.0.0"
+Bundle-Activator: com.xiting.a4e.ui.A4eUiPlugin
+Bundle-ActivationPolicy: lazy

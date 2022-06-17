@@ -1,14 +1,18 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Model
-Bundle-SymbolicName: com.xiting.a4e.model
-Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: com.xiting.a4e.model;singleton:=true
+Bundle-Version: 1.0.5
 Bundle-Vendor: XITING
 Automatic-Module-Name: com.xiting.a4e.model
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: com.xiting.a4e.model,
- com.xiting.a4e.model.structures
+ com.xiting.a4e.model.structures,
+ com.xiting.a4e.model.utils
 Require-Bundle: org.eclipse.ui;bundle-version="3.201.0",
  org.eclipse.ui.ide;bundle-version="3.18.500",
- com.sap.conn.jco;bundle-version="3.1.5"
+ com.sap.conn.jco;bundle-version="3.1.5",
+ org.eclipse.core.runtime;bundle-version="3.24.100",
+ org.junit,
+ org.junit.jupiter.api
 Import-Package: org.eclipse.core.resources

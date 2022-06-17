@@ -3,20 +3,20 @@ package com.xiting.a4e.ui.views;
 import java.util.ArrayList;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.inject.Inject;
+
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
@@ -26,85 +26,47 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
 import com.sap.conn.jco.JCoException;
-import com.xiting.a4e.backend.INavigator;
-import com.xiting.a4e.backend.NavigatorFactory;
 import com.xiting.a4e.model.AlchemistController;
-import com.xiting.a4e.model.structures.AlCallstackStr;
 import com.xiting.a4e.model.structures.AlFindingStr;
 import com.xiting.a4e.model.structures.AlObjectStr;
 import com.xiting.a4e.model.structures.BapiBean;
+import com.xiting.a4e.model.structures.NavigationTarget;
+import com.xiting.a4e.ui.A4eUiTexts;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-
-public class BasicView {
+public class BasicView implements IAlchemistView {
 
 	@Inject
 	IWorkbench workbench;
 
-	public static final String ID = "com.xiting.a4e.ui.basic";
 	private TableViewer viewer;
-	private Action contextMenuAction;
 	private Action doubleClickAction;
 
-//	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
-//		@Override
-//		public String getColumnText(Object obj, int index) {
-//			return getText(obj);
-//		}
-//
-//		@Override
-//		public Image getColumnImage(Object obj, int index) {
-//			return getImage(obj);
-//		}
-//
-//		@Override
-//		public Image getImage(Object obj) {
-//			return workbench.getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
-//		}
-//	}
-
-//	private void showMessage(String message) {
-//		MessageDialog.openInformation(viewer.getControl().getShell(), "Xiting Alchemist Results", message);
-//	}
+	private ArrayList<Action> contextMenuActions;
 
 	private void makeActions() {
-		contextMenuAction = new Action("Show callstack") {
-			public void run() {
-				if (viewer instanceof TableViewer) {
-					CallstackRunner runner = new CallstackRunner();
-					IStructuredSelection selection = ((TableViewer) viewer).getStructuredSelection();
-					Object obj = selection.getFirstElement();
-					if (obj instanceof AlFindingStr) {
-						runner.openCallStackView((AlFindingStr) obj);
-					}
-				}
+		contextMenuActions = new ArrayList<>();
+		ViewsManager.get().addViewsToContextMenu(viewer, contextMenuActions, ViewsManager.BASIC_ID);
 
-			}
-
-		};
 		doubleClickAction = new Action() {
 			@Override
 			public void run() {
-				IStructuredSelection selection = viewer.getStructuredSelection();
-				Object obj = selection.getFirstElement();
-				if (obj instanceof AlFindingStr) {
-					AlFindingStr alFinding = (AlFindingStr) obj;
-					try {
-						navigateToObject(alFinding);
-					} catch (JCoException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+				try {
+					IStructuredSelection selection = viewer.getStructuredSelection();
+					Object obj = selection.getFirstElement();
+					if (obj instanceof AlFindingStr) {
+						AlFindingStr finding = (AlFindingStr) obj;
+						NavigationTarget target = new NavigationTarget(finding.object, finding.codeposLine);
+						ViewsManager.navigateToObject(target);
 					}
+				} catch (JCoException e) {
+					e.printStackTrace();
 				}
 			}
+
 		};
 	}
 
@@ -114,6 +76,7 @@ public class BasicView {
 			viewer.getControl().setFocus();
 	}
 
+	@Override
 	public void refresh() {
 		setContents();
 		viewer.refresh();
@@ -130,12 +93,13 @@ public class BasicView {
 	public void createPartControl(Composite parent) {
 		ArrayList<AlFindingStr> findings = AlchemistController.factory().getBean().findings;
 		if (findings == null)
-			displayMessageInView(parent, "No Alchemist analysis has been run");
+			displayMessageInView(parent, A4eUiTexts.getString("NoAnalysis")); //$NON-NLS-1$
 		else if (findings.isEmpty())
-			displayMessageInView(parent, "No results from Alchemist analysis");
+			displayMessageInView(parent, A4eUiTexts.getString("NoResults")); //$NON-NLS-1$
 		else {
 			displayFindings(parent);
 		}
+		ViewsManager.get().setViewOpened(ViewsManager.BASIC_ID);
 	}
 
 	private void displayFindings(Composite parent) {
@@ -145,6 +109,7 @@ public class BasicView {
 		final Table table = viewer.getTable();
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
+		table.setHeaderForeground(AlchemistController.XITING_COLOUR);
 		setContents();
 		makeActions();
 		hookContextMenu();
@@ -166,71 +131,75 @@ public class BasicView {
 	}
 
 	private void createColumns(TableViewer viewer) {
-		createColumn(viewer, "Pattern", AlFindingStr.PATTERN);
-		createColumn(viewer, "Finding Id", AlFindingStr.FINDID);
-		createColumn(viewer, "Is Finding Id Main?", AlFindingStr.FINDID_MAIN);
-		createColumn(viewer, "Codepos Line", AlFindingStr.CODEPOS_LINE);
-		createColumn(viewer, "Codepos Include", AlFindingStr.CODEPOS_INCLUDE);
-		createColumn(viewer, "Object Name", AlObjectStr.NAME);
-		createColumn(viewer, "Object Type", AlObjectStr.TYPE);
-		createColumn(viewer, "Object Include", AlObjectStr.INCLUDE);
-		createColumn(viewer, "Arbgb", AlFindingStr.ARBGB);
-		createColumn(viewer, "Message Number", AlFindingStr.MSGNR);
-		createColumn(viewer, "Message Type", AlFindingStr.MSGTY);
-		createColumn(viewer, "Message", AlFindingStr.MESSAGE);
-		createColumn(viewer, "Parameter 1", AlFindingStr.PARAM1);
-		createColumn(viewer, "Parameter 2", AlFindingStr.PARAM2);
-		createColumn(viewer, "Long paramter", AlFindingStr.PARAMLONG);
+		createColumn(viewer, AlFindingStr.PATTERN);
+		createColumn(viewer, AlFindingStr.FINDID);
+		createColumn(viewer, AlFindingStr.FINDID_MAIN);
+		createColumn(viewer, AlFindingStr.CODEPOS_LINE);
+		createColumn(viewer, AlFindingStr.CODEPOS_INCLUDE);
+		createColumn(viewer, AlObjectStr.NAME);
+		createColumn(viewer, AlObjectStr.TYPE);
+		createColumn(viewer, AlObjectStr.INCLUDE);
+		createColumn(viewer, AlFindingStr.ARBGB);
+		createColumn(viewer, AlFindingStr.MSGNR);
+		createColumn(viewer, AlFindingStr.MSGTY);
+		createColumn(viewer, AlFindingStr.MESSAGE);
+		createColumn(viewer, AlFindingStr.PARAM1);
+		createColumn(viewer, AlFindingStr.PARAM2);
+		createColumn(viewer, AlFindingStr.PARAMLONG);
 	}
 
-	private void createColumn(TableViewer viewer, String headingText, String columnId) {
-		Table table = viewer.getTable();
-		TableViewerColumn patternCol = new TableViewerColumn(viewer, SWT.NONE);
-		table.setSortColumn(patternCol.getColumn());
-		patternCol.getColumn().setWidth(200);
-		patternCol.getColumn().setText(headingText);
-		patternCol.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				String colText = "";
-				if (element instanceof AlFindingStr) {
-					if (isImageLabel(columnId))
-						return null;
-					else {
-						Map<String, String> finding = ((AlFindingStr) element).returnAsMapString();
-						colText = finding.get(columnId);
-					}
-					
-				}
-				return colText;
-			}
-			@Override
-			public Image getImage(Object element) {
-				if (element instanceof AlFindingStr) {
-					if (isImageLabel(columnId))
-					{
-						AlFindingStr finding = (AlFindingStr) element;
-						switch (finding.msgty) {
-						case "W" :
-						   return workbench.getSharedImages().getImage(ISharedImages.IMG_OBJS_WARN_TSK);
-						case "E" :
-							   return workbench.getSharedImages().getImage(ISharedImages.IMG_OBJS_ERROR_TSK);
-							   default : 
-								   return workbench.getSharedImages().getImage(ISharedImages.IMG_OBJS_INFO_TSK);
+	private void createColumn(TableViewer viewer, String columnId) {
+		String headingText = AlFindingStr.getColumnDescription(columnId);
+		ScopedPreferenceStore preferences = AlchemistController.factory().getPreferenceStore();
+		if (preferences.getBoolean(columnId)) {
+			Table table = viewer.getTable();
+			TableViewerColumn column = new TableViewerColumn(viewer, SWT.NONE);
+			table.setSortColumn(column.getColumn());
+			column.getColumn().setWidth(200);
+			column.getColumn().setText(headingText);
+			column.setLabelProvider(new ColumnLabelProvider() {
+				@Override
+				public String getText(Object element) {
+					String colText = columnId;
+					if (element instanceof AlFindingStr) {
+						if (isImageLabel(columnId))
+							return null;
+						else {
+							Map<String, String> finding = ((AlFindingStr) element).returnAsMapString();
+							colText = finding.get(columnId);
 						}
 					}
-					else return null;
-			}return null;
-			}
+					return colText;
+				}
 
-			private boolean isImageLabel(String columnId) {
-				return (columnId == AlFindingStr.MSGTY);
-			}
-		});
+				@Override
+				public Image getImage(Object element) {
+					if (element instanceof AlFindingStr) {
+						if (isImageLabel(columnId)) {
+							AlFindingStr finding = (AlFindingStr) element;
+							switch (finding.msgty) {
+							case "W": //$NON-NLS-1$
+								return workbench.getSharedImages().getImage(ISharedImages.IMG_OBJS_WARN_TSK);
+							case "E": //$NON-NLS-1$
+								return workbench.getSharedImages().getImage(ISharedImages.IMG_OBJS_ERROR_TSK);
+							default:
+								return workbench.getSharedImages().getImage(ISharedImages.IMG_OBJS_INFO_TSK);
+							}
+						} else
+							return null;
+					}
+					return null;
+				}
+
+				private boolean isImageLabel(String columnId) {
+					return (columnId == AlFindingStr.MSGTY);
+				}
+			});
+		}
 	}
 
 	private void hookContextMenu() {
-		MenuManager menuMgr = new MenuManager("#PopupMenu");
+		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
 			@Override
@@ -242,15 +211,14 @@ public class BasicView {
 		viewer.getControl().setMenu(menu);
 	}
 
-	protected void fillContextMenu(IMenuManager manager) {
-		manager.add(contextMenuAction);
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
-		manager.add(contextMenuAction);
+	private void fillContextMenu(IMenuManager manager) {
+		for (Action contextMenuAction : contextMenuActions)
+			manager.add(contextMenuAction);
 	}
 
-	private void navigateToObject(AlFindingStr selectedObject) throws JCoException {
-		INavigator navigator = NavigatorFactory.get();
-		navigator.jump_to(selectedObject.object, selectedObject.codeposLine);
+	@PreDestroy
+	public void setViewClosed() {
+		ViewsManager.get().setViewClosed(ViewsManager.BASIC_ID);
 	}
 
 }
