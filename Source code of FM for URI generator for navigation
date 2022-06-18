@@ -2,43 +2,43 @@ FUNCTION z_uri_get.
 *"----------------------------------------------------------------------
 *"*"Local Interface:
 *"  IMPORTING
-*"     VALUE(IV_NAME) TYPE  SEU_OBJKEY
-*"     VALUE(IV_OBJECT_TYPE) TYPE  TROBJTYPE
-*"     VALUE(IV_SUBTYPE) TYPE  SEU_OBJTYP
+*"     VALUE(I_NAME) TYPE  SEU_OBJKEY
+*"     VALUE(I_OBJECT_TYPE) TYPE  TROBJTYPE
+*"     VALUE(I_SUBTYPE) TYPE  SEU_OBJTYP
 *"  EXPORTING
-*"     VALUE(EV_URI) TYPE  STRING
-*"     VALUE(ES_RETURN) TYPE  BAPIRET2
+*"     VALUE(E_URI) TYPE  STRING
+*"     VALUE(E_RETURN) TYPE  BAPIRET2
 *"----------------------------------------------------------------------
 
   DATA type TYPE wbobjtype.
-  type-objtype_tr = iv_object_type.
-  IF iv_subtype IS INITIAL.
-    SELECT SINGLE subc INTO type-subtype_wb FROM trdir WHERE name EQ iv_name.
+  type-objtype_tr = i_object_type.
+  IF i_subtype IS INITIAL.
+    SELECT SINGLE subc INTO type-subtype_wb FROM trdir WHERE name EQ i_name.
     IF type-subtype_wb NE 'I'.
       type-subtype_wb = 'P'.
     ENDIF.
   ELSE.
-    type-subtype_wb = iv_subtype.
+    type-subtype_wb = i_subtype.
   ENDIF.
   TRY.
       DATA request TYPE REF TO cl_wb_request.
       CREATE OBJECT request
         EXPORTING
           p_global_type = type
-          p_object_name = iv_name
+          p_object_name = i_name
           p_operation   = swbm_c_op_display
         EXCEPTIONS
           others        = 0.
-      ev_uri = cl_adt_tools_core_factory=>get_instance( )->get_uri_mapper( )->map_wb_request_to_objref( request )->ref_data-uri.
-      ev_uri = |adt://{ sy-sysid }{ ev_uri }|.
+      e_uri = cl_adt_tools_core_factory=>get_instance( )->get_uri_mapper( )->map_wb_request_to_objref( request )->ref_data-uri.
+      e_uri = |adt://{ sy-sysid }{ e_uri }|.
       DATA error TYPE REF TO cx_adt_uri_mapping.
     CATCH cx_adt_uri_mapping INTO error.
-      es_return-message = error->get_text( ).
-      es_return-type = 'E'.
-      es_return-id = error->if_t100_message~t100key-msgid.
-      es_return-number = error->if_t100_message~t100key-msgno.
-      es_return-message_v1 = error->if_t100_message~t100key-attr1.
-      es_return-message_v2 = error->if_t100_message~t100key-attr2.
-      es_return-message_v3 = error->if_t100_message~t100key-attr3.
+      e_return-message = error->get_text( ).
+      e_return-type = 'E'.
+      e_return-id = error->if_t100_message~t100key-msgid.
+      e_return-number = error->if_t100_message~t100key-msgno.
+      e_return-message_v1 = error->if_t100_message~t100key-attr1.
+      e_return-message_v2 = error->if_t100_message~t100key-attr2.
+      e_return-message_v3 = error->if_t100_message~t100key-attr3.
   ENDTRY.
 ENDFUNCTION.
