@@ -1,6 +1,6 @@
 package com.xiting.a4e.ui.views;
 
-public interface IAlchemistView {
+interface IAlchemistView {
 	void refresh();
 
 

@@ -9,7 +9,7 @@ import com.xiting.a4e.model.CallStack;
 import com.xiting.a4e.model.structures.AlObjectStr;
 import com.xiting.a4e.model.structures.CallStackStructure;
 
-public class CallStackDataProvider implements ITreeContentProvider {
+class CallStackDataProvider implements ITreeContentProvider {
 
 	private CallStack callStack;
 

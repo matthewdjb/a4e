@@ -37,7 +37,7 @@ import com.xiting.a4e.model.structures.BapiBean;
 import com.xiting.a4e.model.structures.NavigationTarget;
 import com.xiting.a4e.ui.A4eUiTexts;
 
-public class BasicView implements IAlchemistView {
+class BasicView implements IAlchemistView {
 
 	@Inject
 	IWorkbench workbench;
@@ -71,7 +71,7 @@ public class BasicView implements IAlchemistView {
 	}
 
 	@Focus
-	public void setFocus() {
+	public void setFocus() { // NO_UCD (unused code)
 		if (viewer != null)
 			viewer.getControl().setFocus();
 	}
@@ -90,7 +90,7 @@ public class BasicView implements IAlchemistView {
 	}
 
 	@PostConstruct
-	public void createPartControl(Composite parent) {
+	public void createPartControl(Composite parent) { // NO_UCD (unused code)
 		ArrayList<AlFindingStr> findings = AlchemistController.factory().getBean().findings;
 		if (findings == null)
 			displayMessageInView(parent, A4eUiTexts.getString("NoAnalysis")); //$NON-NLS-1$
@@ -217,7 +217,7 @@ public class BasicView implements IAlchemistView {
 	}
 
 	@PreDestroy
-	public void setViewClosed() {
+	public void setViewClosed() { // NO_UCD (unused code)
 		ViewsManager.get().setViewClosed(ViewsManager.BASIC_ID);
 	}
 

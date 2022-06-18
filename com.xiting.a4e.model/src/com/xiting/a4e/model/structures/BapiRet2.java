@@ -11,22 +11,20 @@ public class BapiRet2 {
 	public static final String MESSAGE_V2 = "MESSAGE_V2"; //$NON-NLS-1$
 	public static final String MESSAGE_V3 = "MESSAGE_V3"; //$NON-NLS-1$
 	public static final String MESSAGE_V4 = "MESSAGE_V4"; //$NON-NLS-1$
-// TODO Remove unused code found by UCDetector
-// 	public static final String PARAMETER = "PARAMETER";
 	public static final String ROW = "ROW"; //$NON-NLS-1$
 	public static final String FIELD = "FIELD"; //$NON-NLS-1$
 	public static final String SYSTEM = "SYSTEM"; //$NON-NLS-1$
-	public String type;
-	public String id;
-	public String number;
-	public String message;
-	public String logNo;
-	public String logMsgNo;
-	public String messageV1;
-	public String messageV2;
-	public String messageV3;
-	public String messageV4;
-	public int row;
-	public String field;
-	public String system;
+ 	public String type;// NO_UCD (unused code)
+	public String id;// NO_UCD (unused code)
+	public String number;// NO_UCD (unused code)
+	public String message;// NO_UCD (unused code)
+	public String logNo;// NO_UCD (unused code)
+	public String logMsgNo;// NO_UCD (unused code)
+	public String messageV1;// NO_UCD (unused code)
+	public String messageV2;// NO_UCD (unused code)
+	public String messageV3;// NO_UCD (unused code)
+ 	public String messageV4;// NO_UCD (unused code)
+	public int row; // NO_UCD (unused code)
+	public String field;// NO_UCD (unused code)
+	public String system;// NO_UCD (unused code)
 }

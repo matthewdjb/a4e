@@ -14,15 +14,10 @@ public class AlObjectStr {
 		return type + name;
 	}
 
-	public AlObjectStr(String type, String name, String include) {
+	private AlObjectStr(String type, String name, String include) {
 		this.type = type;
 		this.name = name;
 		this.include = include;
-	}
-
-	public AlObjectStr(String type, String name) {
-		this.type = type;
-		this.name = name;
 	}
 
 	public AlObjectStr() {

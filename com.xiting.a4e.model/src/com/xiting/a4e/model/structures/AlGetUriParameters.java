@@ -8,13 +8,6 @@ public class AlGetUriParameters {
 	public static final String URI_PARAMETER = "EV_URI"; //$NON-NLS-1$
 	public final static String RETURN_PARAMETER = "ES_RETURN"; //$NON-NLS-1$
 
-// TODO Remove unused code found by UCDetector
-// 	public final static String NAME = "NAME";
-// TODO Remove unused code found by UCDetector
-// 	public final static String OBJECT_TYPE = "OBJECT_TYPE";
-// TODO Remove unused code found by UCDetector
-// 	public final static String SUBTYPE = "SUBTYPE";
-
 	public String name;
 	public String object_type;
 	public String subtype;

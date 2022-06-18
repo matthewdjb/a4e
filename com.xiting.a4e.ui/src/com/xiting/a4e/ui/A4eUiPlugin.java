@@ -13,20 +13,21 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
 public class A4eUiPlugin extends AbstractUIPlugin {
-	public static final String EVENT = "ICON_EVENT"; //$NON-NLS-1$
-	public static final String EVENT_IMPLEMENTATION = "ICON_EVENT_IMPLEMENTATION"; //$NON-NLS-1$
-	public static final String FUNCTION = "ICON_FUNCTION"; //$NON-NLS-1$
-	public static final String CLASS = "ICON_CLASS"; //$NON-NLS-1$
-	public static final String METHOD = "ICON_METHOD"; //$NON-NLS-1$
-	public static final String PERFORM = "ICON_PERFORM"; //$NON-NLS-1$
-	public static final String PATTERN = "ICON_PATTERN"; //$NON-NLS-1$
-	public static final String FINDING = "ICON_FINDING"; //$NON-NLS-1$
-	public static final String OTHER = "ICON_OTHER"; //$NON-NLS-1$
-	public static final String SCREEN = "ICON_SCREEN"; //$NON-NLS-1$
-	public static final String DYNPRO_MODULE = "ICON_DYNPRO_MODULE"; //$NON-NLS-1$
+	public static final String EVENT = "ICON_EVENT"; //$NON-NLS-1$ 
+	private static final String EVENT_IMPLEMENTATION = "ICON_EVENT_IMPLEMENTATION"; //$NON-NLS-1$
+	private static final String FUNCTION = "ICON_FUNCTION"; //$NON-NLS-1$
+	private static final String CLASS = "ICON_CLASS"; //$NON-NLS-1$
+	private static final String METHOD = "ICON_METHOD"; //$NON-NLS-1$
+	private static final String PERFORM = "ICON_PERFORM"; //$NON-NLS-1$
+	private static final String PATTERN = "ICON_PATTERN"; //$NON-NLS-1$
+	private static final String FINDING = "ICON_FINDING"; //$NON-NLS-1$
+	private static final String OTHER = "ICON_OTHER"; //$NON-NLS-1$
+	private static final String SCREEN = "ICON_SCREEN"; //$NON-NLS-1$
+	private static final String DYNPRO_MODULE = "ICON_DYNPRO_MODULE"; //$NON-NLS-1$
 	public static final String XITING_LOGO = "ICON_XITING_LOGO"; //$NON-NLS-1$
 
-	public static final String PLUGIN_ID = "com.xiting.a4e.ui"; //$NON-NLS-1$
+// TODO Remove unused code found by UCDetector
+// 	public static final String PLUGIN_ID = "com.xiting.a4e.ui"; //$NON-NLS-1$
 	private static final String FILE_EVENT = "$NL$/icons/sapEvent.gif"; //$NON-NLS-1$
 	private static final String FILE_EVENT_IMPLEMENTATION = "$NL$/icons/sapEventImplementation.gif"; //$NON-NLS-1$
 	private static final String FILE_FUNCTION = "$NL$/icons/sapfunction.gif"; //$NON-NLS-1$

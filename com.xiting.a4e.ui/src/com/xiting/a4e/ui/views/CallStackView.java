@@ -33,7 +33,7 @@ import com.xiting.a4e.model.structures.CallStackStructure;
 import com.xiting.a4e.ui.A4eUiPlugin;
 import com.xiting.a4e.ui.A4eUiTexts;
 
-public class CallStackView implements IAlchemistView {
+class CallStackView implements IAlchemistView {
 
 	@Inject
 	IWorkbench workbench;
@@ -44,13 +44,13 @@ public class CallStackView implements IAlchemistView {
 	private Action doubleClickAction;
 
 	@Focus
-	public void setFocus() {
+	public void setFocus() { // NO_UCD (unused code)
 		if (viewer != null)
 			viewer.getControl().setFocus();
 	}
 
 	@PostConstruct
-	public void createPartControl(Composite parent) {
+	public void createPartControl(Composite parent) { // NO_UCD (unused code)
 		callStack = AlchemistController.factory().getBean().callStack;
 		if (callStack == null)
 			displayMessageInView(parent, A4eUiTexts.getString("NoAnalysis")); //$NON-NLS-1$
@@ -158,7 +158,7 @@ public class CallStackView implements IAlchemistView {
 	}
 
 	@PreDestroy
-	public void setViewClosed() {
+	public void setViewClosed() { // NO_UCD (unused code)
 		ViewsManager.get().setViewClosed(ViewsManager.CALL_STACK_ID);
 	}
 

@@ -15,30 +15,6 @@ public class AbapAdtTypes {
 		static final String FUGR_I = "FUGR/I"; //$NON-NLS-1$
 	}
 
-// TODO Remove unused code found by UCDetector
-// 	public enum AdtFileType {
-// 		aclass, asfunc, asprog, asfugr, asfinc, aint;
-// 
-// 		public AbapType toAbapType(AdtFileType fileType) {
-// 			switch (fileType) {
-// 			case aclass:
-// 				return AbapType.CLAS;
-// 			case aint:
-// 				return AbapType.INTF;
-// 			case asfinc:
-// 				return AbapType.FUGR;
-// 			case asfugr:
-// 				return AbapType.FUGR;
-// 			case asfunc:
-// 				return AbapType.FUNC;
-// 			case asprog:
-// 				return AbapType.PROG;
-// 			default:
-// 				return null;
-// 			}
-// 		}
-// 	}
-
 	static AbapType toAbapType(String adtType) {
 		switch (adtType) {
 		case AdtType.CLAS_OC:

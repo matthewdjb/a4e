@@ -55,22 +55,24 @@ public final class ViewsManager {
 				A4eUiTexts.getString("BasicView.OpenCallStackView"))); //$NON-NLS-1$
 	}
 
-	public final void addViewId(String viewId, ViewProperties properties) {
+	private final void addViewId(String viewId, ViewProperties properties) {
 		if (viewIds.get(viewId) == null) {
 			viewIds.put(viewId, properties);
 		}
 	}
 
-	public final boolean getDefaultValue(String viewId) {
-		return viewIds.get(viewId).defaultValue;
-	}
+// TODO Remove unused code found by UCDetector
+// 	public final boolean getDefaultValue(String viewId) {
+// 		return viewIds.get(viewId).defaultValue;
+// 	}
 
-	public final boolean isSelected(String viewId) {
-		ScopedPreferenceStore preferences = AlchemistController.factory().getPreferenceStore();
-		return preferences.getBoolean(viewId);
-	}
+// TODO Remove unused code found by UCDetector
+// 	public final boolean isSelected(String viewId) {
+// 		ScopedPreferenceStore preferences = AlchemistController.factory().getPreferenceStore();
+// 		return preferences.getBoolean(viewId);
+// 	}
 
-	public final IViewPart openView(String viewId) throws PartInitException {
+	private final IViewPart openView(String viewId) throws PartInitException {
 		IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(viewId);
 		if (view != null)
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().hideView(view);
@@ -78,7 +80,7 @@ public final class ViewsManager {
 		return view;
 	}
 
-	public final void updateView(IViewPart iViewPart) {
+	private final void updateView(IViewPart iViewPart) {
 		if (iViewPart instanceof IAlchemistView)
 			((IAlchemistView) iViewPart).refresh();
 	}
@@ -93,7 +95,7 @@ public final class ViewsManager {
 
 	}
 
-	public void updateView(String viewId) throws PartInitException {
+	private void updateView(String viewId) throws PartInitException {
 		updateView(openView(viewId));
 	}
 
@@ -108,7 +110,7 @@ public final class ViewsManager {
 		return viewIds.get(id).preferenceDescription;
 	}
 
-	public ArrayList<String> getAllViewIdsExcepting(String exceptThisId) {
+	private ArrayList<String> getAllViewIdsExcepting(String exceptThisId) {
 		ArrayList<String> allViewsExcept = new ArrayList<>(viewIds.size());
 		for (Entry<String, ViewProperties> viewEntry : viewIds.entrySet()) {
 			if (viewEntry.getKey() != exceptThisId)
@@ -117,11 +119,11 @@ public final class ViewsManager {
 		return allViewsExcept;
 	}
 
-	public String getMenuText(String viewID) {
+	private String getMenuText(String viewID) {
 		return viewIds.get(viewID).menuDescription;
 	}
 
-	public void addViewsToContextMenu(ColumnViewer viewer, ArrayList<Action> contextMenuActions,
+	void addViewsToContextMenu(ColumnViewer viewer, ArrayList<Action> contextMenuActions,
 			String exceptForThisViewId) {
 		for (String viewID : ViewsManager.get().getAllViewIdsExcepting(exceptForThisViewId)) {
 			Action contextMenuAction = new Action(ViewsManager.get().getMenuText(viewID)) {
@@ -141,7 +143,7 @@ public final class ViewsManager {
 		}
 	}
 
-	public static void navigateToObject(NavigationTarget target) throws JCoException {
+	static void navigateToObject(NavigationTarget target) throws JCoException {
 		INavigator navigator = NavigatorFactory.get();
 		navigator.jump_to(target);
 	}
