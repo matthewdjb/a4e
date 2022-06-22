@@ -83,7 +83,7 @@ class CallStackView implements IAlchemistView {
 			public Image getImage(Object element) {
 				return  A4eUiPlugin.getIcon(((CallStackStructure) element).object.type);
 			}
-		});
+		});	
 		setContents();
 		GridLayoutFactory.fillDefaults().generateLayout(parent);
 		makeActions();

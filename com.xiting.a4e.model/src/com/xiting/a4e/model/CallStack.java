@@ -44,6 +44,14 @@ public class CallStack {
 		entries = null;
 	}
 
+	private void populateZeroCodeposFromChildren(CallStackStructure parent, ArrayList<CallStackStructure> children) {
+		for (CallStackStructure child : children) {
+			if (parent.target.codepos == 0 && child.target.codepos != 0)
+				parent.target.codepos = child.target.codepos;
+			populateZeroCodeposFromChildren(child, child.children);
+		}
+	}
+
 	private CallStackStructure addChild(CallStackStructure parent, AlObjectStr called) {
 		CallStackStructure child;
 		child = new CallStackStructure(getUniqueObject(called));
@@ -157,6 +165,7 @@ public class CallStack {
 			if (!iterator.hasNext())
 				addFindingToTree(messages, findingChild, previousObject);
 		}
+		populateZeroCodeposFromChildren(topNode, topNode.children);
 	}
 
 	private CallStackStructure createNewFindingChild(Finding finding) {
@@ -218,17 +227,17 @@ public class CallStack {
 		String description = ""; //$NON-NLS-1$
 		switch (node.object.type) {
 		case "CLAS": //$NON-NLS-1$
-			description = "Class" + " " + node.object.name; //$NON-NLS-1$ //$NON-NLS-2$ 
+			description = "Class" + " " + node.object.name; //$NON-NLS-1$ //$NON-NLS-2$
 			break;
 		case "DYNP": //$NON-NLS-1$
 			description = A4eTexts.getString("CallStack_Screen1InInclude2"); //$NON-NLS-1$
-			description = description.replaceAll("<1>", node.object.name).replaceAll("<2>", node.object.include); //$NON-NLS-1$ //$NON-NLS-2$ 
+			description = description.replaceAll("<1>", node.object.name).replaceAll("<2>", node.object.include); //$NON-NLS-1$ //$NON-NLS-2$
 			break;
 		case "METH": //$NON-NLS-1$
 			description = A4eTexts.getString("CallStack_Method1InClass2"); //$NON-NLS-1$
 			String method = getMethod(node.object.name);
 			String clazz = getClass(node.object.name);
-			description = description.replaceAll("<1>", method).replaceAll("<2>", clazz); //$NON-NLS-1$ //$NON-NLS-2$ 
+			description = description.replaceAll("<1>", method).replaceAll("<2>", clazz); //$NON-NLS-1$ //$NON-NLS-2$
 			break;
 		case "FUNC": //$NON-NLS-1$
 			description = A4eTexts.getString("CallStack_Function") + " " + node.object.name; //$NON-NLS-1$ //$NON-NLS-2$

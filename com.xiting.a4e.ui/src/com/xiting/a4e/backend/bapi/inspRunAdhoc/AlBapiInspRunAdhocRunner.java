@@ -23,7 +23,6 @@ class AlBapiInspRunAdhocRunner {
 	private static final String ALCHEMIST_BADI = "/XITING/AL_BAPI_INSP_RUN_ADHOC"; //$NON-NLS-1$
 	private final static char ABAP_TRUE = 'X';
 	private final static char ABAP_FALSE = ' ';
-
 	private BapiBean bean;
 	private JCoDestination destination;
 	private JCoFunction function;
@@ -101,8 +100,7 @@ class AlBapiInspRunAdhocRunner {
 		callStackEntry.context.codepos = new AlCodepos();
 		callStackEntry.context.codepos.line = codeposStructure.getInt(AlCodepos.LINE);
 		callStackEntry.context.codepos.include = codeposStructure.getString(AlCodepos.INCLUDE);
-		callStackEntry.context.isNotInScope = (contextStructure
-				.getChar(AlContextStr.NOT_IN_SCOPE) == ABAP_TRUE);
+		callStackEntry.context.isNotInScope = (contextStructure.getChar(AlContextStr.NOT_IN_SCOPE) == ABAP_TRUE);
 		callStackEntry.context.isIgnored = (contextStructure.getChar(AlContextStr.IGNORED) == ABAP_TRUE);
 		callStackEntry.context.isGeneric = (contextStructure.getChar(AlContextStr.GENERIC) == ABAP_TRUE);
 		// Caller

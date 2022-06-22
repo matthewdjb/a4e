@@ -21,9 +21,9 @@ class Navigator implements INavigator {
 		AlGetUriParameters parameters = new AlGetUriParameters(target.object);
 		new AlBapiUriGet(parameters).run();
 		if (target.object.type.equals("METH")) //$NON-NLS-1$
-			parameters.uri = convertMethodUriOffset(parameters.uri,target.codepos);
+			parameters.uri = convertMethodUriOffset(parameters.uri, target.codepos);
 		else
-			parameters.uri = convertUriOffset(parameters.uri,target.codepos);
+			parameters.uri = convertUriOffset(parameters.uri, target.codepos);
 		IAdtNavigationService navServ = AdtNavigationServiceFactory.createNavigationService();
 		IStatus status = navServ.navigateWithExternalLink(parameters.uri, null);
 		if (!status.isOK())
@@ -45,15 +45,17 @@ class Navigator implements INavigator {
 
 	private void tryAlternateNavigation(IAdtNavigationService navServ, AlGetUriParameters parameters,
 			NavigationTarget target) throws JCoException {
-		if (target.object.type.equals("PROG") || target.object.type.equals("YEVI")) { //$NON-NLS-1$ //$NON-NLS-2$
+		if (target.object.type.equals("PROG") || target.object.type.equals("YEVI") //$NON-NLS-1$ //$NON-NLS-2$
+				|| target.object.type.equals("YEVT")    //$NON-NLS-1$ //$NON-NLS-2$
+				|| target.object.type.equals("YMOD")) { //$NON-NLS-1$ //$NON-NLS-2$
 			parameters.subtype = "P"; //$NON-NLS-1$
+			parameters.name = target.object.name;
 			new AlBapiUriGet(parameters).run();
-			parameters.uri = convertUriOffset(parameters.uri,target.codepos);
+			parameters.uri = convertUriOffset(parameters.uri, target.codepos);
 			IStatus status = navServ.navigateWithExternalLink(parameters.uri, null);
 			if (!status.isOK())
 				messageNotNavigable();
-		}
-		else
+		} else
 			messageNotNavigable();
 	}
 
