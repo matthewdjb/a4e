@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/com.xiting.a4e_1.0.5.jar" id="com.xiting.a4e" version="1.0.5">
+   <feature url="features/com.xiting.a4e_1.0.6.jar" id="com.xiting.a4e" version="1.0.6">
       <category name="com.xitng.a4e.core"/>
    </feature>
    <category-def name="com.xitng.a4e.core" label="A4e Core"/>
