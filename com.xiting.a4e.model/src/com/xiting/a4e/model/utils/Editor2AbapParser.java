@@ -40,6 +40,7 @@ class Editor2AbapParser implements IAdt2AbapParser {
 		IFileEditorInput editorInput = (IFileEditorInput) editor.getEditorInput();
 		String type = ""; //$NON-NLS-1$
 		switch (editorInput.getFile().getFileExtension()) {
+		case "acinc": //$NON-NLS-1$
 		case "aclass": //$NON-NLS-1$
 			type = "CLAS"; //$NON-NLS-1$
 			break;
