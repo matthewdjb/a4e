@@ -23,6 +23,7 @@ public final class ViewsManager {
 
 	public static final String BASIC_ID = "com.xiting.a4e.ui.basic"; //$NON-NLS-1$
 	public static final String CALL_STACK_ID = "com.xiting.a4e.ui.callStack"; //$NON-NLS-1$
+	public static final String AUTH_BASIC_ID = "com.xiting.a4e.ui.authBasic"; //$NON-NLS-1$
 
 	private static ViewsManager singleton = new ViewsManager();
 	private Map<String, ViewProperties> viewIds = new HashMap<>();
@@ -53,6 +54,8 @@ public final class ViewsManager {
 				A4eUiTexts.getString("BasicView.OpenBasicView"))); //$NON-NLS-1$
 		addViewId(CALL_STACK_ID, new ViewProperties(A4eUiTexts.getString("PreferencesViews.CallStack"), //$NON-NLS-1$
 				A4eUiTexts.getString("BasicView.OpenCallStackView"))); //$NON-NLS-1$
+		addViewId(AUTH_BASIC_ID ,new ViewProperties(A4eUiTexts.getString("PreferencesViews.AuthBasic"), //$NON-NLS-1$
+				A4eUiTexts.getString("BasicView.OpenAuthBasicView"))); //$NON-NLS-1$
 	}
 
 	private final void addViewId(String viewId, ViewProperties properties) {
@@ -60,17 +63,6 @@ public final class ViewsManager {
 			viewIds.put(viewId, properties);
 		}
 	}
-
-// TODO Remove unused code found by UCDetector
-// 	public final boolean getDefaultValue(String viewId) {
-// 		return viewIds.get(viewId).defaultValue;
-// 	}
-
-// TODO Remove unused code found by UCDetector
-// 	public final boolean isSelected(String viewId) {
-// 		ScopedPreferenceStore preferences = AlchemistController.factory().getPreferenceStore();
-// 		return preferences.getBoolean(viewId);
-// 	}
 
 	private final IViewPart openView(String viewId) throws PartInitException {
 		IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(viewId);

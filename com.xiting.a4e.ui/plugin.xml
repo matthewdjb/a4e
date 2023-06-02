@@ -43,6 +43,15 @@
             name="%e4view.callstack"
             restorable="false">
       </e4view>
+      <e4view
+            allowMultiple="false"
+            category="com.xiting.a4e.ui"
+            class="com.xiting.a4e.ui.views.AuthBasicView"
+            icon="icons/xiting_logo_icon.png"
+            id="com.xiting.a4e.ui.authBasic"
+            name="Auth Basic"
+            restorable="false">
+      </e4view>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">

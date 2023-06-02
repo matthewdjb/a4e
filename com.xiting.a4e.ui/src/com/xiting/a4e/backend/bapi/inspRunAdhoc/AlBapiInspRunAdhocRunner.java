@@ -20,7 +20,7 @@ import com.xiting.a4e.model.structures.BapiBean;
 import com.xiting.a4e.model.structures.BapiRet2;
 
 class AlBapiInspRunAdhocRunner {
-	private static final String ALCHEMIST_BADI = "/XITING/AL_BAPI_INSP_RUN_ADHOC"; //$NON-NLS-1$
+	private static final String ALCHEMIST_BAPI = "/XITING/AL_BAPI_INSP_RUN_ADHOC"; //$NON-NLS-1$
 	private final static char ABAP_TRUE = 'X';
 	private final static char ABAP_FALSE = ' ';
 	private BapiBean bean;
@@ -31,7 +31,7 @@ class AlBapiInspRunAdhocRunner {
 
 	AlBapiInspRunAdhocRunner(BapiBean bean, JCoDestination destination) throws JCoException {
 		this.bean = bean;
-		this.function = destination.getRepository().getFunction(ALCHEMIST_BADI);
+		this.function = destination.getRepository().getFunction(ALCHEMIST_BAPI);
 		this.destination = destination;
 	}
 

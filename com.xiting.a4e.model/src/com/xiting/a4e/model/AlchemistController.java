@@ -76,7 +76,12 @@ public class AlchemistController {
 
 	public static AlchemistController factory() {
 		if (singleton == null)
-			new AlchemistController();
+			return new AlchemistController();
+		return singleton;
+	}
+	
+	public static AlchemistController factory_new() {
+		singleton =  new AlchemistController();
 		return singleton;
 	}
 
