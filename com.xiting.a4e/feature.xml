@@ -2,7 +2,7 @@
 <feature
       id="com.xiting.a4e"
       label="A4e"
-      version="1.0.7"
+      version="1.0.9"
       provider-name="XITING">
 
    <description url="https://xiting.com/en/xams/abap-alchemist/">
@@ -33,14 +33,14 @@ THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRES
          id="com.xiting.a4e.model"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.9"
          unpack="false"/>
 
    <plugin
          id="com.xiting.a4e.ui"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.9"
          unpack="false"/>
 
 </feature>

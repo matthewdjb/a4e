@@ -7,6 +7,8 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
 import com.sap.conn.jco.JCoDestination;
+import com.sap.conn.jco.JCoStructure;
+import com.sap.conn.jco.JCoTable;
 import com.xiting.a4e.model.structures.AlPatternStr;
 import com.xiting.a4e.model.structures.BapiBean;
 
@@ -17,6 +19,8 @@ public class AlchemistController {
 	private JCoDestination destination;
 	private ScopedPreferenceStore preferenceStore;
 	private ArrayList<AlPatternStr> patterns = new ArrayList<AlPatternStr>();
+	private JCoTable findingsTable;
+	private JCoStructure contextStructure;
 
 	private AlchemistController() {
 		singleton = this;
@@ -100,6 +104,23 @@ public class AlchemistController {
 
 	public ArrayList<AlPatternStr> getPatterns() {
 		return patterns;
+	}
+
+	public void setFindingsTable(JCoTable findingsTable) {
+		this.findingsTable = findingsTable;
+		
+	}
+
+	public void setContextStructure(JCoStructure contextStructure) {
+		this.contextStructure = contextStructure;
+	}
+	
+	public JCoTable getFindingsTable() {
+		return findingsTable;
+	}
+	
+	public JCoStructure getContextStructure() {
+		return contextStructure;
 	}
 
 

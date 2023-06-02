@@ -20,11 +20,12 @@ import com.xiting.a4e.ui.views.ViewsManager;
 class BapiRunAdhocRunner implements IBapiRunAdhocRunner {
 
 	private Display sync;
+	private AlchemistController controller;
 
 	@Override
 	public void run(JCoDestination destination, ArrayList<AlObjectStr> items) {
 		BapiBean bean = new BapiBean();
-		AlchemistController controller = AlchemistController.factory();
+		controller = AlchemistController.factory();
 		controller.setBean(bean);
 		controller.setDestination(destination);
 		CallingParameterHandler callingParameterHandler = new CallingParameterHandler();
@@ -44,6 +45,8 @@ class BapiRunAdhocRunner implements IBapiRunAdhocRunner {
 				try {
 					runner = new AlBapiInspRunAdhocRunner(bean, destination);
 					runner.run();
+					controller.setFindingsTable(runner.getFindingsTable());
+					controller.setContextStructure(runner.getContextStructure());
 					updateViews();
 				} catch (JCoException e) {
 					e.printStackTrace();
