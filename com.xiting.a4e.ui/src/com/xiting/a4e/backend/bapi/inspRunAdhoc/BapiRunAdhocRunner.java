@@ -45,8 +45,6 @@ class BapiRunAdhocRunner implements IBapiRunAdhocRunner {
 				try {
 					runner = new AlBapiInspRunAdhocRunner(bean, destination);
 					runner.run();
-					controller.setFindingsTable(runner.getFindingsTable());
-					controller.setContextStructure(runner.getContextStructure());
 					updateViews();
 				} catch (JCoException e) {
 					e.printStackTrace();

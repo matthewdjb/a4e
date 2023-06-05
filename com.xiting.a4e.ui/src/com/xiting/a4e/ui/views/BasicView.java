@@ -105,7 +105,7 @@ class BasicView implements IAlchemistView {
 	private void displayFindings(Composite parent) {
 		viewer = new TableViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
-		createColumns(viewer);
+		createColumns();
 		final Table table = viewer.getTable();
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -130,25 +130,25 @@ class BasicView implements IAlchemistView {
 		new Label(parent, SWT.BORDER).setText(message);
 	}
 
-	private void createColumns(TableViewer viewer) {
-		createColumn(viewer, AlFindingStr.PATTERN);
-		createColumn(viewer, AlFindingStr.FINDID);
-		createColumn(viewer, AlFindingStr.FINDID_MAIN);
-		createColumn(viewer, AlFindingStr.CODEPOS_LINE);
-		createColumn(viewer, AlFindingStr.CODEPOS_INCLUDE);
-		createColumn(viewer, AlObjectStr.NAME);
-		createColumn(viewer, AlObjectStr.TYPE);
-		createColumn(viewer, AlObjectStr.INCLUDE);
-		createColumn(viewer, AlFindingStr.ARBGB);
-		createColumn(viewer, AlFindingStr.MSGNR);
-		createColumn(viewer, AlFindingStr.MSGTY);
-		createColumn(viewer, AlFindingStr.MESSAGE);
-		createColumn(viewer, AlFindingStr.PARAM1);
-		createColumn(viewer, AlFindingStr.PARAM2);
-		createColumn(viewer, AlFindingStr.PARAMLONG);
+	private void createColumns() {
+		createColumn(AlFindingStr.PATTERN);
+		createColumn(AlFindingStr.FINDID);
+		createColumn(AlFindingStr.FINDID_MAIN);
+		createColumn(AlFindingStr.CODEPOS_LINE);
+		createColumn(AlFindingStr.CODEPOS_INCLUDE);
+		createColumn(AlObjectStr.NAME);
+		createColumn(AlObjectStr.TYPE);
+		createColumn(AlObjectStr.INCLUDE);
+		createColumn(AlFindingStr.ARBGB);
+		createColumn(AlFindingStr.MSGNR);
+		createColumn(AlFindingStr.MSGTY);
+		createColumn(AlFindingStr.MESSAGE);
+		createColumn(AlFindingStr.PARAM1);
+		createColumn(AlFindingStr.PARAM2);
+		createColumn(AlFindingStr.PARAMLONG);
 	}
 
-	private void createColumn(TableViewer viewer, String columnId) {
+	private void createColumn(String columnId) {
 		String headingText = AlFindingStr.getColumnDescription(columnId);
 		ScopedPreferenceStore preferences = AlchemistController.factory().getPreferenceStore();
 		if (preferences.getBoolean(columnId)) {

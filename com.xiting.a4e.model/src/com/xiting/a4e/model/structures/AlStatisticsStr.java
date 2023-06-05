@@ -1,6 +1,6 @@
 package com.xiting.a4e.model.structures;
 
-public class AlStatistics {
+public class AlStatisticsStr {
 	public final static String OBJID = "OBJID";
 	public final static String OTYPE = "OTYPE";
 	public final static String PARENT = "PARENT";

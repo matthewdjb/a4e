@@ -46,7 +46,7 @@
       <e4view
             allowMultiple="false"
             category="com.xiting.a4e.ui"
-            class="com.xiting.a4e.ui.views.AuthBasicView"
+            class="com.xiting.a4e.ui.views.AuthView"
             icon="icons/xiting_logo_icon.png"
             id="com.xiting.a4e.ui.authBasic"
             name="Auth Basic"

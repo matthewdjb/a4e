@@ -24,7 +24,7 @@ public class AlFindingStr {
 	public String findid;
 	public boolean isFindidMain;
 	public int codeposLine;
-	private String codeposInclude;
+	public String codeposInclude;
 	public AlObjectStr object;
 	public String arbgb;
 	public String msgnr;

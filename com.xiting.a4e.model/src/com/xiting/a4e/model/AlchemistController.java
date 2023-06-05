@@ -7,10 +7,10 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
 import com.sap.conn.jco.JCoDestination;
-import com.sap.conn.jco.JCoStructure;
 import com.sap.conn.jco.JCoTable;
 import com.xiting.a4e.model.structures.AlPatternStr;
 import com.xiting.a4e.model.structures.BapiBean;
+import com.xiting.a4e.model.structures.BapiViewsBean;
 
 public class AlchemistController {
 	public static final Color XITING_COLOUR = new Color(210, 35, 42);
@@ -20,7 +20,8 @@ public class AlchemistController {
 	private ScopedPreferenceStore preferenceStore;
 	private ArrayList<AlPatternStr> patterns = new ArrayList<AlPatternStr>();
 	private JCoTable findingsTable;
-	private JCoStructure contextStructure;
+	private JCoTable setCallStackTable;
+	private BapiViewsBean viewsBean;
 
 	private AlchemistController() {
 		singleton = this;
@@ -79,9 +80,9 @@ public class AlchemistController {
 			return new AlchemistController();
 		return singleton;
 	}
-	
+
 	public static AlchemistController factory_new() {
-		singleton =  new AlchemistController();
+		singleton = new AlchemistController();
 		return singleton;
 	}
 
@@ -113,20 +114,28 @@ public class AlchemistController {
 
 	public void setFindingsTable(JCoTable findingsTable) {
 		this.findingsTable = findingsTable;
-		
+
 	}
 
-	public void setContextStructure(JCoStructure contextStructure) {
-		this.contextStructure = contextStructure;
-	}
-	
 	public JCoTable getFindingsTable() {
 		return findingsTable;
 	}
-	
-	public JCoStructure getContextStructure() {
-		return contextStructure;
+
+	public void setCallStackTable(JCoTable callStackTable) {
+		this.setCallStackTable = callStackTable;
 	}
 
+	public JCoTable getCallStackTable() {
+		return setCallStackTable;
+	}
 
+	public void setViewsBean(BapiViewsBean viewsBean) {
+		this.viewsBean = viewsBean;
+	}
+
+	public BapiViewsBean getViewsBean() {
+		if (viewsBean == null)
+			viewsBean = new BapiViewsBean();
+		return viewsBean;
+	}
 }

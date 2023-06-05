@@ -26,8 +26,6 @@ class AlBapiInspRunAdhocRunner {
 	private BapiBean bean;
 	private JCoDestination destination;
 	private JCoFunction function;
-	private JCoTable findingsTable;
-	private JCoStructure contextStructure;
 
 	AlBapiInspRunAdhocRunner(BapiBean bean, JCoDestination destination) throws JCoException {
 		this.bean = bean;
@@ -79,31 +77,32 @@ class AlBapiInspRunAdhocRunner {
 	}
 
 	private void readCallstackParameter() {
-		JCoTable callstackTable = function.getExportParameterList().getTable(BapiBean.CALLSTACK_PARAMETER);
+		JCoTable callStackTable = function.getExportParameterList().getTable(BapiBean.CALLSTACK_PARAMETER);
 		if (bean.callStack == null)
 			bean.callStack = new CallStack();
-		if (!callstackTable.isEmpty()) {
+		if (!callStackTable.isEmpty()) {
 			do {
-				readCallStackRecord(callstackTable);
-			} while (callstackTable.nextRow());
+				readCallStackRecord(callStackTable);
+			} while (callStackTable.nextRow());
 			bean.callStack.buildTree();
 			bean.callStack.addFindings(bean.findings);
 		}
+		AlchemistController.factory().setCallStackTable(callStackTable);
 	}
 
 	private void readCallStackRecord(JCoTable callstackTable) {
 		AlCallStackStr callStackEntry = new AlCallStackStr();
-		contextStructure = callstackTable.getStructure(AlCallStackStr.CONTEXT);
+		JCoStructure contextStructure = callstackTable.getStructure(AlCallStackStr.CONTEXT);
 		callStackEntry.context = new AlContextStr();
-		callStackEntry.context.scope = getContextStructure().getString(AlContextStr.SCOPE);
+		callStackEntry.context.scope = contextStructure.getString(AlContextStr.SCOPE);
 		// Context/codepos
-		JCoStructure codeposStructure = getContextStructure().getStructure(AlContextStr.CODEPOS);
+		JCoStructure codeposStructure = contextStructure.getStructure(AlContextStr.CODEPOS);
 		callStackEntry.context.codepos = new AlCodepos();
 		callStackEntry.context.codepos.line = codeposStructure.getInt(AlCodepos.LINE);
 		callStackEntry.context.codepos.include = codeposStructure.getString(AlCodepos.INCLUDE);
-		callStackEntry.context.isNotInScope = (getContextStructure().getChar(AlContextStr.NOT_IN_SCOPE) == ABAP_TRUE);
-		callStackEntry.context.isIgnored = (getContextStructure().getChar(AlContextStr.IGNORED) == ABAP_TRUE);
-		callStackEntry.context.isGeneric = (getContextStructure().getChar(AlContextStr.GENERIC) == ABAP_TRUE);
+		callStackEntry.context.isNotInScope = (contextStructure.getChar(AlContextStr.NOT_IN_SCOPE) == ABAP_TRUE);
+		callStackEntry.context.isIgnored = (contextStructure.getChar(AlContextStr.IGNORED) == ABAP_TRUE);
+		callStackEntry.context.isGeneric = (contextStructure.getChar(AlContextStr.GENERIC) == ABAP_TRUE);
 		// Caller
 		JCoStructure callerObjectStructure;
 		callerObjectStructure = callstackTable.getStructure(AlCallStackStr.CALLER);
@@ -122,37 +121,38 @@ class AlBapiInspRunAdhocRunner {
 	}
 
 	private void readFindingsParameter() {
-		findingsTable = function.getExportParameterList().getTable(BapiBean.FINDINGS_PARAMETER);
+		JCoTable findingsTable = function.getExportParameterList().getTable(BapiBean.FINDINGS_PARAMETER);
 		bean.findings = new ArrayList<>();
 		ArrayList<AlPatternStr> patterns = AlchemistController.factory().getPatterns();
-		if (!getFindingsTable().isEmpty()) {
+		if (!findingsTable.isEmpty()) {
 			do {
 				AlFindingStr finding = new AlFindingStr();
-				String className = getFindingsTable().getString(AlFindingStr.PATTERN);
+				String className = findingsTable.getString(AlFindingStr.PATTERN);
 				AlPatternStr pattern = patterns.stream().filter(p -> className.equals(p.className)).findFirst()
 						.orElse(null);
 				if (pattern == null)
 					finding.pattern = className;
 				else
 					finding.pattern = pattern.descr;
-				finding.findid = getFindingsTable().getString(AlFindingStr.FINDID);
-				finding.isFindidMain = (getFindingsTable().getChar(AlFindingStr.FINDID_MAIN) == ABAP_TRUE);
-				finding.codeposLine = getFindingsTable().getInt(AlFindingStr.CODEPOS_LINE);
-				JCoStructure objectStructure = getFindingsTable().getStructure(AlFindingStr.OBJECT);
+				finding.findid = findingsTable.getString(AlFindingStr.FINDID);
+				finding.isFindidMain = (findingsTable.getChar(AlFindingStr.FINDID_MAIN) == ABAP_TRUE);
+				finding.codeposLine = findingsTable.getInt(AlFindingStr.CODEPOS_LINE);
+				JCoStructure objectStructure = findingsTable.getStructure(AlFindingStr.OBJECT);
 				finding.object = new AlObjectStr();
 				finding.object.type = objectStructure.getString(AlObjectStr.TYPE);
 				finding.object.name = objectStructure.getString(AlObjectStr.NAME);
 				finding.object.include = objectStructure.getString(AlObjectStr.INCLUDE);
-				finding.arbgb = getFindingsTable().getString(AlFindingStr.ARBGB);
-				finding.msgnr = getFindingsTable().getString(AlFindingStr.MSGNR);
-				finding.msgty = getFindingsTable().getString(AlFindingStr.MSGTY);
-				finding.message = getFindingsTable().getString(AlFindingStr.MESSAGE);
-				finding.param1 = getFindingsTable().getString(AlFindingStr.PARAM1);
-				finding.param2 = getFindingsTable().getString(AlFindingStr.PARAM2);
-				finding.paramlong = getFindingsTable().getString(AlFindingStr.PARAMLONG);
+				finding.arbgb = findingsTable.getString(AlFindingStr.ARBGB);
+				finding.msgnr = findingsTable.getString(AlFindingStr.MSGNR);
+				finding.msgty = findingsTable.getString(AlFindingStr.MSGTY);
+				finding.message = findingsTable.getString(AlFindingStr.MESSAGE);
+				finding.param1 = findingsTable.getString(AlFindingStr.PARAM1);
+				finding.param2 = findingsTable.getString(AlFindingStr.PARAM2);
+				finding.paramlong = findingsTable.getString(AlFindingStr.PARAMLONG);
 				bean.findings.add(finding);
-			} while (getFindingsTable().nextRow());
+			} while (findingsTable.nextRow());
 		}
+		AlchemistController.factory().setFindingsTable(findingsTable);
 	}
 
 	private void setPatternsParameter() {
@@ -188,14 +188,6 @@ class AlBapiInspRunAdhocRunner {
 		scopeStructure.setValue(AlScopeStr.PARTNER_PRODUCER,
 				bean.scope.producerNameSpacesOnly ? ABAP_TRUE : ABAP_FALSE);
 		function.getImportParameterList().setValue(BapiBean.SCOPE_PARAMETER, scopeStructure);
-	}
-
-	public JCoTable getFindingsTable() {
-		return findingsTable;
-	}
-
-	public JCoStructure getContextStructure() {
-		return contextStructure;
 	}
 
 }
