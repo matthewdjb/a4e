@@ -9,10 +9,10 @@ public class BapiViewsBean {
 	public final static String AUTH_CHECK_SU24_FLAG = "IV_AUTH_CHECK"; //$NON-NLS-1$
 	public final static String AUTH_CHECK_FLAG = "IV_AUTH_BASIC"; //$NON-NLS-1$
 	public final static String AUTH_MIS_FLAG = "IV_AUTH_MIS"; //$NON-NLS-1$
-	public final static String ENHANCEMENTS_FLAG = "ENHANCEMENTS_BASIC"; //$NON-NLS-1$
-	public final static String STATISTICS_FLAG = "STATISTICS_BASIC"; //$NON-NLS-1$
-	public final static String AUTH_CHECK_PARAMETER = "ET_AUTH_CHECK"; //$NON-NLS-1$
-	public final static String AUTH_BASIC_PARAMETER = "ET_AUTH_BASIC"; //$NON-NLS-1$
+	public final static String ENHANCEMENTS_FLAG = "IV_ENHANCEMENTS"; //$NON-NLS-1$
+	public final static String STATISTICS_FLAG = "IV_STATISTICS"; //$NON-NLS-1$
+	public final static String AUTH_CHECK_SU24_PARAMETER = "ET_AUTH_CHECK"; //$NON-NLS-1$
+	public final static String AUTH_CHECKS_PARAMETER = "ET_AUTH_BASIC"; //$NON-NLS-1$
 	public final static String AUTH_MIS_PARAMETER = "ET_AUTH_MIS"; //$NON-NLS-1$
 	public final static String ENHANCEMENTS_PARAMETER = "ET_ENHANCEMENTS_BASIC"; //$NON-NLS-1$
 	public final static String STATISTICS_PARAMETER = "ET_STATISTICS_BASIC"; //$NON-NLS-1$

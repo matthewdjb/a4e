@@ -11,4 +11,5 @@ public class NavigationTarget {
 		this.object = object;
 		this.codepos = 0;
 	}
+
 }

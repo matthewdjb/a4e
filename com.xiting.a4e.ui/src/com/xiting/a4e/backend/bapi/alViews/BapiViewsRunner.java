@@ -25,13 +25,15 @@ public class BapiViewsRunner implements IBapiViewsRunner {
 		BapiViewsBean bean = controller.getViewsBean();
 		JCoTable callStackTable = controller.getCallStackTable();
 		JCoTable findingsTable = controller.getFindingsTable();
-		startJob(destination, bean, callStackTable,findingsTable);
+		startJob(destination, bean, callStackTable, findingsTable);
 	}
 
 	private void startJob(JCoDestination destination, BapiViewsBean bean, JCoTable callStackTable,
 			JCoTable findingsTable) {
+		if (destination == null)
+			return;
 		sync = Display.getDefault();
-		String jobMessage = A4eUiTexts.getString("BapiViews_Running"); 
+		String jobMessage = A4eUiTexts.getString("BapiViews_Running");
 		Job job = new Job(jobMessage) {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
@@ -48,8 +50,8 @@ public class BapiViewsRunner implements IBapiViewsRunner {
 			}
 		};
 		job.setPriority(Job.SHORT);
-		job.schedule();		
-		
+		job.schedule();
+
 	}
 
 	private void updateViews() {
@@ -57,6 +59,7 @@ public class BapiViewsRunner implements IBapiViewsRunner {
 			@Override
 			public void run() {
 				try {
+					ViewsManager.get().setViewOpened(ViewsManager.AUTH_CHECKS_ID);
 					ViewsManager.get().updateViews();
 				} catch (PartInitException e) {
 					e.printStackTrace();

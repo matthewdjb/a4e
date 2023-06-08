@@ -6,6 +6,7 @@ import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
 import com.xiting.a4e.model.AlchemistController;
+import com.xiting.a4e.model.structures.AlAuthCheckStr;
 import com.xiting.a4e.model.structures.AlFindingStr;
 import com.xiting.a4e.model.structures.AlObjectStr;
 import com.xiting.a4e.model.structures.AlPatternStr;
@@ -13,7 +14,6 @@ import com.xiting.a4e.model.structures.AlScopeStr;
 import com.xiting.a4e.ui.views.ViewsManager;
 
 public class PreferenceInitialiser extends AbstractPreferenceInitializer {
-
 	public PreferenceInitialiser() {
 	}
 
@@ -23,7 +23,17 @@ public class PreferenceInitialiser extends AbstractPreferenceInitializer {
 		setScopeDefaults(preferences);
 		setPatternsDefaults(preferences);
 		setFindingsDefaults(preferences);
+		setAuthCheckDefaults(preferences);
 		setViewDefaults(preferences);
+	}
+
+	private void setAuthCheckDefaults(ScopedPreferenceStore preferences) {
+		preferences.setDefault(AlAuthCheckStr.PREFIX + AlAuthCheckStr.LINE,true);
+		preferences.setDefault(AlAuthCheckStr.PREFIX + AlAuthCheckStr.SCOPETYPE,true);
+		preferences.setDefault(AlAuthCheckStr.PREFIX + AlAuthCheckStr.OBJECT,true);
+		preferences.setDefault(AlAuthCheckStr.PREFIX + AlAuthCheckStr.FIELDNN,true);
+		preferences.setDefault(AlAuthCheckStr.PREFIX + AlAuthCheckStr.VALNN,true);
+		preferences.setDefault(AlAuthCheckStr.PREFIX + AlAuthCheckStr.FLAGNN,true);
 	}
 
 	private void setViewDefaults(ScopedPreferenceStore preferences) {

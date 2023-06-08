@@ -13,7 +13,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
 public class A4eUiPlugin extends AbstractUIPlugin {
-	public static final String EVENT = "ICON_EVENT"; //$NON-NLS-1$ 
+	public static final String EVENT = "ICON_EVENT"; //$NON-NLS-1$
 	private static final String EVENT_IMPLEMENTATION = "ICON_EVENT_IMPLEMENTATION"; //$NON-NLS-1$
 	private static final String FUNCTION = "ICON_FUNCTION"; //$NON-NLS-1$
 	private static final String CLASS = "ICON_CLASS"; //$NON-NLS-1$
@@ -25,6 +25,11 @@ public class A4eUiPlugin extends AbstractUIPlugin {
 	private static final String SCREEN = "ICON_SCREEN"; //$NON-NLS-1$
 	private static final String DYNPRO_MODULE = "ICON_DYNPRO_MODULE"; //$NON-NLS-1$
 	public static final String XITING_LOGO = "ICON_XITING_LOGO"; //$NON-NLS-1$
+	public static final String LED_GREEN = "LED_GREEN"; //$NON-NLS-1$
+	public static final String LED_YELLOW = "LED_YELLOW"; //$NON-NLS-1$
+	public static final String LED_RED = "LED_RED"; //$NON-NLS-1$
+	public static final String GREEN_TICK = "GREEN_TICK"; //$NON-NLS-1$
+	public static final String ALARM = "ALARM"; //$NON-NLS-1$
 
 	private static final String FILE_EVENT = "$NL$/icons/sapEvent.gif"; //$NON-NLS-1$
 	private static final String FILE_EVENT_IMPLEMENTATION = "$NL$/icons/sapEventImplementation.gif"; //$NON-NLS-1$
@@ -38,6 +43,12 @@ public class A4eUiPlugin extends AbstractUIPlugin {
 	private static final String FILE_SCREEN = "$NL$/icons/sapColor.gif"; //$NON-NLS-1$
 	private static final String FILE_DYNPRO_MODULE = "$NL$/icons/sapAbap.gif"; //$NON-NLS-1$
 	private static final String FILE_XITING_LOGO = "$NL$/icons/xiting_logo_icon.png"; //$NON-NLS-1$
+	private static final String FILE_LED_GREEN = "$NL$/icons/sapLedGreen.gif"; //$NON-NLS-1$
+	private static final String FILE_LED_YELLOW = "$NL$/icons/sapLedYellow.gif"; //$NON-NLS-1$
+	private static final String FILE_LED_RED = "$NL$/icons/sapLedRed.gif"; //$NON-NLS-1$
+	private static final String FILE_GREEN_TICK = "$NL$/icons/sapGreenTick.gif"; //$NON-NLS-1$
+	private static final String FILE_ALARM = "$NL$/icons/sapAlarm.gif"; //$NON-NLS-1$
+
 	private static A4eUiPlugin plugin;
 
 	public A4eUiPlugin() {
@@ -58,6 +69,11 @@ public class A4eUiPlugin extends AbstractUIPlugin {
 		registerImage(imageRegistry, SCREEN, FILE_SCREEN);
 		registerImage(imageRegistry, DYNPRO_MODULE, FILE_DYNPRO_MODULE);
 		registerImage(imageRegistry, XITING_LOGO, FILE_XITING_LOGO);
+		registerImage(imageRegistry, LED_GREEN, FILE_LED_GREEN);
+		registerImage(imageRegistry, LED_YELLOW, FILE_LED_YELLOW);
+		registerImage(imageRegistry, LED_RED, FILE_LED_RED);
+		registerImage(imageRegistry, GREEN_TICK, FILE_GREEN_TICK);
+		registerImage(imageRegistry, ALARM, FILE_ALARM);
 	}
 
 	public static A4eUiPlugin getDefault() {

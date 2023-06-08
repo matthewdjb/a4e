@@ -6,6 +6,9 @@ import java.util.Map;
 public class AlAuthCheckStr {
 	public final static String LINE = "LINE";
 	public final static String SCOPETYPE = "SCOPETYPE";
+	public final static String TYPE = "TYPE";
+	public final static String NAME = "NAME";
+	public final static String INCLUDE = "INCLUDE";
 	public final static String FLAG = "FLAG";
 	public final static String OBJECT = "OBJECT";
 	public final static String FIELD01 = "FIELD01";
@@ -39,10 +42,17 @@ public class AlAuthCheckStr {
 	public final static String VAL10 = "VAL10";
 	public final static String FLAG10 = "FLAG10";
 
+	public final static String FIELDNN = "FIELD";
+	public final static String VALNN = "VAL";
+	public final static String FLAGNN = "FLAG";
+
+	public static final String PREFIX = "AUTHCHECK.";
+
 	public int line;
 	public String scopetype;
 	public String flag;
 	public String object;
+	public AlObjectStr alObject;
 	public String field01;
 	public String val01;
 	public String flag01;
@@ -75,41 +85,45 @@ public class AlAuthCheckStr {
 	public String flag10;
 
 	public Map<String, String> returnAsMapString() {
-		HashMap<String, String> finding = new HashMap<String, String>();
-		finding.put(LINE, ((Integer) line).toString());
-		finding.put(SCOPETYPE, scopetype);
-		finding.put(FLAG, flag);
-		finding.put(FIELD01, field01);
-		finding.put(VAL01, val01);
-		finding.put(FLAG01, flag01);
-		finding.put(FIELD02, field02);
-		finding.put(VAL02, val02);
-		finding.put(FLAG02, flag02);
-		finding.put(FIELD03, field03);
-		finding.put(VAL03, val03);
-		finding.put(FLAG03, flag03);
-		finding.put(FIELD04, field04);
-		finding.put(VAL04, val04);
-		finding.put(FLAG04, flag04);
-		finding.put(FIELD05, field05);
-		finding.put(VAL05, val05);
-		finding.put(FLAG05, flag05);
-		finding.put(FIELD06, field06);
-		finding.put(VAL06, val06);
-		finding.put(FLAG06, flag06);
-		finding.put(FIELD07, field07);
-		finding.put(VAL07, val07);
-		finding.put(FLAG07, flag07);
-		finding.put(FIELD08, field08);
-		finding.put(VAL08, val08);
-		finding.put(FLAG08, flag08);
-		finding.put(FIELD09, field09);
-		finding.put(VAL09, val09);
-		finding.put(FLAG09, flag09);
-		finding.put(FIELD10, field10);
-		finding.put(VAL10, val10);
-		finding.put(FLAG10, flag10);
-		return finding;
+		HashMap<String, String> authCheck = new HashMap<String, String>();
+		authCheck.put(LINE, ((Integer) line).toString());
+		authCheck.put(SCOPETYPE, scopetype);
+		authCheck.put(TYPE, alObject.type);
+		authCheck.put(NAME, alObject.name);
+		authCheck.put(INCLUDE, alObject.include);
+		authCheck.put(FLAG, flag);
+		authCheck.put(OBJECT, object);
+		authCheck.put(FIELD01, field01);
+		authCheck.put(VAL01, val01);
+		authCheck.put(FLAG01, flag01);
+		authCheck.put(FIELD02, field02);
+		authCheck.put(VAL02, val02);
+		authCheck.put(FLAG02, flag02);
+		authCheck.put(FIELD03, field03);
+		authCheck.put(VAL03, val03);
+		authCheck.put(FLAG03, flag03);
+		authCheck.put(FIELD04, field04);
+		authCheck.put(VAL04, val04);
+		authCheck.put(FLAG04, flag04);
+		authCheck.put(FIELD05, field05);
+		authCheck.put(VAL05, val05);
+		authCheck.put(FLAG05, flag05);
+		authCheck.put(FIELD06, field06);
+		authCheck.put(VAL06, val06);
+		authCheck.put(FLAG06, flag06);
+		authCheck.put(FIELD07, field07);
+		authCheck.put(VAL07, val07);
+		authCheck.put(FLAG07, flag07);
+		authCheck.put(FIELD08, field08);
+		authCheck.put(VAL08, val08);
+		authCheck.put(FLAG08, flag08);
+		authCheck.put(FIELD09, field09);
+		authCheck.put(VAL09, val09);
+		authCheck.put(FLAG09, flag09);
+		authCheck.put(FIELD10, field10);
+		authCheck.put(VAL10, val10);
+		authCheck.put(FLAG10, flag10);
+		return authCheck;
 	}
 
 	public static String getColumnDescription(String columnName) {
@@ -120,6 +134,12 @@ public class AlAuthCheckStr {
 			return "Scope";
 		case OBJECT:
 			return "Object";
+		case NAME:
+			return "Name";
+		case TYPE:
+			return "Type";
+		case INCLUDE:
+			return "Include";
 		case FIELD01:
 		case FIELD02:
 		case FIELD03:
@@ -130,6 +150,7 @@ public class AlAuthCheckStr {
 		case FIELD08:
 		case FIELD09:
 		case FIELD10:
+		case FIELDNN:
 			return "Authorization Field";
 		case VAL01:
 		case VAL02:
@@ -141,11 +162,18 @@ public class AlAuthCheckStr {
 		case VAL08:
 		case VAL09:
 		case VAL10:
+		case VALNN:
 			return "Authorization Value";
+		case FLAGNN:
+			return "Status";
 		default:
 			return "";
 		}
 
+	}
+
+	public int compareTo(AlAuthCheckStr a) {
+		return this.alObject.include.compareTo(a.alObject.include) < 1 && this.line < a.line ? 1 : -1;
 	}
 
 }

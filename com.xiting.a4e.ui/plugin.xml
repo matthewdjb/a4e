@@ -49,8 +49,17 @@
             class="com.xiting.a4e.ui.views.AuthView"
             icon="icons/xiting_logo_icon.png"
             id="com.xiting.a4e.ui.authBasic"
-            name="Auth Basic"
+            name="%e4view.authorityChecks"
             restorable="false">
+      </e4view>
+      <e4view
+            allowMultiple="false"
+            category="com.xiting.a4e.ui"
+            class="com.xiting.a4e.ui.views.AuthSu24View"
+            icon="icons/xiting_logo_icon.png"
+            id="com.xiting.a4e.ui.authSu24"
+            name="%e4view.authChecksSu24"
+            restorable="true">
       </e4view>
    </extension>
    <extension
@@ -71,6 +80,12 @@
             class="com.xiting.a4e.ui.preferences.PreferencesColumns"
             id="com.xiting.a4e.ui.columnspreferences"
             name="%page.columnsPreferences">
+      </page>
+      <page
+            category="com.xiting.a4e.ui.preferences"
+            class="com.xiting.a4e.ui.preferences.PreferencesAuthCheck"
+            id="com.xiting.a4e.ui.authcheckpreferences"
+            name="%page.authorityChecksPreferences">
       </page>
       <page
             category="com.xiting.a4e.ui.preferences"

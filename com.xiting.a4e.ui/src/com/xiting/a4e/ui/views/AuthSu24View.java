@@ -30,15 +30,16 @@ import com.sap.conn.jco.JCoException;
 import com.xiting.a4e.backend.bapi.alViews.BapiViewsFactory;
 import com.xiting.a4e.model.AlchemistController;
 import com.xiting.a4e.model.structures.AlAuthCheckStr;
+import com.xiting.a4e.model.structures.AlAuthCheckSu24Str;
 import com.xiting.a4e.model.structures.BapiViewsBean;
 import com.xiting.a4e.model.structures.NavigationTarget;
 import com.xiting.a4e.ui.A4eUiPlugin;
 import com.xiting.a4e.ui.A4eUiTexts;
 
-public class AuthView extends View implements IAlchemistView {
+public class AuthSu24View extends View implements IAlchemistView {
 
-	private static final String ERROR = "@%C@";
-	private static final String WARNING = "@5D@";
+	private static final String GREEN_TICK = "@OV@";
+	private static final String ALARM = "@1V@";
 
 	@Inject
 	IWorkbench workbench;
@@ -54,11 +55,11 @@ public class AuthView extends View implements IAlchemistView {
 			viewer.getControl().setFocus();
 	}
 
-	AuthView() {
+	AuthSu24View() {
 		AlchemistController controller = AlchemistController.factory();
 		BapiViewsBean viewsBean = controller.getViewsBean();
-		if (viewsBean.authChecks == null) {
-			viewsBean.authCheckFlag = true;
+		if (viewsBean.authChecksSu24 == null) {
+			viewsBean.authCheckSu24Flag = true;
 			BapiViewsFactory.getRunner().run(controller.getDestination());
 		}
 	}
@@ -72,23 +73,23 @@ public class AuthView extends View implements IAlchemistView {
 	private void setContents() {
 		AlchemistController controller = AlchemistController.factory();
 		BapiViewsBean viewsBean = controller.getViewsBean();
-		viewer.setInput(viewsBean.authChecks);
+		viewer.setInput(viewsBean.authChecksSu24);
 	}
 
 	@PostConstruct
 	public void createPartControl(Composite parent) { // NO_UCD (unused code)
-		ArrayList<AlAuthCheckStr> authChecks = AlchemistController.factory().getViewsBean().authChecks;
-		if (authChecks == null)
+		ArrayList<AlAuthCheckSu24Str> authChecksSu24 = AlchemistController.factory().getViewsBean().authChecksSu24;
+		if (authChecksSu24 == null)
 			displayMessageInView(parent, A4eUiTexts.getString("NoAnalysis")); //$NON-NLS-1$
-		else if (authChecks.isEmpty())
+		else if (authChecksSu24.isEmpty())
 			displayMessageInView(parent, A4eUiTexts.getString("NoResults")); //$NON-NLS-1$
 		else {
-			displayAuthChecks(parent);
+			displayAuthChecksSu24(parent);
 		}
-		ViewsManager.get().setViewOpened(ViewsManager.AUTH_CHECKS_ID);
+		ViewsManager.get().setViewOpened(ViewsManager.AUTH_CHECKS_SU24_ID);
 	}
 
-	private void displayAuthChecks(Composite parent) {
+	private void displayAuthChecksSu24(Composite parent) {
 		viewer = new TableViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
 		createColumns();
@@ -104,58 +105,24 @@ public class AuthView extends View implements IAlchemistView {
 	}
 
 	private void createColumns() {
-		createColumn(AlAuthCheckStr.LINE);
-		createColumn(AlAuthCheckStr.SCOPETYPE);
-		createColumn(AlAuthCheckStr.OBJECT);
-		int maxField = AlchemistController.factory().getViewsBean().maxAuthCheckFields;
-		switch (maxField) {
-		case 10:
-			createColumn(AlAuthCheckStr.FIELD10);
-			createColumn(AlAuthCheckStr.VAL10);
-			createColumn(AlAuthCheckStr.FLAG10);
-		case 9:
-			createColumn(AlAuthCheckStr.FIELD09);
-			createColumn(AlAuthCheckStr.VAL09);
-			createColumn(AlAuthCheckStr.FLAG09);
-		case 8:
-			createColumn(AlAuthCheckStr.FIELD08);
-			createColumn(AlAuthCheckStr.VAL08);
-			createColumn(AlAuthCheckStr.FLAG08);
-		case 7:
-			createColumn(AlAuthCheckStr.FIELD07);
-			createColumn(AlAuthCheckStr.VAL07);
-			createColumn(AlAuthCheckStr.FLAG07);
-		case 6:
-			createColumn(AlAuthCheckStr.FIELD06);
-			createColumn(AlAuthCheckStr.VAL06);
-			createColumn(AlAuthCheckStr.FLAG06);
-		case 5:
-			createColumn(AlAuthCheckStr.FIELD05);
-			createColumn(AlAuthCheckStr.VAL05);
-			createColumn(AlAuthCheckStr.FLAG05);
-		case 4:
-			createColumn(AlAuthCheckStr.FIELD04);
-			createColumn(AlAuthCheckStr.VAL04);
-			createColumn(AlAuthCheckStr.FLAG04);
-		case 3:
-			createColumn(AlAuthCheckStr.FIELD03);
-			createColumn(AlAuthCheckStr.VAL03);
-			createColumn(AlAuthCheckStr.FLAG03);
-		case 2:
-			createColumn(AlAuthCheckStr.FIELD02);
-			createColumn(AlAuthCheckStr.VAL02);
-			createColumn(AlAuthCheckStr.FLAG02);
-		case 1:
-			createColumn(AlAuthCheckStr.FIELD01);
-			createColumn(AlAuthCheckStr.VAL01);
-			createColumn(AlAuthCheckStr.FLAG01);
-		default:
-		}
-
+		createColumn(AlAuthCheckSu24Str.SU24_TYPE);
+		createColumn(AlAuthCheckSu24Str.SU24_NAME);
+		createColumn(AlAuthCheckSu24Str.SU24_OBJECT);
+		createColumn(AlAuthCheckSu24Str.SU24_FIELD);
+		createColumn(AlAuthCheckSu24Str.SU24_LOW);
+		createColumn(AlAuthCheckSu24Str.OBJECT);
+		createColumn(AlAuthCheckSu24Str.FIELD);
+		createColumn(AlAuthCheckSu24Str.VALUE);
+		createColumn(AlAuthCheckSu24Str.SU24_NOCHECK);
+		createColumn(AlAuthCheckSu24Str.DEPTH);
+		createColumn(AlAuthCheckSu24Str.LINE);
+		createColumn(AlAuthCheckSu24Str.SCOPETYPE);
+		createColumn(AlAuthCheckSu24Str.TYPE);
+		createColumn(AlAuthCheckSu24Str.INCLUDE);
 	}
 
 	private void createColumn(String columnId) {
-		String headingText = AlAuthCheckStr.getColumnDescription(columnId);
+		String headingText = AlAuthCheckSu24Str.getColumnDescription(columnId);
 		ScopedPreferenceStore preferences = AlchemistController.factory().getPreferenceStore();
 		if (selectedInPreferences(columnId, preferences)) {
 			Table table = viewer.getTable();
@@ -167,12 +134,12 @@ public class AuthView extends View implements IAlchemistView {
 				@Override
 				public String getText(Object element) {
 					String colText = columnId;
-					if (element instanceof AlAuthCheckStr) {
+					if (element instanceof AlAuthCheckSu24Str) {
 						if (isImageLabel(columnId))
 							return null;
 						else {
-							Map<String, String> authCheck = ((AlAuthCheckStr) element).returnAsMapString();
-							colText = authCheck.get(columnId);
+							Map<String, String> authCheckSu24 = ((AlAuthCheckSu24Str) element).returnAsMapString();
+							colText = authCheckSu24.get(columnId);
 						}
 					}
 					return colText;
@@ -180,55 +147,26 @@ public class AuthView extends View implements IAlchemistView {
 
 				@Override
 				public Image getImage(Object element) {
-					if (element instanceof AlAuthCheckStr) {
+					if (element instanceof AlAuthCheckSu24Str) {
 						if (isImageLabel(columnId)) {
-							AlAuthCheckStr authCheck = (AlAuthCheckStr) element;
+							AlAuthCheckSu24Str authCheckSu24 = (AlAuthCheckSu24Str) element;
 							String value = "";
 							switch (columnId) {
-							case AlAuthCheckStr.FLAG:
-								value = authCheck.flag;
+							case AlAuthCheckSu24Str.OBJECT:
+								value = authCheckSu24.object;
 								break;
-							case AlAuthCheckStr.FLAG01:
-								value = authCheck.flag01;
+							case AlAuthCheckSu24Str.FIELD:
+								value = authCheckSu24.field;
 								break;
-							case AlAuthCheckStr.FLAG02:
-								value = authCheck.flag02;
-								break;
-							case AlAuthCheckStr.FLAG03:
-								value = authCheck.flag03;
-								break;
-							case AlAuthCheckStr.FLAG04:
-								value = authCheck.flag04;
-								break;
-							case AlAuthCheckStr.FLAG05:
-								value = authCheck.flag05;
-								break;
-							case AlAuthCheckStr.FLAG06:
-								value = authCheck.flag06;
-								break;
-							case AlAuthCheckStr.FLAG07:
-								value = authCheck.flag07;
-								break;
-							case AlAuthCheckStr.FLAG08:
-								value = authCheck.flag08;
-								break;
-							case AlAuthCheckStr.FLAG09:
-								value = authCheck.flag09;
-								break;
-							case AlAuthCheckStr.FLAG10:
-								value = authCheck.flag10;
+							case AlAuthCheckSu24Str.VALUE:
+								value = authCheckSu24.value;
 								break;
 							}
 							switch (value) {
-							case WARNING: // $NON-NLS-1$ " Yellow Triangles
-								return A4eUiPlugin.getDefault().getImage(A4eUiPlugin.LED_YELLOW);
-							// workbench.getSharedImages().getImage(ISharedImages.IMG_OBJS_WARN_TSK);
-							case ERROR: // $NON-NLS-1$
-								return A4eUiPlugin.getDefault().getImage(A4eUiPlugin.LED_RED);
-							// workbench.getSharedImages().getImage(ISharedImages.IMG_OBJS_ERROR_TSK);
-							default:
-								// @5B@ green square
-								return A4eUiPlugin.getDefault().getImage(A4eUiPlugin.LED_GREEN);
+							case GREEN_TICK:
+								return A4eUiPlugin.getDefault().getImage(A4eUiPlugin.GREEN_TICK);
+							case ALARM:
+								return A4eUiPlugin.getDefault().getImage(A4eUiPlugin.ALARM);
 							}
 						} else
 							return null;
@@ -262,7 +200,7 @@ public class AuthView extends View implements IAlchemistView {
 		menuMgr.addMenuListener(new IMenuListener() {
 			@Override
 			public void menuAboutToShow(IMenuManager manager) {
-				AuthView.this.fillContextMenu(manager, contextMenuActions);
+				AuthSu24View.this.fillContextMenu(manager, contextMenuActions);
 			}
 		});
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());

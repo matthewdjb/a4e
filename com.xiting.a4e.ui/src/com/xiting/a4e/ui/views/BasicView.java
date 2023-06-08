@@ -22,7 +22,6 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.ISharedImages;
@@ -37,7 +36,7 @@ import com.xiting.a4e.model.structures.BapiBean;
 import com.xiting.a4e.model.structures.NavigationTarget;
 import com.xiting.a4e.ui.A4eUiTexts;
 
-class BasicView implements IAlchemistView {
+class BasicView extends View implements IAlchemistView {
 
 	@Inject
 	IWorkbench workbench;
@@ -111,6 +110,7 @@ class BasicView implements IAlchemistView {
 		table.setLinesVisible(true);
 		table.setHeaderForeground(AlchemistController.XITING_COLOUR);
 		setContents();
+		resizeTable(table);
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();
@@ -124,10 +124,6 @@ class BasicView implements IAlchemistView {
 			}
 		});
 
-	}
-
-	private void displayMessageInView(Composite parent, String message) {
-		new Label(parent, SWT.BORDER).setText(message);
 	}
 
 	private void createColumns() {
@@ -204,16 +200,11 @@ class BasicView implements IAlchemistView {
 		menuMgr.addMenuListener(new IMenuListener() {
 			@Override
 			public void menuAboutToShow(IMenuManager manager) {
-				BasicView.this.fillContextMenu(manager);
+				BasicView.this.fillContextMenu(manager, contextMenuActions);
 			}
 		});
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
-	}
-
-	private void fillContextMenu(IMenuManager manager) {
-		for (Action contextMenuAction : contextMenuActions)
-			manager.add(contextMenuAction);
 	}
 
 	@PreDestroy

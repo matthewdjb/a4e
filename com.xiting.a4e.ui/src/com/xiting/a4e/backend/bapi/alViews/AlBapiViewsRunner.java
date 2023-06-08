@@ -1,6 +1,7 @@
 package com.xiting.a4e.backend.bapi.alViews;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.sap.conn.jco.JCoDestination;
 import com.sap.conn.jco.JCoException;
@@ -41,13 +42,10 @@ public class AlBapiViewsRunner {
 			setFlagParameters();
 			function.execute(destination);
 			if (bean.authCheckFlag)
-				readAuthBasicParameter();
+				readAuthChecksParameter();
 			findMaxAuthCheckFields();
-			if (bean.authCheckSu24Flag) {
-				if (!(bean.authChecks == null))
-					readAuthBasicParameter();
-				readAuthCheckParameter();
-			}
+			if (bean.authCheckSu24Flag)
+				readAuthCheckSu24Parameter();
 			if (bean.authMisFlag)
 				readAuthMisParameter();
 			if (bean.enhancementsFlag)
@@ -77,25 +75,25 @@ public class AlBapiViewsRunner {
 			if (!authCheck.field08.isBlank() && bean.maxAuthCheckFields < 9) {
 				bean.maxAuthCheckFields = 8;
 			}
-			if (!authCheck.field08.isBlank() && bean.maxAuthCheckFields < 8) {
+			if (!authCheck.field07.isBlank() && bean.maxAuthCheckFields < 8) {
 				bean.maxAuthCheckFields = 7;
 			}
-			if (!authCheck.field08.isBlank() && bean.maxAuthCheckFields < 7) {
+			if (!authCheck.field06.isBlank() && bean.maxAuthCheckFields < 7) {
 				bean.maxAuthCheckFields = 6;
 			}
-			if (!authCheck.field08.isBlank() && bean.maxAuthCheckFields < 6) {
+			if (!authCheck.field05.isBlank() && bean.maxAuthCheckFields < 6) {
 				bean.maxAuthCheckFields = 5;
 			}
-			if (!authCheck.field08.isBlank() && bean.maxAuthCheckFields < 5) {
+			if (!authCheck.field04.isBlank() && bean.maxAuthCheckFields < 5) {
 				bean.maxAuthCheckFields = 4;
 			}
-			if (!authCheck.field08.isBlank() && bean.maxAuthCheckFields < 4) {
+			if (!authCheck.field03.isBlank() && bean.maxAuthCheckFields < 4) {
 				bean.maxAuthCheckFields = 3;
 			}
-			if (!authCheck.field08.isBlank() && bean.maxAuthCheckFields < 3) {
+			if (!authCheck.field02.isBlank() && bean.maxAuthCheckFields < 3) {
 				bean.maxAuthCheckFields = 2;
 			}
-			if (!authCheck.field08.isBlank() && bean.maxAuthCheckFields < 2) {
+			if (!authCheck.field01.isBlank() && bean.maxAuthCheckFields < 2) {
 				bean.maxAuthCheckFields = 1;
 			}
 		}
@@ -122,81 +120,86 @@ public class AlBapiViewsRunner {
 				bean.statisticsFlag ? ABAP_TRUE : ABAP_FALSE);
 	}
 
-	private void readAuthCheckParameter() {
-		JCoTable authCheckTable = function.getExportParameterList().getTable(BapiViewsBean.AUTH_CHECK_PARAMETER);
+	private void readAuthCheckSu24Parameter() {
+		JCoTable authCheckTable = function.getExportParameterList().getTable(BapiViewsBean.AUTH_CHECK_SU24_PARAMETER);
 		bean.authChecksSu24 = new ArrayList<>();
 		if (!authCheckTable.isEmpty()) {
 			do {
-				AlAuthCheckSu24Str authCheck = new AlAuthCheckSu24Str();
-				authCheck.alObject = new AlObjectStr();
-				JCoStructure objectStructure = authCheckTable.getStructure(AlAuthCheckSu24Str.AL_OBJECT);
-				authCheck.alObject.include = objectStructure.getString(AlObjectStr.INCLUDE);
-				authCheck.alObject.name = objectStructure.getString(AlObjectStr.NAME);
-				authCheck.alObject.type = objectStructure.getString(AlObjectStr.TYPE);
-				authCheck.chktype = authCheckTable.getString(AlAuthCheckSu24Str.CHKTYPE);
-				authCheck.depth = authCheckTable.getInt(AlAuthCheckSu24Str.DEPTH);
-				authCheck.field = authCheckTable.getString(AlAuthCheckSu24Str.FIELD);
-				authCheck.line = authCheckTable.getInt(AlAuthCheckSu24Str.LINE);
-				authCheck.object = authCheckTable.getString(AlAuthCheckSu24Str.OBJECT);
-				authCheck.scopeType = authCheckTable.getString(AlAuthCheckSu24Str.SCOPETYPE);
-				authCheck.su24Append = authCheckTable.getString(AlAuthCheckSu24Str.SU24_APPEND);
-				authCheck.su24Field = authCheckTable.getString(AlAuthCheckSu24Str.SU24_FIELD);
-				authCheck.su24Hide = authCheckTable.getString(AlAuthCheckSu24Str.SU24_HIDE);
-				authCheck.su24Jump = authCheckTable.getString(AlAuthCheckSu24Str.SU24_JUMP);
-				authCheck.su24Low = authCheckTable.getString(AlAuthCheckSu24Str.SU24_LOW);
-				authCheck.su24Name = authCheckTable.getString(AlAuthCheckSu24Str.SU24_NAME);
-				authCheck.su24Object = authCheckTable.getString(AlAuthCheckSu24Str.SU24_OBJECT);
-				authCheck.su24Text = authCheckTable.getString(AlAuthCheckSu24Str.SU24_TEXT);
-				authCheck.su24Type = authCheckTable.getString(AlAuthCheckSu24Str.SU24_TYPE);
-				authCheck.su24ObjAppend = authCheckTable.getString(AlAuthCheckSu24Str.SU24_OBJ_APPEND);
-				bean.authChecksSu24.add(authCheck);
+				AlAuthCheckSu24Str authCheckSu24 = new AlAuthCheckSu24Str();
+				authCheckSu24.alObject = new AlObjectStr();
+				authCheckSu24.alObject.include = authCheckTable.getString(AlAuthCheckStr.INCLUDE);
+				authCheckSu24.alObject.name = authCheckTable.getString(AlAuthCheckStr.NAME);
+				authCheckSu24.alObject.type = authCheckTable.getString(AlAuthCheckStr.TYPE);
+				authCheckSu24.chktype = authCheckTable.getString(AlAuthCheckSu24Str.CHKTYPE);
+				authCheckSu24.depth = authCheckTable.getInt(AlAuthCheckSu24Str.DEPTH);
+				authCheckSu24.field = authCheckTable.getString(AlAuthCheckSu24Str.FIELD);
+				authCheckSu24.line = authCheckTable.getInt(AlAuthCheckSu24Str.LINE);
+				authCheckSu24.object = authCheckTable.getString(AlAuthCheckSu24Str.OBJECT);
+				authCheckSu24.scopeType = authCheckTable.getString(AlAuthCheckSu24Str.SCOPETYPE);
+				authCheckSu24.su24Append = authCheckTable.getString(AlAuthCheckSu24Str.SU24_APPEND);
+				authCheckSu24.su24Field = authCheckTable.getString(AlAuthCheckSu24Str.SU24_FIELD);
+				authCheckSu24.su24Hide = authCheckTable.getString(AlAuthCheckSu24Str.SU24_HIDE);
+				authCheckSu24.su24Jump = authCheckTable.getString(AlAuthCheckSu24Str.SU24_JUMP);
+				authCheckSu24.su24Low = authCheckTable.getString(AlAuthCheckSu24Str.SU24_LOW);
+				authCheckSu24.su24Name = authCheckTable.getString(AlAuthCheckSu24Str.SU24_NAME);
+				authCheckSu24.su24NoCheck = authCheckTable.getString(AlAuthCheckSu24Str.SU24_NOCHECK);
+				authCheckSu24.su24Object = authCheckTable.getString(AlAuthCheckSu24Str.SU24_OBJECT);
+				authCheckSu24.su24Text = authCheckTable.getString(AlAuthCheckSu24Str.SU24_TEXT);
+				authCheckSu24.su24Type = authCheckTable.getString(AlAuthCheckSu24Str.SU24_TYPE);
+				authCheckSu24.su24ObjAppend = authCheckTable.getString(AlAuthCheckSu24Str.SU24_OBJ_APPEND);
+				bean.authChecksSu24.add(authCheckSu24);
 			} while (authCheckTable.nextRow());
 		}
 	}
 
-	private void readAuthBasicParameter() {
-		JCoTable authBasicTable = function.getExportParameterList().getTable(BapiViewsBean.AUTH_BASIC_PARAMETER);
+	private void readAuthChecksParameter() {
+		JCoTable authChecksTable = function.getExportParameterList().getTable(BapiViewsBean.AUTH_CHECKS_PARAMETER);
 		bean.authChecks = new ArrayList<>();
-		if (!authBasicTable.isEmpty()) {
+		if (!authChecksTable.isEmpty()) {
 			do {
-				AlAuthCheckStr authBasic = new AlAuthCheckStr();
-				authBasic.field01 = authBasicTable.getString(AlAuthCheckStr.FIELD01);
-				authBasic.field02 = authBasicTable.getString(AlAuthCheckStr.FIELD02);
-				authBasic.field03 = authBasicTable.getString(AlAuthCheckStr.FIELD03);
-				authBasic.field04 = authBasicTable.getString(AlAuthCheckStr.FIELD04);
-				authBasic.field05 = authBasicTable.getString(AlAuthCheckStr.FIELD05);
-				authBasic.field06 = authBasicTable.getString(AlAuthCheckStr.FIELD06);
-				authBasic.field07 = authBasicTable.getString(AlAuthCheckStr.FIELD07);
-				authBasic.field08 = authBasicTable.getString(AlAuthCheckStr.FIELD08);
-				authBasic.field08 = authBasicTable.getString(AlAuthCheckStr.FIELD09);
-				authBasic.field10 = authBasicTable.getString(AlAuthCheckStr.FIELD10);
-				authBasic.flag = authBasicTable.getString(AlAuthCheckStr.FLAG);
-				authBasic.flag01 = authBasicTable.getString(AlAuthCheckStr.FLAG01);
-				authBasic.flag02 = authBasicTable.getString(AlAuthCheckStr.FLAG02);
-				authBasic.flag03 = authBasicTable.getString(AlAuthCheckStr.FLAG03);
-				authBasic.flag04 = authBasicTable.getString(AlAuthCheckStr.FLAG04);
-				authBasic.flag05 = authBasicTable.getString(AlAuthCheckStr.FLAG05);
-				authBasic.flag06 = authBasicTable.getString(AlAuthCheckStr.FLAG06);
-				authBasic.flag07 = authBasicTable.getString(AlAuthCheckStr.FLAG07);
-				authBasic.flag08 = authBasicTable.getString(AlAuthCheckStr.FLAG08);
-				authBasic.flag09 = authBasicTable.getString(AlAuthCheckStr.FLAG09);
-				authBasic.flag10 = authBasicTable.getString(AlAuthCheckStr.FLAG10);
-				authBasic.line = authBasicTable.getInt(AlAuthCheckStr.LINE);
-				authBasic.object = authBasicTable.getString(AlAuthCheckStr.OBJECT);
-				authBasic.scopetype = authBasicTable.getString(AlAuthCheckStr.SCOPETYPE);
-				authBasic.val01 = authBasicTable.getString(AlAuthCheckStr.VAL01);
-				authBasic.val02 = authBasicTable.getString(AlAuthCheckStr.VAL02);
-				authBasic.val03 = authBasicTable.getString(AlAuthCheckStr.VAL03);
-				authBasic.val04 = authBasicTable.getString(AlAuthCheckStr.VAL04);
-				authBasic.val05 = authBasicTable.getString(AlAuthCheckStr.VAL05);
-				authBasic.val06 = authBasicTable.getString(AlAuthCheckStr.VAL06);
-				authBasic.val07 = authBasicTable.getString(AlAuthCheckStr.VAL07);
-				authBasic.val08 = authBasicTable.getString(AlAuthCheckStr.VAL08);
-				authBasic.val09 = authBasicTable.getString(AlAuthCheckStr.VAL09);
-				authBasic.val10 = authBasicTable.getString(AlAuthCheckStr.VAL10);
-				bean.authChecks.add(authBasic);
-			} while (authBasicTable.nextRow());
+				AlAuthCheckStr authCheck = new AlAuthCheckStr();
+				authCheck.field01 = authChecksTable.getString(AlAuthCheckStr.FIELD01);
+				authCheck.field02 = authChecksTable.getString(AlAuthCheckStr.FIELD02);
+				authCheck.field03 = authChecksTable.getString(AlAuthCheckStr.FIELD03);
+				authCheck.field04 = authChecksTable.getString(AlAuthCheckStr.FIELD04);
+				authCheck.field05 = authChecksTable.getString(AlAuthCheckStr.FIELD05);
+				authCheck.field06 = authChecksTable.getString(AlAuthCheckStr.FIELD06);
+				authCheck.field07 = authChecksTable.getString(AlAuthCheckStr.FIELD07);
+				authCheck.field08 = authChecksTable.getString(AlAuthCheckStr.FIELD08);
+				authCheck.field09 = authChecksTable.getString(AlAuthCheckStr.FIELD09);
+				authCheck.field10 = authChecksTable.getString(AlAuthCheckStr.FIELD10);
+				authCheck.flag = authChecksTable.getString(AlAuthCheckStr.FLAG);
+				authCheck.flag01 = authChecksTable.getString(AlAuthCheckStr.FLAG01);
+				authCheck.flag02 = authChecksTable.getString(AlAuthCheckStr.FLAG02);
+				authCheck.flag03 = authChecksTable.getString(AlAuthCheckStr.FLAG03);
+				authCheck.flag04 = authChecksTable.getString(AlAuthCheckStr.FLAG04);
+				authCheck.flag05 = authChecksTable.getString(AlAuthCheckStr.FLAG05);
+				authCheck.flag06 = authChecksTable.getString(AlAuthCheckStr.FLAG06);
+				authCheck.flag07 = authChecksTable.getString(AlAuthCheckStr.FLAG07);
+				authCheck.flag08 = authChecksTable.getString(AlAuthCheckStr.FLAG08);
+				authCheck.flag09 = authChecksTable.getString(AlAuthCheckStr.FLAG09);
+				authCheck.flag10 = authChecksTable.getString(AlAuthCheckStr.FLAG10);
+				authCheck.line = authChecksTable.getInt(AlAuthCheckStr.LINE);
+				authCheck.object = authChecksTable.getString(AlAuthCheckStr.OBJECT);
+				authCheck.alObject = new AlObjectStr();
+				authCheck.alObject.include = authChecksTable.getString(AlAuthCheckStr.INCLUDE);
+				authCheck.alObject.name = authChecksTable.getString(AlAuthCheckStr.NAME);
+				authCheck.alObject.type = authChecksTable.getString(AlAuthCheckStr.TYPE);
+				authCheck.scopetype = authChecksTable.getString(AlAuthCheckStr.SCOPETYPE);
+				authCheck.val01 = authChecksTable.getString(AlAuthCheckStr.VAL01);
+				authCheck.val02 = authChecksTable.getString(AlAuthCheckStr.VAL02);
+				authCheck.val03 = authChecksTable.getString(AlAuthCheckStr.VAL03);
+				authCheck.val04 = authChecksTable.getString(AlAuthCheckStr.VAL04);
+				authCheck.val05 = authChecksTable.getString(AlAuthCheckStr.VAL05);
+				authCheck.val06 = authChecksTable.getString(AlAuthCheckStr.VAL06);
+				authCheck.val07 = authChecksTable.getString(AlAuthCheckStr.VAL07);
+				authCheck.val08 = authChecksTable.getString(AlAuthCheckStr.VAL08);
+				authCheck.val09 = authChecksTable.getString(AlAuthCheckStr.VAL09);
+				authCheck.val10 = authChecksTable.getString(AlAuthCheckStr.VAL10);
+				bean.authChecks.add(authCheck);
+			} while (authChecksTable.nextRow());
 		}
+		Collections.sort(bean.authChecks, (a, b) -> b.compareTo(a));
 	}
 
 	private void readAuthMisParameter() {
