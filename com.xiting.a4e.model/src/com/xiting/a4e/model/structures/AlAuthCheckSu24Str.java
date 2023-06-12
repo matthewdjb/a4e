@@ -17,16 +17,13 @@ public class AlAuthCheckSu24Str {
 	public static final String SU24_OBJECT = "SU24_OBJECT";
 	public static final String SU24_FIELD = "SU24_FIELD";
 	public static final String SU24_LOW = "SU24_LOW";
-	public static final String SU24_HIDE = "SU24_HIDE";
-	public static final String SU24_JUMP = "SU24_JUMP";
-	public static final String SU24_APPEND = "SU24_APPEND";
-	public static final String SU24_OBJ_APPEND = "SU24_OBJ_APPEN";
 	public static final String SU24_NOCHECK = "SU24_NOCHECK";
 	public static final String DEPTH = "DEPTH";
 	public static final String LINE = "LINE";
 	public static final String SCOPETYPE = "SCOPETYPE";
 	public static final String CHKTYPE = "CHKTYPE";
 
+	public static final String PREFIX = "AUTHCHECKSU24.";
 	public String su24Type;
 	public String su24Name;
 	public String su24Text;
@@ -37,10 +34,6 @@ public class AlAuthCheckSu24Str {
 	public String su24Object;
 	public String su24Field;
 	public String su24Low;
-	public String su24Hide;
-	public String su24Jump;
-	public String su24Append;
-	public String su24ObjAppend;
 	public String su24NoCheck;
 	public int depth;
 	public int line;
@@ -58,14 +51,10 @@ public class AlAuthCheckSu24Str {
 		authCheckSu24.put(NAME, alObject.name);
 		authCheckSu24.put(OBJECT, object);
 		authCheckSu24.put(SCOPETYPE, scopeType);
-		authCheckSu24.put(SU24_APPEND, su24Append);
 		authCheckSu24.put(SU24_FIELD, su24Field);
-		authCheckSu24.put(SU24_HIDE, su24Hide);
-		authCheckSu24.put(SU24_JUMP, su24Jump);
 		authCheckSu24.put(SU24_LOW, su24Low);
 		authCheckSu24.put(SU24_NAME, su24Name);
 		authCheckSu24.put(SU24_NOCHECK, su24NoCheck);
-		authCheckSu24.put(SU24_OBJ_APPEND, su24ObjAppend);
 		authCheckSu24.put(SU24_OBJECT, su24Object);
 		authCheckSu24.put(SU24_TEXT, su24Text);
 		authCheckSu24.put(SU24_TYPE, su24Type);

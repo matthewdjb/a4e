@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
 import org.eclipse.e4.ui.di.Focus;
@@ -301,4 +302,9 @@ public class AuthView extends View implements IAlchemistView {
 		});
 
 	}
+	@PreDestroy
+	public void setViewClosed() { // NO_UCD (unused code)
+		ViewsManager.get().setViewClosed(ViewsManager.AUTH_CHECKS_ID);
+	}
+
 }

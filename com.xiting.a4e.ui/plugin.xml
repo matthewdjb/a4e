@@ -59,7 +59,7 @@
             icon="icons/xiting_logo_icon.png"
             id="com.xiting.a4e.ui.authSu24"
             name="%e4view.authChecksSu24"
-            restorable="true">
+            restorable="false">
       </e4view>
    </extension>
    <extension
@@ -98,6 +98,12 @@
             class="com.xiting.a4e.ui.preferences.PreferencesViews"
             id="com.xiting.a4e.ui.viewspreferences"
             name="%page.viewsPreferences">
+      </page>
+      <page
+            category="com.xiting.a4e.ui.preferences"
+            class="com.xiting.a4e.ui.preferences.PreferencesAuthSu24Check"
+            id="com.xiting.a4e.ui.authcheckssu24preferences"
+            name="%page.authChecksSu24Preferences">
       </page>
    </extension>
    <extension

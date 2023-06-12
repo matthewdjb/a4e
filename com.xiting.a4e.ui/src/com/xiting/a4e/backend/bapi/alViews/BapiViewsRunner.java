@@ -18,6 +18,7 @@ import com.xiting.a4e.ui.views.ViewsManager;
 public class BapiViewsRunner implements IBapiViewsRunner {
 
 	private Display sync;
+	private BapiViewsBean bean;
 
 	@Override
 	public void run(JCoDestination destination) {
@@ -32,6 +33,7 @@ public class BapiViewsRunner implements IBapiViewsRunner {
 			JCoTable findingsTable) {
 		if (destination == null)
 			return;
+		this.bean = bean;
 		sync = Display.getDefault();
 		String jobMessage = A4eUiTexts.getString("BapiViews_Running");
 		Job job = new Job(jobMessage) {
@@ -59,7 +61,10 @@ public class BapiViewsRunner implements IBapiViewsRunner {
 			@Override
 			public void run() {
 				try {
+					if (bean.authCheckFlag)
 					ViewsManager.get().setViewOpened(ViewsManager.AUTH_CHECKS_ID);
+					if (bean.authCheckSu24Flag)
+						ViewsManager.get().setViewOpened(ViewsManager.AUTH_CHECKS_SU24_ID);
 					ViewsManager.get().updateViews();
 				} catch (PartInitException e) {
 					e.printStackTrace();

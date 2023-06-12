@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
 import org.eclipse.e4.ui.di.Focus;
@@ -29,7 +30,6 @@ import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import com.sap.conn.jco.JCoException;
 import com.xiting.a4e.backend.bapi.alViews.BapiViewsFactory;
 import com.xiting.a4e.model.AlchemistController;
-import com.xiting.a4e.model.structures.AlAuthCheckStr;
 import com.xiting.a4e.model.structures.AlAuthCheckSu24Str;
 import com.xiting.a4e.model.structures.BapiViewsBean;
 import com.xiting.a4e.model.structures.NavigationTarget;
@@ -38,7 +38,7 @@ import com.xiting.a4e.ui.A4eUiTexts;
 
 public class AuthSu24View extends View implements IAlchemistView {
 
-	private static final String GREEN_TICK = "@OV@";
+	private static final String GREEN_TICK = "@0V@";
 	private static final String ALARM = "@1V@";
 
 	@Inject
@@ -78,6 +78,7 @@ public class AuthSu24View extends View implements IAlchemistView {
 
 	@PostConstruct
 	public void createPartControl(Composite parent) { // NO_UCD (unused code)
+		// Initialize the JCo environment
 		ArrayList<AlAuthCheckSu24Str> authChecksSu24 = AlchemistController.factory().getViewsBean().authChecksSu24;
 		if (authChecksSu24 == null)
 			displayMessageInView(parent, A4eUiTexts.getString("NoAnalysis")); //$NON-NLS-1$
@@ -152,22 +153,25 @@ public class AuthSu24View extends View implements IAlchemistView {
 							AlAuthCheckSu24Str authCheckSu24 = (AlAuthCheckSu24Str) element;
 							String value = "";
 							switch (columnId) {
-							case AlAuthCheckSu24Str.OBJECT:
-								value = authCheckSu24.object;
+							case AlAuthCheckSu24Str.SU24_OBJECT:
+								value = authCheckSu24.su24Object;
 								break;
-							case AlAuthCheckSu24Str.FIELD:
-								value = authCheckSu24.field;
+							case AlAuthCheckSu24Str.SU24_FIELD:
+								value = authCheckSu24.su24Field;
 								break;
-							case AlAuthCheckSu24Str.VALUE:
-								value = authCheckSu24.value;
+							case AlAuthCheckSu24Str.SU24_LOW:
+								value = authCheckSu24.su24Low;
 								break;
+							default:
+								return null;
 							}
-							switch (value) {
-							case GREEN_TICK:
-								return A4eUiPlugin.getDefault().getImage(A4eUiPlugin.GREEN_TICK);
-							case ALARM:
-								return A4eUiPlugin.getDefault().getImage(A4eUiPlugin.ALARM);
-							}
+							if (!(value == null))
+								switch (value) {
+								case GREEN_TICK:
+									return A4eUiPlugin.getDefault().getImage(A4eUiPlugin.GREEN_TICK);
+								case ALARM:
+									return A4eUiPlugin.getDefault().getImage(A4eUiPlugin.ALARM);
+								}
 						} else
 							return null;
 					}
@@ -175,23 +179,21 @@ public class AuthSu24View extends View implements IAlchemistView {
 				}
 
 				private boolean isImageLabel(String columnId) {
-					return (columnId.startsWith(AlAuthCheckStr.FLAGNN));
+					switch (columnId) {
+					case AlAuthCheckSu24Str.SU24_OBJECT:
+					case AlAuthCheckSu24Str.SU24_FIELD:
+					case AlAuthCheckSu24Str.SU24_LOW:
+						return true;
+					default:
+						return false;
+					}
 				}
 			});
 		}
 	}
 
 	private boolean selectedInPreferences(String columnId, ScopedPreferenceStore preferences) {
-		String preferenceName;
-		if (columnId.startsWith(AlAuthCheckStr.FIELDNN))
-			preferenceName = AlAuthCheckStr.FIELDNN;
-		else if (columnId.startsWith(AlAuthCheckStr.VALNN))
-			preferenceName = AlAuthCheckStr.VALNN;
-		else if (columnId.startsWith(AlAuthCheckStr.FLAGNN))
-			preferenceName = AlAuthCheckStr.FLAGNN;
-		else
-			preferenceName = columnId;
-		return preferences.getBoolean(AlAuthCheckStr.PREFIX + preferenceName);
+		return preferences.getBoolean(AlAuthCheckSu24Str.PREFIX + columnId);
 	}
 
 	private void hookContextMenu() {
@@ -209,7 +211,7 @@ public class AuthSu24View extends View implements IAlchemistView {
 
 	private void makeActions() {
 		contextMenuActions = new ArrayList<>();
-		ViewsManager.get().addViewsToContextMenu(viewer, contextMenuActions, ViewsManager.AUTH_CHECKS_ID);
+		ViewsManager.get().addViewsToContextMenu(viewer, contextMenuActions, ViewsManager.AUTH_CHECKS_SU24_ID);
 
 		doubleClickAction = new Action() {
 			@Override
@@ -217,8 +219,8 @@ public class AuthSu24View extends View implements IAlchemistView {
 				try {
 					IStructuredSelection selection = viewer.getStructuredSelection();
 					Object obj = selection.getFirstElement();
-					if (obj instanceof AlAuthCheckStr) {
-						AlAuthCheckStr authCheck = (AlAuthCheckStr) obj;
+					if (obj instanceof AlAuthCheckSu24Str) {
+						AlAuthCheckSu24Str authCheck = (AlAuthCheckSu24Str) obj;
 						NavigationTarget target = new NavigationTarget(authCheck.alObject, authCheck.line);
 						ViewsManager.navigateToObject(target);
 					}
@@ -239,4 +241,10 @@ public class AuthSu24View extends View implements IAlchemistView {
 		});
 
 	}
+
+	@PreDestroy
+	public void setViewClosed() { // NO_UCD (unused code)
+		ViewsManager.get().setViewClosed(ViewsManager.AUTH_CHECKS_SU24_ID);
+	}
+
 }

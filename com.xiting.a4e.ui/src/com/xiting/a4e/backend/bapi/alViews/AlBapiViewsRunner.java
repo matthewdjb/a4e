@@ -41,9 +41,10 @@ public class AlBapiViewsRunner {
 			setFindingsParameter();
 			setFlagParameters();
 			function.execute(destination);
-			if (bean.authCheckFlag)
+			if (bean.authCheckFlag) {
 				readAuthChecksParameter();
-			findMaxAuthCheckFields();
+				findMaxAuthCheckFields();
+			}
 			if (bean.authCheckSu24Flag)
 				readAuthCheckSu24Parameter();
 			if (bean.authMisFlag)
@@ -136,17 +137,13 @@ public class AlBapiViewsRunner {
 				authCheckSu24.line = authCheckTable.getInt(AlAuthCheckSu24Str.LINE);
 				authCheckSu24.object = authCheckTable.getString(AlAuthCheckSu24Str.OBJECT);
 				authCheckSu24.scopeType = authCheckTable.getString(AlAuthCheckSu24Str.SCOPETYPE);
-				authCheckSu24.su24Append = authCheckTable.getString(AlAuthCheckSu24Str.SU24_APPEND);
 				authCheckSu24.su24Field = authCheckTable.getString(AlAuthCheckSu24Str.SU24_FIELD);
-				authCheckSu24.su24Hide = authCheckTable.getString(AlAuthCheckSu24Str.SU24_HIDE);
-				authCheckSu24.su24Jump = authCheckTable.getString(AlAuthCheckSu24Str.SU24_JUMP);
 				authCheckSu24.su24Low = authCheckTable.getString(AlAuthCheckSu24Str.SU24_LOW);
 				authCheckSu24.su24Name = authCheckTable.getString(AlAuthCheckSu24Str.SU24_NAME);
 				authCheckSu24.su24NoCheck = authCheckTable.getString(AlAuthCheckSu24Str.SU24_NOCHECK);
 				authCheckSu24.su24Object = authCheckTable.getString(AlAuthCheckSu24Str.SU24_OBJECT);
 				authCheckSu24.su24Text = authCheckTable.getString(AlAuthCheckSu24Str.SU24_TEXT);
 				authCheckSu24.su24Type = authCheckTable.getString(AlAuthCheckSu24Str.SU24_TYPE);
-				authCheckSu24.su24ObjAppend = authCheckTable.getString(AlAuthCheckSu24Str.SU24_OBJ_APPEND);
 				bean.authChecksSu24.add(authCheckSu24);
 			} while (authCheckTable.nextRow());
 		}

@@ -7,6 +7,7 @@ import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
 import com.xiting.a4e.model.AlchemistController;
 import com.xiting.a4e.model.structures.AlAuthCheckStr;
+import com.xiting.a4e.model.structures.AlAuthCheckSu24Str;
 import com.xiting.a4e.model.structures.AlFindingStr;
 import com.xiting.a4e.model.structures.AlObjectStr;
 import com.xiting.a4e.model.structures.AlPatternStr;
@@ -24,7 +25,29 @@ public class PreferenceInitialiser extends AbstractPreferenceInitializer {
 		setPatternsDefaults(preferences);
 		setFindingsDefaults(preferences);
 		setAuthCheckDefaults(preferences);
+		setAuthSu24CheckDefaults(preferences);
 		setViewDefaults(preferences);
+	}
+
+	private void setAuthSu24CheckDefaults(ScopedPreferenceStore preferences) {
+		preferences.setDefault(AlAuthCheckSu24Str.PREFIX + AlAuthCheckSu24Str.CHKTYPE, true);
+		preferences.setDefault(AlAuthCheckSu24Str.PREFIX + AlAuthCheckSu24Str.DEPTH, true);
+		preferences.setDefault(AlAuthCheckSu24Str.PREFIX + AlAuthCheckSu24Str.FIELD, true);
+		preferences.setDefault(AlAuthCheckSu24Str.PREFIX + AlAuthCheckSu24Str.INCLUDE, true);
+		preferences.setDefault(AlAuthCheckSu24Str.PREFIX + AlAuthCheckSu24Str.LINE, true);
+		preferences.setDefault(AlAuthCheckSu24Str.PREFIX + AlAuthCheckSu24Str.NAME, true);
+		preferences.setDefault(AlAuthCheckSu24Str.PREFIX + AlAuthCheckSu24Str.OBJECT, true);
+		preferences.setDefault(AlAuthCheckSu24Str.PREFIX + AlAuthCheckSu24Str.SCOPETYPE, true);
+		preferences.setDefault(AlAuthCheckSu24Str.PREFIX + AlAuthCheckSu24Str.SU24_FIELD, true);
+		preferences.setDefault(AlAuthCheckSu24Str.PREFIX + AlAuthCheckSu24Str.SU24_LOW, true);
+		preferences.setDefault(AlAuthCheckSu24Str.PREFIX + AlAuthCheckSu24Str.SU24_NAME, true);
+		preferences.setDefault(AlAuthCheckSu24Str.PREFIX + AlAuthCheckSu24Str.SU24_NOCHECK, true);
+		preferences.setDefault(AlAuthCheckSu24Str.PREFIX + AlAuthCheckSu24Str.SU24_OBJECT, true);
+		preferences.setDefault(AlAuthCheckSu24Str.PREFIX + AlAuthCheckSu24Str.SU24_TEXT, true);
+		preferences.setDefault(AlAuthCheckSu24Str.PREFIX + AlAuthCheckSu24Str.SU24_TYPE, true);
+		preferences.setDefault(AlAuthCheckSu24Str.PREFIX + AlAuthCheckSu24Str.TYPE, true);
+		preferences.setDefault(AlAuthCheckSu24Str.PREFIX + AlAuthCheckSu24Str.VALUE, true);
+		preferences.setDefault(AlAuthCheckSu24Str.PREFIX + AlAuthCheckSu24Str.XROLES, true);		
 	}
 
 	private void setAuthCheckDefaults(ScopedPreferenceStore preferences) {

@@ -25,6 +25,7 @@ class BapiRunAdhocRunner implements IBapiRunAdhocRunner {
 	@Override
 	public void run(JCoDestination destination, ArrayList<AlObjectStr> items) {
 		BapiBean bean = new BapiBean();
+		ViewsManager.reset();
 		controller = AlchemistController.factory_new();
 		controller.setBean(bean);
 		controller.setDestination(destination);

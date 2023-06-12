@@ -157,4 +157,8 @@ public final class ViewsManager {
 			openViews.replace(viewId, false);
 	}
 
+	public static void reset() {
+		singleton = new ViewsManager();
+	}
+
 }
