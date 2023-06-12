@@ -61,6 +61,14 @@
             name="%e4view.authChecksSu24"
             restorable="false">
       </e4view>
+      <e4view
+            category="com.xiting.a4e.ui"
+            class="com.xiting.a4e.ui.views.MissingAuthsView"
+            icon="icons/xiting_logo_icon.png"
+            id="com.xiting.a4e.ui.missingAuths"
+            name="%e4view.missingAuthorisations"
+            restorable="true">
+      </e4view>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">

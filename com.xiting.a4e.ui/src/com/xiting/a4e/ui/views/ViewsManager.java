@@ -25,6 +25,7 @@ public final class ViewsManager {
 	public static final String CALL_STACK_ID = "com.xiting.a4e.ui.callStack"; //$NON-NLS-1$
 	public static final String AUTH_CHECKS_ID = "com.xiting.a4e.ui.authBasic"; //$NON-NLS-1$
 	public static final String AUTH_CHECKS_SU24_ID = "com.xiting.a4e.ui.authSu24"; //$NON-NLS-1$
+	public static final String MISSING_AUTH_CHECKS = "com.xiting.a4e.ui.missingAuths"; //$NON-NLS-1$
 
 	private static ViewsManager singleton = new ViewsManager();
 	private Map<String, ViewProperties> viewIds = new HashMap<>();

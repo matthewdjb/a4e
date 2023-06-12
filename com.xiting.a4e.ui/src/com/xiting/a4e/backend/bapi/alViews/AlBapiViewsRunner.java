@@ -6,12 +6,11 @@ import java.util.Collections;
 import com.sap.conn.jco.JCoDestination;
 import com.sap.conn.jco.JCoException;
 import com.sap.conn.jco.JCoFunction;
-import com.sap.conn.jco.JCoStructure;
 import com.sap.conn.jco.JCoTable;
 import com.xiting.a4e.model.structures.AlAuthCheckStr;
 import com.xiting.a4e.model.structures.AlAuthCheckSu24Str;
-import com.xiting.a4e.model.structures.AlAuthMisStr;
 import com.xiting.a4e.model.structures.AlEnhancementsStr;
+import com.xiting.a4e.model.structures.AlMissingAuthStr;
 import com.xiting.a4e.model.structures.AlObjectStr;
 import com.xiting.a4e.model.structures.AlStatisticsStr;
 import com.xiting.a4e.model.structures.BapiViewsBean;
@@ -47,15 +46,15 @@ public class AlBapiViewsRunner {
 			}
 			if (bean.authCheckSu24Flag)
 				readAuthCheckSu24Parameter();
-			if (bean.authMisFlag)
-				readAuthMisParameter();
+			if (bean.missingAuthsFlag)
+				readMissngAuthsParameter();
 			if (bean.enhancementsFlag)
 				readEnhancementsParameter();
 			if (bean.statisticsFlag)
 				readStatisticsParameter();
 			bean.authCheckFlag = false;
 			bean.authCheckSu24Flag = false;
-			bean.authMisFlag = false;
+			bean.missingAuthsFlag = false;
 			bean.enhancementsFlag = false;
 			bean.statisticsFlag = false;
 		} catch (JCoException e) {
@@ -114,7 +113,7 @@ public class AlBapiViewsRunner {
 		function.getImportParameterList().setValue(BapiViewsBean.AUTH_CHECK_SU24_FLAG,
 				bean.authCheckSu24Flag ? ABAP_TRUE : ABAP_FALSE);
 		function.getImportParameterList().setValue(BapiViewsBean.AUTH_MIS_FLAG,
-				bean.authMisFlag ? ABAP_TRUE : ABAP_FALSE);
+				bean.missingAuthsFlag ? ABAP_TRUE : ABAP_FALSE);
 		function.getImportParameterList().setValue(BapiViewsBean.ENHANCEMENTS_FLAG,
 				bean.enhancementsFlag ? ABAP_TRUE : ABAP_FALSE);
 		function.getImportParameterList().setValue(BapiViewsBean.STATISTICS_FLAG,
@@ -199,31 +198,26 @@ public class AlBapiViewsRunner {
 		Collections.sort(bean.authChecks, (a, b) -> b.compareTo(a));
 	}
 
-	private void readAuthMisParameter() {
-		JCoTable authMisTable = function.getExportParameterList().getTable(BapiViewsBean.AUTH_MIS_PARAMETER);
-		bean.authMis = new ArrayList<>();
+	private void readMissngAuthsParameter() {
+		JCoTable authMisTable = function.getExportParameterList().getTable(BapiViewsBean.MISSING_AUTHS_PARAMETER);
+		bean.missingAuths = new ArrayList<>();
 		if (!authMisTable.isEmpty()) {
 			do {
-				AlAuthMisStr authMis = new AlAuthMisStr();
-				JCoStructure objectStructure = authMisTable.getStructure(AlAuthMisStr.AL_OBJECT);
-				authMis.alObject = new AlObjectStr();
-				authMis.alObject.include = objectStructure.getString(AlObjectStr.INCLUDE);
-				authMis.alObject.name = objectStructure.getString(AlObjectStr.NAME);
-				authMis.alObject.type = objectStructure.getString(AlObjectStr.TYPE);
-				authMis.depth = authMisTable.getInt(AlAuthMisStr.DEPTH);
-				authMis.line = authMisTable.getInt(AlAuthMisStr.LINE);
-				authMis.scopetype = authMisTable.getString(AlAuthMisStr.SCOPETYPE);
-				authMis.su24Append = authMisTable.getString(AlAuthMisStr.SU24_APPEND);
-				authMis.su24Field = authMisTable.getString(AlAuthMisStr.SU24_FIELD);
-				authMis.su24Hide = authMisTable.getString(AlAuthMisStr.SU24_HIDE);
-				authMis.su24Jump = authMisTable.getString(AlAuthMisStr.SU24_JUMP);
-				authMis.su24Low = authMisTable.getString(AlAuthMisStr.SU24_LOW);
-				authMis.su24Name = authMisTable.getString(AlAuthMisStr.SU24_NAME);
-				authMis.su24Object = authMisTable.getString(AlAuthMisStr.SU24_OBJECT);
-				authMis.su24Text = authMisTable.getString(AlAuthMisStr.SU24_TEXT);
-				authMis.su24Type = authMisTable.getString(AlAuthMisStr.SU24_TYPE);
-				authMis.su24ObjAppend = authMisTable.getString(AlAuthMisStr.SU24_OBJ_APPEND);
-				bean.authMis.add(authMis);
+				AlMissingAuthStr missingAuth = new AlMissingAuthStr();
+				missingAuth.alObject = new AlObjectStr();
+				missingAuth.alObject.include = authMisTable.getString(AlMissingAuthStr.INCLUDE);
+				missingAuth.alObject.name = authMisTable.getString(AlMissingAuthStr.NAME);
+				missingAuth.alObject.type = authMisTable.getString(AlMissingAuthStr.TYPE);
+				missingAuth.depth = authMisTable.getInt(AlMissingAuthStr.DEPTH);
+				missingAuth.line = authMisTable.getInt(AlMissingAuthStr.LINE);
+				missingAuth.scopetype = authMisTable.getString(AlMissingAuthStr.SCOPETYPE);
+				missingAuth.su24Field = authMisTable.getString(AlMissingAuthStr.SU24_FIELD);
+				missingAuth.su24Low = authMisTable.getString(AlMissingAuthStr.SU24_LOW);
+				missingAuth.su24Name = authMisTable.getString(AlMissingAuthStr.SU24_NAME);
+				missingAuth.su24Object = authMisTable.getString(AlMissingAuthStr.SU24_OBJECT);
+				missingAuth.su24Text = authMisTable.getString(AlMissingAuthStr.SU24_TEXT);
+				missingAuth.su24Type = authMisTable.getString(AlMissingAuthStr.SU24_TYPE);
+				bean.missingAuths.add(missingAuth);
 			} while (authMisTable.nextRow());
 		}
 	}

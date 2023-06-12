@@ -24,6 +24,7 @@ public class AlAuthCheckSu24Str {
 	public static final String CHKTYPE = "CHKTYPE";
 
 	public static final String PREFIX = "AUTHCHECKSU24.";
+	
 	public String su24Type;
 	public String su24Name;
 	public String su24Text;
