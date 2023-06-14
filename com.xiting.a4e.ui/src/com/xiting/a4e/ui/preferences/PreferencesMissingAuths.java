@@ -15,10 +15,10 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.xiting.a4e.model.AlchemistController;
-import com.xiting.a4e.model.structures.AlAuthCheckSu24Str;
+import com.xiting.a4e.model.structures.AlMissingAuthStr;
 import com.xiting.a4e.ui.A4eUiPlugin;
 
-public class PreferencesAuthSu24Check extends PreferencePage implements IWorkbenchPreferencePage {
+public class PreferencesMissingAuths extends PreferencePage implements IWorkbenchPreferencePage {
 	private ArrayList<ColumnCheckbox> columnCheckboxes = new ArrayList<>();
 
 	@Override
@@ -30,20 +30,20 @@ public class PreferencesAuthSu24Check extends PreferencePage implements IWorkben
 	protected Control createContents(Composite parent) {
 		Composite comp = new Composite(parent, SWT.BORDER);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(comp);
-		columnCheckboxes.add(new ColumnCheckbox(comp, AlAuthCheckSu24Str.SU24_TYPE));
-		columnCheckboxes.add(new ColumnCheckbox(comp, AlAuthCheckSu24Str.SU24_NAME));
-		columnCheckboxes.add(new ColumnCheckbox(comp, AlAuthCheckSu24Str.OBJECT));
-		columnCheckboxes.add(new ColumnCheckbox(comp, AlAuthCheckSu24Str.FIELD));
-		columnCheckboxes.add(new ColumnCheckbox(comp, AlAuthCheckSu24Str.VALUE));
-		columnCheckboxes.add(new ColumnCheckbox(comp, AlAuthCheckSu24Str.SU24_OBJECT));
-		columnCheckboxes.add(new ColumnCheckbox(comp, AlAuthCheckSu24Str.SU24_FIELD));
-		columnCheckboxes.add(new ColumnCheckbox(comp, AlAuthCheckSu24Str.SU24_LOW));
-		columnCheckboxes.add(new ColumnCheckbox(comp, AlAuthCheckSu24Str.SU24_NOCHECK));
-		columnCheckboxes.add(new ColumnCheckbox(comp, AlAuthCheckSu24Str.DEPTH));
-		columnCheckboxes.add(new ColumnCheckbox(comp, AlAuthCheckSu24Str.LINE));
-		columnCheckboxes.add(new ColumnCheckbox(comp, AlAuthCheckSu24Str.SCOPETYPE));
-		columnCheckboxes.add(new ColumnCheckbox(comp, AlAuthCheckSu24Str.TYPE));
-		columnCheckboxes.add(new ColumnCheckbox(comp, AlAuthCheckSu24Str.NAME));
+		columnCheckboxes.add(new ColumnCheckbox(comp, AlMissingAuthStr.SU24_TYPE));
+		columnCheckboxes.add(new ColumnCheckbox(comp, AlMissingAuthStr.SU24_NAME));
+		columnCheckboxes.add(new ColumnCheckbox(comp, AlMissingAuthStr.OBJECT));
+		columnCheckboxes.add(new ColumnCheckbox(comp, AlMissingAuthStr.FIELD));
+		columnCheckboxes.add(new ColumnCheckbox(comp, AlMissingAuthStr.VALUE));
+		columnCheckboxes.add(new ColumnCheckbox(comp, AlMissingAuthStr.SU24_OBJECT));
+		columnCheckboxes.add(new ColumnCheckbox(comp, AlMissingAuthStr.SU24_FIELD));
+		columnCheckboxes.add(new ColumnCheckbox(comp, AlMissingAuthStr.SU24_LOW));
+		columnCheckboxes.add(new ColumnCheckbox(comp, AlMissingAuthStr.SU24_NOCHECK));
+		columnCheckboxes.add(new ColumnCheckbox(comp, AlMissingAuthStr.DEPTH));
+		columnCheckboxes.add(new ColumnCheckbox(comp, AlMissingAuthStr.LINE));
+		columnCheckboxes.add(new ColumnCheckbox(comp, AlMissingAuthStr.SCOPETYPE));
+		columnCheckboxes.add(new ColumnCheckbox(comp, AlMissingAuthStr.TYPE));
+		columnCheckboxes.add(new ColumnCheckbox(comp, AlMissingAuthStr.NAME));
 		return comp;
 	}
 
@@ -58,9 +58,9 @@ public class PreferencesAuthSu24Check extends PreferencePage implements IWorkben
 		private String preferenceName;
 
 		private ColumnCheckbox(Composite comp, String preferenceName) {
-			String description = AlAuthCheckSu24Str.getColumnDescription(preferenceName);
+			String description = AlMissingAuthStr.getColumnDescription(preferenceName);
 			drawObjects(comp, description);
-			this.preferenceName = AlAuthCheckSu24Str.PREFIX + preferenceName;
+			this.preferenceName = AlMissingAuthStr.PREFIX + preferenceName;
 			checkbox.setSelection(getPreferenceStore().getBoolean(this.preferenceName));
 		}
 
@@ -77,7 +77,7 @@ public class PreferencesAuthSu24Check extends PreferencePage implements IWorkben
 	protected void performDefaults() {
 		for (ColumnCheckbox columnCheckbox : columnCheckboxes) {
 			columnCheckbox.checkbox.setSelection(
-					getPreferenceStore().getDefaultBoolean(AlAuthCheckSu24Str.PREFIX + columnCheckbox.preferenceName));
+					getPreferenceStore().getDefaultBoolean(columnCheckbox.preferenceName));
 		}
 		super.performDefaults();
 	}
@@ -85,7 +85,7 @@ public class PreferencesAuthSu24Check extends PreferencePage implements IWorkben
 	@Override
 	public boolean performOk() {
 		for (ColumnCheckbox columnCheckbox : columnCheckboxes) {
-			getPreferenceStore().setValue(AlAuthCheckSu24Str.PREFIX + columnCheckbox.preferenceName,
+			getPreferenceStore().setValue(columnCheckbox.preferenceName,
 					columnCheckbox.checkbox.getSelection());
 		}
 		return super.performOk();

@@ -66,6 +66,7 @@ public class PreferencesPatterns extends PreferencePage implements IWorkbenchPre
 					.setSelection(getPreferenceStore().getDefaultBoolean(patternCheckbox.preferenceName));
 		}
 		setErrorMessage(null);
+		super.performDefaults();
 	}
 
 	@Override

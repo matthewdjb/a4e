@@ -9,10 +9,8 @@ import com.sap.conn.jco.JCoFunction;
 import com.sap.conn.jco.JCoTable;
 import com.xiting.a4e.model.structures.AlAuthCheckStr;
 import com.xiting.a4e.model.structures.AlAuthCheckSu24Str;
-import com.xiting.a4e.model.structures.AlEnhancementsStr;
 import com.xiting.a4e.model.structures.AlMissingAuthStr;
 import com.xiting.a4e.model.structures.AlObjectStr;
-import com.xiting.a4e.model.structures.AlStatisticsStr;
 import com.xiting.a4e.model.structures.BapiViewsBean;
 
 public class AlBapiViewsRunner {
@@ -35,7 +33,7 @@ public class AlBapiViewsRunner {
 	}
 
 	void run() {
-		try {
+		try {		
 			setCallStackParameter();
 			setFindingsParameter();
 			setFlagParameters();
@@ -48,15 +46,9 @@ public class AlBapiViewsRunner {
 				readAuthCheckSu24Parameter();
 			if (bean.missingAuthsFlag)
 				readMissngAuthsParameter();
-			if (bean.enhancementsFlag)
-				readEnhancementsParameter();
-			if (bean.statisticsFlag)
-				readStatisticsParameter();
 			bean.authCheckFlag = false;
 			bean.authCheckSu24Flag = false;
 			bean.missingAuthsFlag = false;
-			bean.enhancementsFlag = false;
-			bean.statisticsFlag = false;
 		} catch (JCoException e) {
 			e.printStackTrace();
 		}
@@ -114,10 +106,6 @@ public class AlBapiViewsRunner {
 				bean.authCheckSu24Flag ? ABAP_TRUE : ABAP_FALSE);
 		function.getImportParameterList().setValue(BapiViewsBean.AUTH_MIS_FLAG,
 				bean.missingAuthsFlag ? ABAP_TRUE : ABAP_FALSE);
-		function.getImportParameterList().setValue(BapiViewsBean.ENHANCEMENTS_FLAG,
-				bean.enhancementsFlag ? ABAP_TRUE : ABAP_FALSE);
-		function.getImportParameterList().setValue(BapiViewsBean.STATISTICS_FLAG,
-				bean.statisticsFlag ? ABAP_TRUE : ABAP_FALSE);
 	}
 
 	private void readAuthCheckSu24Parameter() {
@@ -219,54 +207,6 @@ public class AlBapiViewsRunner {
 				missingAuth.su24Type = authMisTable.getString(AlMissingAuthStr.SU24_TYPE);
 				bean.missingAuths.add(missingAuth);
 			} while (authMisTable.nextRow());
-		}
-	}
-
-	private void readEnhancementsParameter() {
-		JCoTable enhancementTable = function.getExportParameterList().getTable(BapiViewsBean.ENHANCEMENTS_PARAMETER);
-		bean.enhancements = new ArrayList<>();
-		if (!enhancementTable.isEmpty()) {
-			do {
-				AlEnhancementsStr enhancement = new AlEnhancementsStr();
-				enhancement.defDevclass = enhancementTable.getString(AlEnhancementsStr.DEF_DEVCLASS);
-				enhancement.defName = enhancementTable.getString(AlEnhancementsStr.DEF_NAME);
-				enhancement.defPsPosid = enhancementTable.getString(AlEnhancementsStr.DEF_PS_POSID);
-				enhancement.defText = enhancementTable.getString(AlEnhancementsStr.DEF_TEXT);
-				enhancement.defType = enhancementTable.getString(AlEnhancementsStr.DEF_TYPE);
-				enhancement.implActive = enhancementTable.getString(AlEnhancementsStr.IMPL_ACTIVE);
-				enhancement.implDevclass = enhancementTable.getString(AlEnhancementsStr.IMPL_DEVCLASS);
-				enhancement.implFind = enhancementTable.getInt(AlEnhancementsStr.IMPL_FIND);
-				enhancement.implName = enhancementTable.getString(AlEnhancementsStr.IMPL_NAME);
-				enhancement.implPsPosid = enhancementTable.getString(AlEnhancementsStr.IMPL_PS_POSID);
-				enhancement.implScanned = enhancementTable.getString(AlEnhancementsStr.IMPL_SCANNED);
-				enhancement.implText = enhancementTable.getString(AlEnhancementsStr.IMPL_TEXT);
-				enhancement.implType = enhancementTable.getString(AlEnhancementsStr.IMPL_TYPE);
-				bean.enhancements.add(enhancement);
-			} while (enhancementTable.nextRow());
-		}
-	}
-
-	private void readStatisticsParameter() {
-		JCoTable statisticsTable = function.getExportParameterList().getTable(BapiViewsBean.ENHANCEMENTS_PARAMETER);
-		bean.statistics = new ArrayList<>();
-		if (!statisticsTable.isEmpty()) {
-			do {
-				AlStatisticsStr statistic = new AlStatisticsStr();
-				statistic.codeposInclude = statisticsTable.getString(AlStatisticsStr.CODEPOS_INCLUDE);
-				statistic.codeposLine = statisticsTable.getInt(AlStatisticsStr.CODEPOS_LINE);
-				statistic.colid = statisticsTable.getInt(AlStatisticsStr.COLID);
-				statistic.colparid = statisticsTable.getInt(AlStatisticsStr.COLPARID);
-				statistic.findid = statisticsTable.getString(AlStatisticsStr.FINDID);
-				statistic.green = statisticsTable.getInt(AlStatisticsStr.GREEN);
-				statistic.objid = statisticsTable.getString(AlStatisticsStr.OBJID);
-				statistic.otype = statisticsTable.getString(AlStatisticsStr.OTYPE);
-				statistic.parent = statisticsTable.getString(AlStatisticsStr.PARENT);
-				statistic.pattern = statisticsTable.getString(AlStatisticsStr.PATTERN);
-				statistic.red = statisticsTable.getInt(AlStatisticsStr.RED);
-				statistic.text = statisticsTable.getString(AlStatisticsStr.TEXT);
-				statistic.yellow = statisticsTable.getInt(AlStatisticsStr.YELLOW);
-				bean.statistics.add(statistic);
-			} while (statisticsTable.nextRow());
 		}
 	}
 

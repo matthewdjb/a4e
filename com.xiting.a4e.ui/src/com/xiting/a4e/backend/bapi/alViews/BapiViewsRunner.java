@@ -65,7 +65,9 @@ public class BapiViewsRunner implements IBapiViewsRunner {
 					ViewsManager.get().setViewOpened(ViewsManager.AUTH_CHECKS_ID);
 					if (bean.authCheckSu24Flag)
 						ViewsManager.get().setViewOpened(ViewsManager.AUTH_CHECKS_SU24_ID);
-					ViewsManager.get().updateViews();
+					if (bean.missingAuthsFlag)
+						ViewsManager.get().setViewOpened(ViewsManager.MISSING_AUTH_CHECKS);
+					ViewsManager.get().updateInitialViews();
 				} catch (PartInitException e) {
 					e.printStackTrace();
 				}

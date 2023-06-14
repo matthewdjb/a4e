@@ -80,6 +80,7 @@ public class PreferencesColumns extends PreferencePage implements IWorkbenchPref
 		for (ColumnCheckbox columnCheckbox : columnCheckboxes) {
 			columnCheckbox.checkbox.setSelection(getPreferenceStore().getDefaultBoolean(columnCheckbox.preferenceName));
 		}
+		super.performDefaults();
 	}
 
 	@Override

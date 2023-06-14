@@ -9,6 +9,7 @@ import com.xiting.a4e.model.AlchemistController;
 import com.xiting.a4e.model.structures.AlAuthCheckStr;
 import com.xiting.a4e.model.structures.AlAuthCheckSu24Str;
 import com.xiting.a4e.model.structures.AlFindingStr;
+import com.xiting.a4e.model.structures.AlMissingAuthStr;
 import com.xiting.a4e.model.structures.AlObjectStr;
 import com.xiting.a4e.model.structures.AlPatternStr;
 import com.xiting.a4e.model.structures.AlScopeStr;
@@ -26,7 +27,30 @@ public class PreferenceInitialiser extends AbstractPreferenceInitializer {
 		setFindingsDefaults(preferences);
 		setAuthCheckDefaults(preferences);
 		setAuthSu24CheckDefaults(preferences);
+		setMissingAuthsDefaults(preferences);
 		setViewDefaults(preferences);
+	}
+
+	private void setMissingAuthsDefaults(ScopedPreferenceStore preferences) {
+		preferences.setDefault(AlMissingAuthStr.PREFIX + AlMissingAuthStr.CHKTYPE, true);
+		preferences.setDefault(AlMissingAuthStr.PREFIX + AlMissingAuthStr.DEPTH, true);
+		preferences.setDefault(AlMissingAuthStr.PREFIX + AlMissingAuthStr.FIELD, true);
+		preferences.setDefault(AlMissingAuthStr.PREFIX + AlMissingAuthStr.INCLUDE, true);
+		preferences.setDefault(AlMissingAuthStr.PREFIX + AlMissingAuthStr.LINE, true);
+		preferences.setDefault(AlMissingAuthStr.PREFIX + AlMissingAuthStr.NAME, true);
+		preferences.setDefault(AlMissingAuthStr.PREFIX + AlMissingAuthStr.OBJECT, true);
+		preferences.setDefault(AlMissingAuthStr.PREFIX + AlMissingAuthStr.SCOPETYPE, true);
+		preferences.setDefault(AlMissingAuthStr.PREFIX + AlMissingAuthStr.SU24_FIELD, true);
+		preferences.setDefault(AlMissingAuthStr.PREFIX + AlMissingAuthStr.SU24_LOW, true);
+		preferences.setDefault(AlMissingAuthStr.PREFIX + AlMissingAuthStr.SU24_NAME, true);
+		preferences.setDefault(AlMissingAuthStr.PREFIX + AlMissingAuthStr.SU24_NOCHECK, true);
+		preferences.setDefault(AlMissingAuthStr.PREFIX + AlMissingAuthStr.SU24_OBJECT, true);
+		preferences.setDefault(AlMissingAuthStr.PREFIX + AlMissingAuthStr.SU24_TEXT, true);
+		preferences.setDefault(AlMissingAuthStr.PREFIX + AlMissingAuthStr.SU24_TYPE, true);
+		preferences.setDefault(AlMissingAuthStr.PREFIX + AlMissingAuthStr.TYPE, true);
+		preferences.setDefault(AlMissingAuthStr.PREFIX + AlMissingAuthStr.VALUE, true);
+		preferences.setDefault(AlMissingAuthStr.PREFIX + AlMissingAuthStr.XROLES, true);	
+		
 	}
 
 	private void setAuthSu24CheckDefaults(ScopedPreferenceStore preferences) {

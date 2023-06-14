@@ -63,7 +63,8 @@ class BapiRunAdhocRunner implements IBapiRunAdhocRunner {
 			@Override
 			public void run() {
 				try {
-					ViewsManager.get().updateViews();
+					ViewsManager.get().closeAll();
+					ViewsManager.get().updateInitialViews();
 				} catch (PartInitException e) {
 					e.printStackTrace();
 				}

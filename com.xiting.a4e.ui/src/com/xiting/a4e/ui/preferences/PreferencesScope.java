@@ -213,6 +213,7 @@ public class PreferencesScope extends PreferencePage implements IWorkbenchPrefer
 		scanStandard.checkBox.scanCheckbox.setSelection(getPreferenceStore().getDefaultBoolean(AlScopeStr.STANDARD));
 		scanStandard.depth.scanDepth.setText(getPreferenceStore().getDefaultString(AlScopeStr.STANDARD_DEPTH));
 		universalDepth.scanDepth.setText(getPreferenceStore().getDefaultString(AlScopeStr.UNIVERSAL_DEPTH));
+		super.performDefaults();
 	}
 
 	@Override

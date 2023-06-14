@@ -52,8 +52,8 @@ public class PreferencesAuthCheck extends PreferencePage implements IWorkbenchPr
 		private ColumnCheckbox(Composite comp, String preferenceName) {
 			String description = AlAuthCheckStr.getColumnDescription(preferenceName);
 			drawObjects(comp, description);
-			checkbox.setSelection(getPreferenceStore().getBoolean(AlAuthCheckStr.PREFIX + preferenceName));
-			this.preferenceName = preferenceName;
+			this.preferenceName = AlAuthCheckStr.PREFIX + preferenceName;
+			checkbox.setSelection(getPreferenceStore().getBoolean(this.preferenceName));
 		}
 
 		private void drawObjects(Composite comp, String description) {
@@ -70,6 +70,7 @@ public class PreferencesAuthCheck extends PreferencePage implements IWorkbenchPr
 		for (ColumnCheckbox columnCheckbox : columnCheckboxes) {
 			columnCheckbox.checkbox.setSelection(getPreferenceStore().getDefaultBoolean(columnCheckbox.preferenceName));
 		}
+		super.performDefaults();
 	}
 
 	@Override

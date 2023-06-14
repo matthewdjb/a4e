@@ -62,6 +62,7 @@
             restorable="false">
       </e4view>
       <e4view
+            allowMultiple="false"
             category="com.xiting.a4e.ui"
             class="com.xiting.a4e.ui.views.MissingAuthsView"
             icon="icons/xiting_logo_icon.png"
@@ -97,7 +98,13 @@
       </page>
       <page
             category="com.xiting.a4e.ui.preferences"
-            class="com.xiting.a4e.ui.preferences.PreferencesPatterns"
+            class="com.xiting.a4e.ui.preferences.PreferencesAuthSu24Check"
+            id="com.xiting.a4e.ui.authcheckssu24preferences"
+            name="%page.authChecksSu24Preferences">
+      </page>
+      <page
+            category="com.xiting.a4e.ui.preferences"
+            class="com.xiting.a4e.ui.preferences.PreferencesMissingAuths"
             id="com.xiting.a4e.ui.patternspreferences"
             name="%page.patternsPreferences">
       </page>
@@ -109,9 +116,9 @@
       </page>
       <page
             category="com.xiting.a4e.ui.preferences"
-            class="com.xiting.a4e.ui.preferences.PreferencesAuthSu24Check"
-            id="com.xiting.a4e.ui.authcheckssu24preferences"
-            name="%page.authChecksSu24Preferences">
+            class="com.xiting.a4e.ui.preferences.PreferencesMissingAuths"
+            id="com.xiting.a4e.ui.missingauthspreferences"
+            name="%page.missingAuthsPreferences">
       </page>
    </extension>
    <extension

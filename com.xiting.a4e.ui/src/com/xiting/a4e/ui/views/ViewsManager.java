@@ -56,10 +56,12 @@ public final class ViewsManager {
 				A4eUiTexts.getString("BasicView.OpenBasicView"))); //$NON-NLS-1$
 		addViewId(CALL_STACK_ID, new ViewProperties(A4eUiTexts.getString("PreferencesViews.CallStack"), //$NON-NLS-1$
 				A4eUiTexts.getString("BasicView.OpenCallStackView"))); //$NON-NLS-1$
-		addViewId(AUTH_CHECKS_ID ,new ViewProperties(A4eUiTexts.getString("PreferencesViews.AuthChecks"), //$NON-NLS-1$
+		addViewId(AUTH_CHECKS_ID, new ViewProperties(A4eUiTexts.getString("PreferencesViews.AuthChecks"), //$NON-NLS-1$
 				A4eUiTexts.getString("BasicView.OpenAuthChecksView"))); //$NON-NLS-1$
-		addViewId(AUTH_CHECKS_SU24_ID ,new ViewProperties(A4eUiTexts.getString("PreferencesViews.AuthChecksSu24"), //$NON-NLS-1$
+		addViewId(AUTH_CHECKS_SU24_ID, new ViewProperties(A4eUiTexts.getString("PreferencesViews.AuthChecksSu24"), //$NON-NLS-1$
 				A4eUiTexts.getString("BasicView.OpenAuthChecksSu24View"))); //$NON-NLS-1$
+		addViewId(MISSING_AUTH_CHECKS, new ViewProperties(A4eUiTexts.getString("PreferencesViews.MissingAuths"), //$NON-NLS-1$
+				A4eUiTexts.getString("BasicView.OpenMissingAuthsView"))); //$NON-NLS-1$
 	}
 
 	private final void addViewId(String viewId, ViewProperties properties) {
@@ -81,7 +83,7 @@ public final class ViewsManager {
 			((IAlchemistView) iViewPart).refresh();
 	}
 
-	public void updateViews() throws PartInitException {
+	public void updateInitialViews() throws PartInitException {
 		for (Entry<String, ViewProperties> viewEntry : viewIds.entrySet()) {
 			ScopedPreferenceStore preferences = AlchemistController.factory().getPreferenceStore();
 			String viewId = viewEntry.getKey();
@@ -119,8 +121,7 @@ public final class ViewsManager {
 		return viewIds.get(viewID).menuDescription;
 	}
 
-	void addViewsToContextMenu(ColumnViewer viewer, ArrayList<Action> contextMenuActions,
-			String exceptForThisViewId) {
+	void addViewsToContextMenu(ColumnViewer viewer, ArrayList<Action> contextMenuActions, String exceptForThisViewId) {
 		for (String viewID : ViewsManager.get().getAllViewIdsExcepting(exceptForThisViewId)) {
 			Action contextMenuAction = new Action(ViewsManager.get().getMenuText(viewID)) {
 				@Override
@@ -160,6 +161,22 @@ public final class ViewsManager {
 
 	public static void reset() {
 		singleton = new ViewsManager();
+	}
+
+	public void closeAll() {
+		close(ViewsManager.BASIC_ID);
+		close(ViewsManager.CALL_STACK_ID);
+		close(ViewsManager.AUTH_CHECKS_ID);
+		close(ViewsManager.AUTH_CHECKS_SU24_ID);
+		close(ViewsManager.MISSING_AUTH_CHECKS);
+	}
+
+	private void close(String viewId) {
+		// TODO Auto-generated method
+		IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(viewId);
+		if (view != null)
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().hideView(view);
+		setViewClosed(viewId);
 	}
 
 }

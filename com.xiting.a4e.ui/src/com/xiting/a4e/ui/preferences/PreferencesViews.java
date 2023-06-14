@@ -56,6 +56,7 @@ public class PreferencesViews extends PreferencePage implements IWorkbenchPrefer
 		basicView.checkbox.setSelection(getPreferenceStore().getDefaultBoolean(ViewsManager.BASIC_ID));
 		callstackView.checkbox.setSelection(getPreferenceStore().getDefaultBoolean(ViewsManager.CALL_STACK_ID));
 		setErrorMessage(null);
+		super.performDefaults();
 	}
 
 	@Override

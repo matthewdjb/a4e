@@ -59,7 +59,7 @@ public class MissingAuthsView extends View implements IAlchemistView {
 		AlchemistController controller = AlchemistController.factory();
 		BapiViewsBean viewsBean = controller.getViewsBean();
 		if (viewsBean.missingAuths == null) {
-			viewsBean.authCheckSu24Flag = true;
+			viewsBean.missingAuthsFlag = true;
 			BapiViewsFactory.getRunner().run(controller.getDestination());
 		}
 	}
@@ -85,12 +85,12 @@ public class MissingAuthsView extends View implements IAlchemistView {
 		else if (missingAuths.isEmpty())
 			displayMessageInView(parent, A4eUiTexts.getString("NoResults")); //$NON-NLS-1$
 		else {
-			displaymissingAuths(parent);
+			displayMissingAuths(parent);
 		}
-		ViewsManager.get().setViewOpened(ViewsManager.AUTH_CHECKS_SU24_ID);
+		ViewsManager.get().setViewOpened(ViewsManager.MISSING_AUTH_CHECKS);
 	}
 
-	private void displaymissingAuths(Composite parent) {
+	private void displayMissingAuths(Composite parent) {
 		viewer = new TableViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
 		createColumns();
