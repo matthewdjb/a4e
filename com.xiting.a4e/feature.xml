@@ -2,8 +2,8 @@
 <feature
       id="com.xiting.a4e"
       label="A4e"
-      version="1.0.9"
-      provider-name="XITING">
+      version="1.2.0"
+      provider-name="Xiting AG">
 
    <description url="https://xiting.com/en/xams/abap-alchemist/">
       Runs Xiting ABAP Alchemist inside ADT/Eclipse
@@ -29,18 +29,37 @@ THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRES
       <discovery label="Xiting AG" url="http://xiting.com"/>
    </url>
 
+   <requires>
+      <import plugin="org.eclipse.ui" version="3.201.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.ide" version="3.18.500" match="greaterOrEqual"/>
+      <import plugin="com.sap.conn.jco" version="3.1.5" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.runtime" version="3.24.100" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.debug.core"/>
+      <import plugin="org.eclipse.debug.ui" version="3.16.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jface" version="3.25.0" match="greaterOrEqual"/>
+      <import plugin="com.xiting.a4e.model" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="com.sap.adt.project" version="3.24.0" match="greaterOrEqual"/>
+      <import plugin="com.sap.adt.project.ui" version="3.24.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.views" version="3.11.100" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.e4.ui.di" version="1.4.0" match="greaterOrEqual"/>
+      <import plugin="com.sap.adt.tools.core.ui" version="3.24.1" match="greaterOrEqual"/>
+      <import plugin="javax.annotation"/>
+      <import plugin="javax.inject"/>
+   </requires>
+
    <plugin
          id="com.xiting.a4e.model"
          download-size="0"
          install-size="0"
-         version="1.0.9"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="com.xiting.a4e.ui"
          download-size="0"
          install-size="0"
-         version="1.0.9"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>
