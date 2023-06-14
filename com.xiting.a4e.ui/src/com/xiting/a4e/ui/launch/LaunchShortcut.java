@@ -11,7 +11,7 @@ import com.xiting.a4e.backend.IAlchemistRunner;
 public class LaunchShortcut implements ILaunchShortcut {
 	@Override
 	public void launch(ISelection selection, String mode) {
-		// Runs from Outline context
+		// Runs from Outline or Favourites context
 		IAlchemistRunner runner = AlchemistRunnerFactory.get();
 		runner.run(selection);
 	}

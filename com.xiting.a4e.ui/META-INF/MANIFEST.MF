@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Ui
 Bundle-SymbolicName: com.xiting.a4e.ui;singleton:=true
-Bundle-Version: 1.2.0.0
+Bundle-Version: 1.2.1
 Bundle-Vendor: XITING
 Automatic-Module-Name: com.xiting.a4e.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-11
@@ -18,8 +18,12 @@ Require-Bundle: org.eclipse.debug.core,
  com.sap.conn.jco;bundle-version="3.1.5",
  org.eclipse.ui.views;bundle-version="3.11.100",
  org.eclipse.e4.ui.di;bundle-version="1.4.0",
- com.sap.adt.tools.core.ui;bundle-version="3.24.1"
-Import-Package: javax.annotation,
+ com.sap.adt.tools.core.ui;bundle-version="3.24.1",
+ com.sap.adt.tools.abapsource.ui;bundle-version="3.24.1",
+ com.sap.adt.tools.abapsource;bundle-version="3.24.1"
+Import-Package: com.sap.adt.projectexplorer.ui.node,
+ com.sap.adt.tools.core,
+ javax.annotation,
  javax.inject;version="1.0.0"
 Bundle-Activator: com.xiting.a4e.ui.A4eUiPlugin
 Bundle-ActivationPolicy: lazy

@@ -1,7 +1,7 @@
 package com.xiting.a4e.model.utils;
 
 public class AbapAdtTypes {
-	enum AbapType {
+	public enum AbapType {
 		CLAS, FUGR, FUNC, INTF, METH, PROG
 	}
 
@@ -15,7 +15,7 @@ public class AbapAdtTypes {
 		static final String FUGR_I = "FUGR/I"; //$NON-NLS-1$
 	}
 
-	static AbapType toAbapType(String adtType) {
+	public static AbapType toAbapType(String adtType) {
 		switch (adtType) {
 		case AdtType.CLAS_OC:
 			return AbapType.CLAS;
