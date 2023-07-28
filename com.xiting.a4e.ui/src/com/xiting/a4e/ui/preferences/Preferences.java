@@ -22,7 +22,6 @@ public class Preferences extends PreferencePage implements IWorkbenchPreferenceP
 	@Override
 	public void init(IWorkbench workbench) {
 		noDefaultAndApplyButton();
-
 	}
 
 	@Override

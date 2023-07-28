@@ -56,7 +56,7 @@ public final class ViewsManager {
 				A4eUiTexts.getString("BasicView.OpenBasicView"))); //$NON-NLS-1$
 		addViewId(CALL_STACK_ID, new ViewProperties(A4eUiTexts.getString("PreferencesViews.CallStack"), //$NON-NLS-1$
 				A4eUiTexts.getString("BasicView.OpenCallStackView"))); //$NON-NLS-1$
-		addViewId(AUTH_CHECKS_ID, new ViewProperties(A4eUiTexts.getString("PreferencesViews.AuthChecks"), //$NON-NLS-1$
+		addViewId(AUTH_CHECKS_ID, new ViewProperties(A4eUiTexts.getString("PreferencesViews.SimpleAuthChecks"), //$NON-NLS-1$
 				A4eUiTexts.getString("BasicView.OpenAuthChecksView"))); //$NON-NLS-1$
 		addViewId(AUTH_CHECKS_SU24_ID, new ViewProperties(A4eUiTexts.getString("PreferencesViews.AuthChecksSu24"), //$NON-NLS-1$
 				A4eUiTexts.getString("BasicView.OpenAuthChecksSu24View"))); //$NON-NLS-1$

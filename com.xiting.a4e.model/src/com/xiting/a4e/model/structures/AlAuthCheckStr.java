@@ -3,6 +3,8 @@ package com.xiting.a4e.model.structures;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.xiting.a4e.model.A4eTexts;
+
 public class AlAuthCheckStr {
 	public final static String LINE = "LINE";
 	public final static String SCOPETYPE = "SCOPETYPE";
@@ -129,17 +131,17 @@ public class AlAuthCheckStr {
 	public static String getColumnDescription(String columnName) {
 		switch (columnName) {
 		case LINE:
-			return "Line";
+			return A4eTexts.getString("AlAuthCheckStr_Line"); //$NON-NLS-1$
 		case SCOPETYPE:
-			return "Scope";
+			return A4eTexts.getString("AlAuthCheckStr_Scope"); //$NON-NLS-1$
 		case OBJECT:
-			return "Object";
+			return A4eTexts.getString("AlAuthCheckStr_Object"); //$NON-NLS-1$
 		case NAME:
-			return "Name";
+			return A4eTexts.getString("AlAuthCheckStr_ProgramName"); //$NON-NLS-1$
 		case TYPE:
-			return "Type";
+			return A4eTexts.getString("AlAuthCheckStr_ObjectType"); //$NON-NLS-1$
 		case INCLUDE:
-			return "Include";
+			return A4eTexts.getString("AlAuthCheckStr_Include"); //$NON-NLS-1$
 		case FIELD01:
 		case FIELD02:
 		case FIELD03:
@@ -151,7 +153,7 @@ public class AlAuthCheckStr {
 		case FIELD09:
 		case FIELD10:
 		case FIELDNN:
-			return "Authorization Field";
+			return A4eTexts.getString("AlFindingStr_AuthField"); //$NON-NLS-1$
 		case VAL01:
 		case VAL02:
 		case VAL03:
@@ -163,9 +165,9 @@ public class AlAuthCheckStr {
 		case VAL09:
 		case VAL10:
 		case VALNN:
-			return "Authorization Value";
+			return A4eTexts.getString("AlFindingStr_AuthValue"); //$NON-NLS-1$
 		case FLAGNN:
-			return "Status";
+			return A4eTexts.getString("AlFindingStr_Status"); //$NON-NLS-1$
 		default:
 			return "";
 		}

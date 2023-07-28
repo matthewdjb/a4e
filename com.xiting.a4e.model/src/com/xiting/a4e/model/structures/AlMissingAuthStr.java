@@ -3,6 +3,8 @@ package com.xiting.a4e.model.structures;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.xiting.a4e.model.A4eTexts;
+
 public class AlMissingAuthStr {
 	public final static String SU24_TYPE = "SU24_TYPE";
 	public final static String SU24_NAME = "SU24_NAME";
@@ -45,32 +47,33 @@ public class AlMissingAuthStr {
 	public static String getColumnDescription(String columnName) {
 		switch (columnName) {
 		case SU24_TYPE:
-			return "Type";
+			return A4eTexts.getString("AlAuthCheckSu24Str_SU24Type"); //$NON-NLS-1$
 		case SU24_NAME:
-			return "Name";
+			return A4eTexts.getString("AlAuthCheckSu24Str_SU24Name"); //$NON-NLS-1$
 		case SU24_TEXT:
-			return "Text";
+			return A4eTexts.getString("MissingAuthStr_Text"); //$NON-NLS-1$
 		case SU24_OBJECT:
 		case OBJECT:
 		case INCLUDE:
-			return "Object";
+			return A4eTexts.getString("AlAuthCheckStr_Object"); //$NON-NLS-1$
 		case SU24_FIELD:
+			return A4eTexts.getString("AlAuthCheckSU24Str_Field"); //$NON-NLS-1$
 		case FIELD:
-			return "Authorization Field";
+			return A4eTexts.getString("AlAuthCheckStr_AuthField"); //$NON-NLS-1$
 		case SU24_LOW:
-			return "Authorization Value";
+			return A4eTexts.getString("AlAuthCheckSU24Str_Value"); //$NON-NLS-1$
 		case SU24_NOCHECK:
-			return "No check";
+			return A4eTexts.getString("AlAuthCheckSU24Str_NoCheck"); //$NON-NLS-1$
 		case DEPTH:
-			return "Depth";
+			return A4eTexts.getString("AlAuthCheckSU24Str_Depth"); //$NON-NLS-1$
 		case LINE:
-			return "Line";
+			return A4eTexts.getString("AlAuthCheckStr_Line"); //$NON-NLS-1$
 		case SCOPETYPE:
-			return "Scope";
+			return A4eTexts.getString("AlAuthCheckStr_Scope"); //$NON-NLS-1$
 		case TYPE:
-			return "Type";
+			return A4eTexts.getString("MissingAuthStr_Type"); //$NON-NLS-1$
 		case VALUE:
-			return "Value";
+			return A4eTexts.getString("AlAuthCheckStr_AuthValue"); //$NON-NLS-1$
 		default:
 			return "";
 		}

@@ -2,8 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Model
 Bundle-SymbolicName: com.xiting.a4e.model;singleton:=true
-Bundle-Version: 1.2.1
+Bundle-Version: 1.2.2
 Bundle-Vendor: XITING
+Bundle-Localization: plugin
 Automatic-Module-Name: com.xiting.a4e.model
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: com.xiting.a4e.model,
