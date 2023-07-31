@@ -22,6 +22,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.IWorkbench;
@@ -44,7 +45,6 @@ public class AuthSu24View extends View implements IAlchemistView {
 	@Inject
 	IWorkbench workbench;
 
-	private TableViewer viewer;
 	private Action doubleClickAction;
 
 	private ArrayList<Action> contextMenuActions;
@@ -83,13 +83,29 @@ public class AuthSu24View extends View implements IAlchemistView {
 		if (authChecksSu24 == null)
 			displayMessageInView(parent, A4eUiTexts.getString("NoAnalysis")); //$NON-NLS-1$
 		else if (authChecksSu24.isEmpty())
-			displayMessageInView(parent, A4eUiTexts.getString("NoResults")); //$NON-NLS-1$
+			displayMessageWithContext(parent, A4eUiTexts.getString("NoResults")); //$NON-NLS-1$
 		else {
 			displayAuthChecksSu24(parent);
 		}
 		ViewsManager.get().setViewOpened(ViewsManager.AUTH_CHECKS_SU24_ID);
 	}
 
+	private void displayMessageWithContext(Composite parent, String message) {		
+		Label label = new Label(parent, SWT.BORDER);
+		label.setText(message);
+		contextMenuActions = new ArrayList<>();
+		ViewsManager.get().addViewsToContextMenu(label, contextMenuActions, ViewsManager.MISSING_AUTH_CHECKS);
+		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
+		menuMgr.setRemoveAllWhenShown(true);
+		menuMgr.addMenuListener(new IMenuListener() {
+			@Override
+			public void menuAboutToShow(IMenuManager manager) {
+				AuthSu24View.this.fillContextMenu(manager, contextMenuActions);
+			}
+		});
+		label.setMenu(menuMgr.createContextMenu(label));
+	}	
+	
 	private void displayAuthChecksSu24(Composite parent) {
 		viewer = new TableViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		viewer.setContentProvider(ArrayContentProvider.getInstance());

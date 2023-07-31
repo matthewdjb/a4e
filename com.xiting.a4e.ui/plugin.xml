@@ -68,7 +68,7 @@
             icon="icons/xiting_logo_icon.png"
             id="com.xiting.a4e.ui.missingAuths"
             name="%e4view.missingAuthorisations"
-            restorable="true">
+            restorable="false">
       </e4view>
    </extension>
    <extension

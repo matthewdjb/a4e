@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ColumnViewer;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -130,6 +131,23 @@ public final class ViewsManager {
 						if (viewer instanceof ColumnViewer) {
 							ViewsManager.get().updateView(viewID);
 						}
+					} catch (PartInitException e) {
+						e.printStackTrace();
+					}
+				}
+
+			};
+			contextMenuActions.add(contextMenuAction);
+		}
+	}
+
+	public void addViewsToContextMenu(Label label, ArrayList<Action> contextMenuActions, String exceptForThisViewId) {
+		for (String viewID : ViewsManager.get().getAllViewIdsExcepting(exceptForThisViewId)) {
+			Action contextMenuAction = new Action(ViewsManager.get().getMenuText(viewID)) {
+				@Override
+				public void run() {
+					try {
+						ViewsManager.get().updateView(viewID);
 					} catch (PartInitException e) {
 						e.printStackTrace();
 					}

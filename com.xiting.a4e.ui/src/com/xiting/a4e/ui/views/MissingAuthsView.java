@@ -22,6 +22,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.IWorkbench;
@@ -83,13 +84,29 @@ public class MissingAuthsView extends View implements IAlchemistView {
 		if (missingAuths == null)
 			displayMessageInView(parent, A4eUiTexts.getString("NoAnalysis")); //$NON-NLS-1$
 		else if (missingAuths.isEmpty())
-			displayMessageInView(parent, A4eUiTexts.getString("NoResults")); //$NON-NLS-1$
+			displayMessageWithContext(parent, A4eUiTexts.getString("NoResults")); //$NON-NLS-1$
 		else {
 			displayMissingAuths(parent);
 		}
 		ViewsManager.get().setViewOpened(ViewsManager.MISSING_AUTH_CHECKS);
 	}
 
+	private void displayMessageWithContext(Composite parent, String message) {		
+		Label label = new Label(parent, SWT.BORDER);
+		label.setText(message);
+		contextMenuActions = new ArrayList<>();
+		ViewsManager.get().addViewsToContextMenu(label, contextMenuActions, ViewsManager.MISSING_AUTH_CHECKS);
+		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
+		menuMgr.setRemoveAllWhenShown(true);
+		menuMgr.addMenuListener(new IMenuListener() {
+			@Override
+			public void menuAboutToShow(IMenuManager manager) {
+				MissingAuthsView.this.fillContextMenu(manager, contextMenuActions);
+			}
+		});
+		label.setMenu(menuMgr.createContextMenu(label));
+	}	
+	
 	private void displayMissingAuths(Composite parent) {
 		viewer = new TableViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		viewer.setContentProvider(ArrayContentProvider.getInstance());

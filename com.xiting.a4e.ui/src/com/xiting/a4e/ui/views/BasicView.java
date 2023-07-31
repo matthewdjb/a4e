@@ -12,12 +12,10 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -41,7 +39,6 @@ class BasicView extends View implements IAlchemistView {
 	@Inject
 	IWorkbench workbench;
 
-	private TableViewer viewer;
 	private Action doubleClickAction;
 
 	private ArrayList<Action> contextMenuActions;
@@ -102,8 +99,7 @@ class BasicView extends View implements IAlchemistView {
 	}
 
 	private void displayFindings(Composite parent) {
-		viewer = new TableViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-		viewer.setContentProvider(ArrayContentProvider.getInstance());
+		initialiseViewer(parent);
 		createColumns();
 		final Table table = viewer.getTable();
 		table.setHeaderVisible(true);
