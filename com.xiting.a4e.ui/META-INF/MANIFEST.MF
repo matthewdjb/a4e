@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Ui
 Bundle-SymbolicName: com.xiting.a4e.ui;singleton:=true
-Bundle-Version: 1.2.2
+Bundle-Version: 1.2.3
 Bundle-Vendor: XITING
 Automatic-Module-Name: com.xiting.a4e.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-11
